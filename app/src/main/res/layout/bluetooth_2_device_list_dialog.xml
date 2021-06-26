@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/xxhdpi_5"
+        android:text="@string/paired_devices"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/t_xxh_16" />
+
+    <ListView
+        android:id="@+id/pairedDeviceList"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xxhdpi_150"
+        android:fadeScrollbars="false" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/xxhdpi_5"
+        android:text="@string/discovered_devices"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/t_xxh_16" />
+
+    <ListView
+        android:id="@+id/discoveredDeviceList"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xxhdpi_150"
+        android:fadeScrollbars="false" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        android:layout_marginTop="@dimen/xxhdpi_5"
+        android:text="@string/cancel"
+        android:textColor="@color/white" />
+
+</LinearLayout>

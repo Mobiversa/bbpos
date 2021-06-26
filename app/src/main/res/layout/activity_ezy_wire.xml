@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:background="@color/white"
+    tools:context=".ui.ezyWire.EzyWireActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:id="@+id/connect_bluetooth_relative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/connect_bluetooth_top_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_5"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/xxhdpi_75"
+                        android:layout_height="@dimen/xxhdpi_75"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ezywire_blue_icon"
+                        android:contentDescription="@string/todo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/xxhdpi_10"
+                        
+                        android:text="Amount"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_14" />
+
+                    <TextView
+                        android:id="@+id/amount_txt_ezywire"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" 
+                        android:gravity="center"
+                        android:text="RM 20"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_30" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/xxhdpi_200"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/connect_bluetooth_top_linear"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/gap_1"
+                        android:layout_marginTop="@dimen/xxhdpi_10"
+                        android:background="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/connect_bluetooth_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_20"
+                        android:textStyle="bold" 
+                        android:gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/xxhdpi_5"
+                        android:text="Activate Bluetooth to connect to the Device"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/t_xxh_16" />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/insert_card_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/xxhdpi_20"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/insert_card_top_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                
+                android:text="Amount"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_16" />
+
+            <TextView
+                android:id="@+id/insert_card_amount_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" 
+                android:gravity="center"
+                android:text="RM 20"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_30" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/xxhdpi_300"
+            android:layout_height="match_parent"
+            android:layout_below="@id/insert_card_top_linear"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:layout_marginBottom="@dimen/xxhdpi_10"
+            android:layout_above="@+id/device_name_txt"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gap_1"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:background="@color/colorAccent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/xxhdpi_20"
+                android:src="@drawable/icon_insert_card"
+                android:contentDescription="@string/qr_code"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gap_1"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/device_name_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_20"
+            android:layout_marginBottom="@dimen/xxhdpi_20"
+            android:textStyle="bold" 
+            android:gravity="center"
+            android:text="Device Name"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/t_xxh_16" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pin_enter_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/xxhdpi_20"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/pin_enter_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                
+                android:text="Amount"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_16" />
+
+            <TextView
+                android:id="@+id/enter_pin_amount_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" 
+                android:gravity="center"
+                android:text="RM 20"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_30"  />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/xxhdpi_300"
+            android:layout_height="match_parent"
+            android:layout_below="@id/pin_enter_linear"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:layout_marginBottom="@dimen/xxhdpi_10"
+            android:layout_above="@+id/enter_pin_device_name_txt"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gap_1"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:background="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+            <ImageView
+                android:id="@+id/product_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/xxhdpi_20"
+                android:src="@drawable/ezywire_pin"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/qr_code"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_20"
+                    android:gravity="center"
+                    android:textSize="@dimen/t_xxh_20"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" 
+                    android:text="Enter pin on the device"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gap_1"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/enter_pin_device_name_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_20"
+            android:layout_marginBottom="@dimen/xxhdpi_20"
+            android:textStyle="bold" 
+            android:gravity="center"
+            android:text="Device Name"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/t_xxh_16" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/transaction_failure_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/failed"
+                android:contentDescription="@string/todo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_50"
+                android:layout_marginRight="@dimen/xxhdpi_50"
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" 
+                android:gravity="center"
+                android:textSize="@dimen/t_xxh_20"
+                android:text="OOPS"/>
+
+            <TextView
+                android:id="@+id/failure_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_50"
+                android:layout_marginRight="@dimen/xxhdpi_50"
+                android:layout_marginTop="@dimen/xxhdpi_20"
+                android:textColor="@color/colorPrimary"
+                
+                android:gravity="center"
+                android:textSize="@dimen/t_xxh_14"
+                android:text="Your Transaction has been declined by Card"/>
+
+            <Button
+                android:id="@+id/failure_try_again_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_50"
+                android:layout_marginRight="@dimen/xxhdpi_50"
+                android:layout_marginTop="@dimen/xxhdpi_20"
+                android:background="@color/green"
+                android:text="Try Again"
+                android:textStyle="bold" 
+                android:textSize="@dimen/t_xxh_18"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/transaction_success_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tick_icon"
+                android:contentDescription="@string/todo" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment is\nSuccessful"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/xxhdpi_50"
+                android:textStyle="bold" 
+                android:textSize="@dimen/t_xxh_24"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <Button
+                android:id="@+id/success_print_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_50"
+                android:layout_marginRight="@dimen/xxhdpi_50"
+                android:layout_marginTop="@dimen/xxhdpi_50"
+                android:background="@drawable/round_rect"
+                android:backgroundTint="@color/green"
+                android:text="Send Receipt"
+                android:textAllCaps="false"
+                android:textStyle="bold" 
+                android:textSize="@dimen/t_xxh_18"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/signature_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <com.mobiversa.ezy2pay.ui.ezyWire.SignatureView
+            android:id="@+id/signature_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/sign_amt_linear"/>
+
+        <Button
+            android:id="@+id/btn_sign_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Clear"/>
+
+        <LinearLayout
+            android:id="@+id/sign_amt_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btn_sign_payment"
+            android:background="@color/light_blue"
+            android:padding="@dimen/xxhdpi_20"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sign_amt_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RM 0.00"
+                android:gravity="center"
+                android:textStyle="bold" 
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/t_xxh_24"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I authorize to charge in my card the amount above."
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                
+                android:textColor="@color/txt_clr"
+                android:textSize="@dimen/t_xxh_14"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_sign_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm Payment"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:textStyle="bold" 
+            android:textSize="@dimen/t_xxh_16"
+            android:layout_alignParentBottom="true"/>
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

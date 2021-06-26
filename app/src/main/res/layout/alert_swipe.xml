@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/xxhdpi_20">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Service Charges Apply for Swiping Card"
+            android:textSize="@dimen/t_xxh_18"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Visa"
+                android:textSize="@dimen/t_xxh_14"
+                android:layout_weight="1"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:paddingRight="@dimen/xxhdpi_20"
+                android:gravity="end"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="USD 0.25"
+                android:textSize="@dimen/t_xxh_14"
+                android:layout_weight="1"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="MasterCard"
+                android:textSize="@dimen/t_xxh_14"
+                android:layout_weight="1"
+                android:paddingRight="@dimen/xxhdpi_20"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:gravity="end"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="USD 0.0004"
+                android:textSize="@dimen/t_xxh_14"
+                android:layout_weight="1"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/xxhdpi_20"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/xxhdpi_5"
+                android:layout_weight="1"
+                android:backgroundTint="@color/grey"
+                android:background="@drawable/rect_bor_blue"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t_xxh_18" />
+
+            <Button
+                android:id="@+id/button_confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/xxhdpi_5"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:background="@drawable/rect_bor_blue"
+                android:text="@string/proceed"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t_xxh_18" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/xxhdpi_20">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/t_xxh_16"
+            android:textAllCaps="true"
+            android:textColor="@color/txt_black"
+            android:text="@string/logout_desc"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xxhdpi_20"
+            android:layout_marginTop="@dimen/xxhdpi_5"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+
+            <Button
+                android:id="@+id/positive_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:background="@drawable/rect_bor_blue"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1">
+
+            <Button
+                android:id="@+id/negative_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/rect_bor_blue"
+                android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "659339608137",
+    "firebase_url": "https://ezywire-154604.firebaseio.com",
+    "project_id": "ezywire-154604",
+    "storage_bucket": "ezywire-154604.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659339608137:android:4cccc1d014257707",
+        "android_client_info": {
+          "package_name": "com.mobiversa.ezy2pay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659339608137-26m0paefmrhflfqp2dkl7pgtdliu5ibb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobiversa.ezy2pay",
+            "certificate_hash": "bc09a261dc201dc3d26b421693ddce1519e82cde"
+          }
+        },
+        {
+          "client_id": "659339608137-e0c07m1h56oholl4fo4oadi3a6c79gqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobiversa.ezy2pay",
+            "certificate_hash": "3f670c439509f01f3bdebdd3b44128c95b3c5e38"
+          }
+        },
+        {
+          "client_id": "659339608137-fek9giliojrp2jtpg85rdlqtm1b34nh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDANqLGAKstb702bYmFmoJue9fiGYib-kQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659339608137-fek9giliojrp2jtpg85rdlqtm1b34nh7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "659339608137-t4q9pbt0stjfsrfjpp93qslumrgqkijg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mobiversa.ezywire",
+                "app_store_id": "1078576603"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="left"
+    android:textSize="@dimen/t_xxh_16"
+    android:fontFamily="@font/ubuntu_normal"
+    android:textColor="#848484"
+    android:padding="@dimen/xxhdpi_10"/>

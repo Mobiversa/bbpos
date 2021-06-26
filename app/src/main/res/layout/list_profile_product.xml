@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="ProfileProductListItemBinding">
+
+        <variable
+            name="productItem"
+            type="com.mobiversa.ezy2pay.network.response.ProductList" />
+        <variable
+            name="listener"
+            type="com.mobiversa.ezy2pay.adapter.ProductListAdapter"/>
+
+    </data>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/xxhdpi_10"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="6dp">
+
+
+        <LinearLayout
+            android:id="@+id/prof_product_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xxhdpi_10">
+
+            <ImageView
+                android:id="@+id/prof_product_img"
+                android:layout_width="@dimen/xxhdpi_40"
+                android:layout_height="@dimen/xxhdpi_40"
+                android:layout_marginLeft="@dimen/xxhdpi_10"
+                android:src="@{productItem.isEnable == true ? context.getDrawable(productItem.productImage) : context.getDrawable(productItem.disableProductImage)}"
+                android:contentDescription="TODO" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:textStyle="bold"
+                android:text="@{productItem.productName}"
+                android:textSize="@dimen/t_xxh_20"
+                android:textAllCaps="true"
+                android:gravity="center_vertical"
+                android:textColor="@{productItem.isEnable == false? @color/txt_grey : @color/colorPrimary}"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+</layout>

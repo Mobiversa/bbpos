@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:text="title"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/xxhdpi_20" />
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xxhdpi_5"
+            android:text="message"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/gap_15" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_20"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/xxhdpi_20"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/button_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xxhdpi_40"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:layout_marginRight="@dimen/xxhdpi_5"
+                android:layout_weight="1"
+                android:background="@drawable/round_rect"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/later"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/button_go"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xxhdpi_40"
+                android:layout_marginLeft="@dimen/xxhdpi_5"
+                android:layout_marginRight="@dimen/xxhdpi_20"
+                android:layout_weight="1"
+                android:background="@drawable/round_rect"
+                android:backgroundTint="@color/green"
+                android:text="@string/reply"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

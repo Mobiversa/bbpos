@@ -1,0 +1,39 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="gap_0">0dp</dimen>
+    <dimen name="gap_1">1dp</dimen>
+    <dimen name="xxhdpi_5">5dp</dimen>
+    <dimen name="gap_8">8dp</dimen>
+    <dimen name="xxhdpi_10">10dp</dimen>
+    <dimen name="gap_15">15dp</dimen>
+    <dimen name="xxhdpi_20">20dp</dimen>
+    <dimen name="xxhdpi_30">30dp</dimen>
+    <dimen name="xxhdpi_40">40dp</dimen>
+    <dimen name="xxhdpi_50">50dp</dimen>
+    <dimen name="xxhdpi_60">60dp</dimen>
+    <dimen name="gap_70">70dp</dimen>
+    <dimen name="xxhdpi_75">75dp</dimen>
+    <dimen name="gap_80">80dp</dimen>
+    <dimen name="gap_90">90dp</dimen>
+    <dimen name="xxhdpi_8">8dp</dimen>
+    <dimen name="xxhdpi_100">100dp</dimen>
+    <dimen name="xxhdpi_125">125dp</dimen>
+    <dimen name="xxhdpi_150">150dp</dimen>
+    <dimen name="xxhdpi_175">175dp</dimen>
+    <dimen name="xxhdpi_200">200dp</dimen>
+    <dimen name="xxhdpi_300">300dp</dimen>
+
+    <!--Text size-->
+    <dimen name="t_xxh_12">12sp</dimen>
+    <dimen name="t_xxh_14">14sp</dimen>
+    <dimen name="t_xxh_16">16sp</dimen>
+    <dimen name="t_xxh_18">18sp</dimen>
+    <dimen name="t_xxh_20">20sp</dimen>
+    <dimen name="t_xxh_22">22sp</dimen>
+    <dimen name="t_xxh_24">24sp</dimen>
+    <dimen name="t_xxh_26">26sp</dimen>
+    <dimen name="t_xxh_28">28sp</dimen>
+    <dimen name="t_xxh_30">30sp</dimen>
+</resources>

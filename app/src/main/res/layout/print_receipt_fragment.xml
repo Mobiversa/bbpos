@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/xxhdpi_10"
+    tools:context=".ui.receipt.PrintReceiptFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/insert_card_top_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/xxhdpi_125"
+                    android:layout_height="@dimen/xxhdpi_125"
+                    android:background="@drawable/ic_moto_icon_bg"
+                    android:padding="@dimen/xxhdpi_30">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ezy_moto_logo_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/prod_name_txt"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:layout_gravity="center"
+                        android:contentDescription="TODO"
+                        android:src="@drawable/ic_ringgit" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/prod_name_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:visibility="gone"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="10sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:fontFamily="@font/ubuntu_normal" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:text="Amount"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_16" />
+
+                    <TextView
+                        android:id="@+id/amount_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="RM 00.00"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_28"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:layout_marginRight="@dimen/xxhdpi_20"
+                android:layout_marginBottom="@dimen/xxhdpi_10"
+                android:layout_gravity="center"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_5"
+                    android:layout_marginBottom="@dimen/xxhdpi_5"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/xxhdpi_20"
+                    android:paddingRight="@dimen/xxhdpi_20">
+
+                    <LinearLayout
+                        android:id="@+id/send_linear_ezycash"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:background="@drawable/rect_bor">
+
+                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                android:id="@+id/spinner_country_receipt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/gap_15"
+                            android:weightSum="3">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edt_country_code_receipt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/colorAccent"
+
+                                android:hint="@string/country"
+                                android:textColor="@color/txt_clr"
+                                android:textSize="@dimen/t_xxh_16" />
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edt_phone_num_receipt"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:backgroundTint="@color/colorAccent"
+                                android:hint="@string/phone_no"
+
+                                android:inputType="number"
+                                android:maxLines="1"
+                                android:textColor="@color/txt_clr"
+                                android:textSize="@dimen/t_xxh_16" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/chk_whatsapp_receipt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:buttonTint="@color/colorPrimary"
+                            android:checked="true"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:paddingLeft="5dp"
+                            android:text="Send receipt through WhatsApp"
+                            android:visibility="visible" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:layout_marginBottom="@dimen/xxhdpi_5">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_centerVertical="true"
+                                android:background="#888888" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerHorizontal="true"
+                                android:background="@drawable/circle_white"
+                                android:gravity="center"
+                                android:letterSpacing="0.08"
+                                android:text="or"
+                                android:textColor="@color/txt_grey" />
+
+                        </RelativeLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:text="Email Address"
+                            android:drawableTint="@color/lite_blue"
+                            android:drawableLeft="@drawable/ic_mail"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:maxLines="1"
+                            android:textColor="@color/lite_blue"
+                            android:textSize="@dimen/t_xxh_14" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/edt_email_receipt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint=""
+                            android:singleLine="true"
+                            android:lines="1"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:padding="@dimen/xxhdpi_10"
+                            android:background="@drawable/rect_bor"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:textColor="@color/txt_clr"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xxhdpi_10"
+                            android:layout_marginTop="@dimen/xxhdpi_20">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/btn_receipt_slip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="Send Sales Slip"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:drawablePadding="@dimen/xxhdpi_10"
+                                android:paddingLeft="@dimen/xxhdpi_10"
+                                android:paddingRight="@dimen/xxhdpi_10"
+                                android:paddingTop="@dimen/xxhdpi_10"
+                                android:paddingBottom="@dimen/xxhdpi_10"
+                                android:background="@drawable/rect_bor_primary"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:textAllCaps="true"
+                                android:textAppearance="?android:textAppearanceMedium"
+                                android:textColor="@color/white" />
+
+                            <LinearLayout
+                                android:id="@+id/PrintReceiptLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/xxhdpi_5"
+                                android:background="@color/grey"
+                                android:orientation="horizontal">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/printTVTxt"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:background="@color/white"
+                                    android:drawableLeft="@drawable/print_grey"
+                                    android:drawablePadding="@dimen/xxhdpi_10"
+                                    android:gravity="center"
+                                    android:paddingLeft="@dimen/xxhdpi_5"
+                                    android:paddingTop="@dimen/xxhdpi_5"
+                                    android:paddingRight="@dimen/xxhdpi_5"
+                                    android:paddingBottom="@dimen/xxhdpi_5"
+                                    android:text="Print Receipt"
+                                    android:textAllCaps="true"
+                                    android:textAppearance="?android:textAppearanceMedium"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_login_home"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xxhdpi_100"
+        android:background="@color/grey"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/rl_pre_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="5dp"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/amount_rel"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:layout_marginRight="@dimen/xxhdpi_20"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:gravity="center"
+                android:background="@drawable/rect_bor_key"
+                android:layout_toLeftOf="@+id/send_img">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="center_vertical|end"
+                    android:paddingLeft="@dimen/xxhdpi_5"
+                    android:paddingRight="@dimen/xxhdpi_5"
+                    android:text="RM"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/t_xxh_20" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/edt_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/text_home"
+                    android:background="@null"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="center_vertical|end"
+                    android:maxLines="2"
+                    android:paddingLeft="@dimen/xxhdpi_5"
+                    android:paddingRight="@dimen/xxhdpi_5"
+                    android:text="0.00"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/t_xxh_20"/>
+
+            </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/send_img"
+                    android:layout_width="@dimen/xxhdpi_30"
+                    android:layout_height="@dimen/xxhdpi_30"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_send_link"
+                    android:layout_marginRight="@dimen/xxhdpi_10"
+                    android:layout_toLeftOf="@+id/copy_img"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/copy_img"
+                    android:layout_width="@dimen/xxhdpi_30"
+                    android:layout_height="@dimen/xxhdpi_30"
+                    android:layout_marginRight="@dimen/xxhdpi_20"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_copy_link"
+                    android:layout_alignParentEnd="true"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/invoice_rel"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:layout_marginRight="@dimen/xxhdpi_20"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:gravity="center"
+                android:background="@drawable/rect_bor"
+                android:layout_toLeftOf="@+id/send_img">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/invoice_home"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/lato_regular"
+                android:gravity="center"
+                android:paddingLeft="@dimen/xxhdpi_5"
+                android:paddingRight="@dimen/xxhdpi_5"
+                android:hint="Invoice Reference"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_16" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/number_keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xxhdpi_5"
+        android:background="@color/white"
+        android:keyPreviewLayout="@null"
+        android:shadowRadius="0.0"
+        android:keyTextColor="@color/colorPrimary"
+        android:keyBackground="@color/white">
+
+    </android.inputmethodservice.KeyboardView>
+
+</LinearLayout>

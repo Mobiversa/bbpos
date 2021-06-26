@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightWhite"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xxhdpi_100"
+                android:background="@color/profile_bg"
+                android:paddingLeft="@dimen/xxhdpi_5"
+                android:paddingRight="@dimen/xxhdpi_5">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/profile_img"
+                    android:layout_width="@dimen/xxhdpi_50"
+                    android:layout_height="@dimen/xxhdpi_50"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/xxhdpi_10"
+                    android:background="@drawable/circle_boarder"
+                    android:contentDescription="TODO"
+                    android:padding="@dimen/xxhdpi_5"
+                    android:src="@drawable/ic_tab_profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/xxhdpi_10"
+                    android:layout_toLeftOf="@+id/txt_logout"
+                    android:layout_toRightOf="@id/profile_img"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_profile_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/t_xxh_18"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:text="Edit personal Details"
+                        android:textColor="@color/txt_grey"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/txt_logout"
+                    android:layout_width="@dimen/xxhdpi_50"
+                    android:layout_height="@dimen/xxhdpi_50"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/xxhdpi_5"
+                    android:background="@drawable/circle_white"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:contentDescription="TODO"
+                    android:padding="@dimen/xxhdpi_10"
+                    android:src="@drawable/ic_logout" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lite_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/xxhdpi_5"
+                android:paddingTop="@dimen/xxhdpi_10"
+                android:paddingBottom="@dimen/xxhdpi_10"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/graph_img"
+                        android:layout_width="@dimen/xxhdpi_75"
+                        android:layout_height="@dimen/xxhdpi_75"
+                        android:src="@drawable/ic_25_graph" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/balance_percent_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="100%"
+                        android:textSize="@dimen/t_xxh_12" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/xxhdpi_10"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu_normal"
+                        android:text="TOTAL LIMIT"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:text="RM 500. 00"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_14"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:fontFamily="@font/ubuntu_normal"
+                        android:text="AVAILABLE BALANCE"
+                        android:textSize="@dimen/t_xxh_12" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/balance_amt_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:text="RM 500. 00"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_14"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/xxhdpi_5"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/upgrade_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:text="Upgrade"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/xxhdpi_100"
+                    android:layout_height="@dimen/xxhdpi_100" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/xxhdpi_10">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:text="@string/application_settings"
+                    android:textColor="@color/profile_blue"
+                    android:textSize="@dimen/t_xxh_14" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_5"
+                    android:weightSum="3.3">
+
+                    <LinearLayout
+                        android:id="@+id/prof_update_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_profile_update" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/profile_update"
+                            android:textColor="@color/colorPrimary"
+
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/prof_app_update_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xxhdpi_5"
+                        android:layout_marginRight="@dimen/xxhdpi_5"
+                        android:layout_weight="1.3"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_app_update" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/application_update"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/prof_product_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_product_details" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/product_details"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gap_1"
+                android:layout_marginLeft="@dimen/xxhdpi_10"
+                android:layout_marginTop="@dimen/gap_1"
+                android:layout_marginRight="@dimen/xxhdpi_10"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/xxhdpi_10"
+                android:paddingRight="@dimen/xxhdpi_10"
+                android:paddingBottom="@dimen/xxhdpi_10">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_10"
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:text="@string/help_amp_support"
+                    android:textColor="@color/profile_blue"
+                    android:textSize="@dimen/t_xxh_14" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/xxhdpi_10"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/prof_tutorial_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_tutorial" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/tutorial"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/prof_contact_us_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xxhdpi_5"
+                        android:layout_marginRight="@dimen/xxhdpi_5"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_contact_us" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/contact_us"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/prof_refer_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/xxhdpi_5"
+                        android:layout_marginRight="@dimen/xxhdpi_5"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_refer" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="@string/refer_a_business"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/mobi_keyboard_linear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:padding="@dimen/xxhdpi_5">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/xxhdpi_50"
+                            android:layout_height="@dimen/xxhdpi_50"
+                            android:layout_gravity="center"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_mobi_keyboard_icon" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:gravity="center"
+                            android:padding="@dimen/xxhdpi_5"
+                            android:text="Mobi Keyboard"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/t_xxh_14" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/keyboard_linear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xxhdpi_5">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/xxhdpi_50"
+                        android:layout_height="@dimen/xxhdpi_50"
+                        android:layout_gravity="center"
+                        android:contentDescription="TODO"
+                        android:src="@drawable/ic_mobi_keyboard_icon" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:gravity="center"
+                        android:padding="@dimen/xxhdpi_5"
+                        android:text="Mobi Keyboard"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_14" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/lightWhite"
+    tools:context=".ui.ezyMoto.EzyMotoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/xxhdpi_30"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/insert_card_top_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_20"
+                android:layout_marginTop="@dimen/xxhdpi_5"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/xxhdpi_175"
+                    android:layout_height="@dimen/xxhdpi_175"
+                    android:background="@drawable/ic_moto_icon_bg"
+                    android:padding="@dimen/xxhdpi_50">
+
+                    <ImageView
+                        android:id="@+id/ezy_moto_logo_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/prod_name_txt"
+                        android:layout_gravity="center"
+                        android:contentDescription="TODO"
+                        android:src="@drawable/ic_boost" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/prod_name_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EZYLINK"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/t_xxh_14"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:fontFamily="@font/ubuntu_normal" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/xxhdpi_50"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:text="Amount"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_20" />
+
+                    <TextView
+                        android:id="@+id/amount_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="RM 00.00"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/xxhdpi_40"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/moto_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/xxhdpi_50">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xxhdpi_10"
+                        android:drawableLeft="@drawable/ic_user"
+                        android:textSize="@dimen/t_xxh_16"
+                        android:drawablePadding="@dimen/xxhdpi_10"
+                        android:drawableTint="#838ab5"
+                        android:fontFamily="@font/ubuntu_normal"
+                        android:text="Name" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edt_name_ezymoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rect_bor"
+                        android:backgroundTint="@color/white"
+                        android:fontFamily="@font/ubuntu_normal"
+                        android:maxLines="1"
+                        android:padding="@dimen/xxhdpi_30"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_clr"
+                        android:textSize="@dimen/t_xxh_18" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_40"
+                        android:textSize="@dimen/t_xxh_16"
+                        android:layout_marginBottom="@dimen/xxhdpi_10"
+                        android:drawableLeft="@drawable/ic_price_tag"
+                        android:drawablePadding="@dimen/xxhdpi_10"
+                        android:fontFamily="@font/ubuntu_normal"
+                        android:text="Reason for Purchase" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edt_reference_ezymoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor"
+                        android:backgroundTint="@color/white"
+                        android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyY _zZ0123456789"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:padding="@dimen/xxhdpi_30"
+                        android:textColor="@color/txt_clr"
+                        android:textSize="@dimen/t_xxh_18" />
+
+                    <CheckBox
+                        android:id="@+id/chk_multioption_ezymoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/xxhdpi_20"
+                        android:buttonTint="@color/colorPrimary"
+                        android:button="@drawable/whats_check_selector"
+                        android:textSize="@dimen/t_xxh_16"
+                        android:checked="false"
+                        android:paddingLeft="5dp"
+                        android:text="Multi Use"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_month_ezyrec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_40"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/xxhdpi_5"
+                            android:drawableLeft="@drawable/ic_recuring"
+                            android:textSize="@dimen/t_xxh_16"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:text="No.of.Payments" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/xxhdpi_75"
+                            android:background="@drawable/rect_bor"
+                            android:orientation="vertical">
+
+                            <Spinner
+                                android:id="@+id/spinner_month_ezyrec"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/send_linear_ezymoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/xxhdpi_40"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:textSize="@dimen/t_xxh_16"
+                            android:drawableLeft="@drawable/ic_flag"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:text="Country" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/xxhdpi_75"
+                            android:layout_marginTop="@dimen/xxhdpi_5"
+                            android:background="@drawable/rect_bor">
+
+                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                android:id="@+id/spinner_country_ezymoto"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_40"
+                            android:drawableLeft="@drawable/ic_phone"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:text="Contact" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:padding="@dimen/xxhdpi_30"
+                            android:background="@drawable/round_rect">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edt_country_code_ezymoto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@null"
+                                android:fontFamily="@font/ubuntu_normal"
+                                android:hint="@string/country"
+                                android:maxLines="1"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/t_xxh_18" />
+
+                            <AutoCompleteTextView
+                                android:id="@+id/edt_phone_num_ezymoto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/xxhdpi_10"
+                                android:background="@null"
+                                android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyY _zZ0123456789"
+                                android:hint="@string/phone_no"
+                                android:inputType="textPersonName"
+                                android:maxLines="1"
+                                android:textColor="@color/txt_clr"
+                                android:textSize="@dimen/t_xxh_18" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/chk_whatsapp_ezymoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorPrimary"
+                            android:checked="true"
+                            android:layout_marginTop="@dimen/xxhdpi_20"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:drawableRight="@drawable/ic_whatsapp"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:paddingLeft="5dp"
+                            android:text="Send payment link through WhatsApp"
+                            android:textSize="@dimen/t_xxh_14" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_30"
+                            android:layout_marginBottom="@dimen/xxhdpi_5">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_centerVertical="true"
+                                android:background="#888888" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_centerHorizontal="true"
+                                android:background="@drawable/circle_white"
+                                android:gravity="center"
+                                android:letterSpacing="0.08"
+                                android:text="or"
+                                android:textColor="@color/txt_grey" />
+
+                        </RelativeLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_40"
+                            android:drawableLeft="@drawable/ic_mail"
+                            android:drawablePadding="@dimen/xxhdpi_10"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:text="Email" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/edt_email_ezymoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/xxhdpi_10"
+                            android:background="@drawable/rect_bor"
+                            android:layout_marginBottom="@dimen/xxhdpi_10"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/ubuntu_normal"
+                            android:hint="Email"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:padding="@dimen/xxhdpi_30"
+                            android:textColor="@color/txt_clr"
+                            android:textSize="@dimen/t_xxh_18" />
+
+                        <Button
+                            android:id="@+id/btn_submit_ezymoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/xxhdpi_10"
+                            android:background="@color/colorPrimary"
+                            android:paddingTop="@dimen/xxhdpi_20"
+                            android:paddingBottom="@dimen/xxhdpi_20"
+                            android:paddingLeft="@dimen/xxhdpi_60"
+                            android:paddingRight="@dimen/xxhdpi_60"
+                            android:text="@string/pay"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/t_xxh_20"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/xxhdpi_30"
+                android:layout_marginRight="@dimen/xxhdpi_30"
+                android:layout_marginTop="@dimen/xxhdpi_20"
+                android:layout_marginBottom="@dimen/xxhdpi_20"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txt_send_ezymoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/t_xxh_26"
+                        android:background="@drawable/rect_bor"
+                        android:drawableLeft="@drawable/ic_send"
+                        android:drawablePadding="@dimen/xxhdpi_30"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:paddingLeft="@dimen/xxhdpi_60"
+                        android:paddingTop="@dimen/xxhdpi_30"
+                        android:paddingRight="@dimen/xxhdpi_60"
+                        android:paddingBottom="@dimen/xxhdpi_30"
+                        android:text="@string/send"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/txt_share_ezymoto"
+                        android:layout_width="@dimen/xxhdpi_75"
+                        android:layout_height="@dimen/xxhdpi_75"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_share"
+                        android:text="@string/share"
+                        android:textColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.loginActivity.signup.BusinessDetailFragment">
+
+    <RelativeLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.loginActivity.LoginActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/xxhdpi_10"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/xxhdpi_30"
+                    android:layout_marginRight="@dimen/xxhdpi_30"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@string/business_details"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/t_xxh_20" />
+
+                    <EditText
+                        android:id="@+id/edit_companyname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_20"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/company_name"
+                        android:inputType="textCapCharacters"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18" />
+
+                    <EditText
+                        android:id="@+id/edit_companynumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/phone_number_prompt"
+                        android:inputType="phone"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18"
+                        android:theme="@style/EditTextTheme_bgblue" />
+
+                    <EditText
+                        android:id="@+id/edit_category_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/category_name"
+                        android:inputType="textCapCharacters"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                        android:textSize="@dimen/t_xxh_18" />
+
+                    <RelativeLayout
+                        android:id="@+id/relative_business_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/xxhdpi_40"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:layout_weight=".28"
+                        android:background="@drawable/round_rect"
+                        android:backgroundTint="@color/grey"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinner_business_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center"
+                            android:spinnerMode="dropdown" />
+
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/edit_officestreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/office_address"
+                        android:inputType="textCapCharacters"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18" />
+
+                    <EditText
+                        android:id="@+id/edit_officecity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/office_city"
+                        android:inputType="textCapCharacters"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18"
+                        android:theme="@style/EditTextTheme_bgblue" />
+
+                    <EditText
+                        android:id="@+id/edit_officestate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_5"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/office_state"
+                        android:inputType="textCapCharacters"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18" />
+
+                    <EditText
+                        android:id="@+id/edit_officepostalcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/xxhdpi_10"
+                        android:layout_marginBottom="@dimen/xxhdpi_20"
+                        android:background="@drawable/rect_bor_blue"
+                        android:hint="@string/office_postalcode"
+                        android:paddingLeft="@dimen/xxhdpi_10"
+                        android:paddingTop="@dimen/xxhdpi_10"
+                        android:paddingBottom="@dimen/xxhdpi_10"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHighlight="@color/select_customer"
+                        android:textColorHint="@color/select_customer"
+                         android:textSize="@dimen/t_xxh_18"
+                        android:theme="@style/EditTextTheme_bgblue" />
+
+                    <Button
+                        android:id="@+id/button_next"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/xxhdpi_20"
+                        android:layout_marginBottom="@dimen/xxhdpi_10"
+                        android:background="@color/green"
+                        android:gravity="center"
+                        android:text="@string/send"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

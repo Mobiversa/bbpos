@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".ui.contact.ContactActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/xxhdpi_10"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/xxhdpi_30"
+            android:fontFamily="@font/ubuntu_normal"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/t_xxh_20"
+            android:text="Need help? Get in touch with us."/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xxhdpi_175"
+            android:layout_marginTop="@dimen/xxhdpi_40"
+            android:src="@drawable/true_friend_of_customer_icon"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:minWidth="275dp"
+            android:layout_margin="@dimen/xxhdpi_20"
+            app:cardUseCompatPadding="true"
+            android:visibility="gone"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/xxhdpi_10"
+                    android:layout_gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/xxhdpi_50"
+                        android:layout_height="@dimen/xxhdpi_50"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:src="@drawable/ic_phone"
+                        android:background="@drawable/circle_white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_margin="@dimen/xxhdpi_5"
+                        android:contentDescription="TODO" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_18"
+                        android:text="1300303060"/>
+
+                </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xxhdpi_20"
+            android:elevation="1dp"
+            android:minWidth="275dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/xxhdpi_10"
+                    android:layout_gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/xxhdpi_50"
+                        android:layout_height="@dimen/xxhdpi_50"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:src="@drawable/ic_phone"
+                        android:background="@drawable/circle_white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_margin="@dimen/xxhdpi_5"
+                        android:contentDescription="TODO" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_18"
+                        android:text="  1300 303 060   "/>
+
+                </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:minWidth="275dp"
+            android:layout_margin="@dimen/xxhdpi_20"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/gap_15"
+                    android:layout_gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/xxhdpi_50"
+                        android:layout_height="@dimen/xxhdpi_50"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:src="@drawable/ic_mail"
+                        android:tint="@color/white"
+                        android:background="@drawable/circle_white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:layout_margin="@dimen/xxhdpi_5"
+                        android:contentDescription="TODO" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/contact_email_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/xxhdpi_10"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/t_xxh_18"
+                        android:text="csmobi@gomobi.io"/>
+
+                </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</FrameLayout>

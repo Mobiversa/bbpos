@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#005BAA</color>
+    <color name="colorPrimaryDark">#32327B</color>
+    <color name="colorAccent">#eaeaea</color>
+    <color name="round_bg">#EBF1F7</color>
+    <color name="select_customer">#c3c3c3</color>
+    <color name="lite_text">#fdfdfd</color>
+    <color name="lite_blue">#838ab5</color>
+    <color name="otp_blue">#008bec</color>
+    <color name="button_bg">#005ea6</color>
+    <color name="moto_bg">#12005baa</color>
+
+    <color name="black">#000</color>
+    <color name="white">#FFF</color>
+    <color name="lightWhite">#FAFAFA</color>
+
+    <color name="green">#53b749</color>
+    <color name="txt_clr">#4C5264</color>
+    <color name="grey">#BCC5D3</color>
+    <color name="blue">#86c7ff</color>
+    <color name="lit_grey">#E2E8Ed</color>
+
+    <color name="txt_black">#212121</color>
+    <color name="txt_light">#b4b4b4</color>
+    <color name="txt_blue">#005baa</color>
+    <color name="txt_grey">#757575</color>
+
+    <color name="profile_bg">#ebf1f7</color>
+    <color name="profile_blue">#8DADFB</color>
+
+    <color name="void_red">#FF0000</color>
+    <color name="pending">#efef77</color>
+    <color name="completed">#52de97</color>
+    <color name="lit_green">#7423f577</color>
+
+
+    <color name="light_blue">#def2ff</color>
+    <color name="grey_lit">#e7e8e9</color>
+
+
+</resources>

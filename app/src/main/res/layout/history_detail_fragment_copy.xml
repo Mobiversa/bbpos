@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.history.historyDetail.HistoryDetailFragment">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/history_detail_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:id="@+id/list_notify_relative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/history_logo_img"
+                    android:layout_width="@dimen/xxhdpi_75"
+                    android:layout_height="@dimen/xxhdpi_60"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:contentDescription="TODO" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/history_logo_img"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:id="@+id/txt_amount_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/date_linear"
+                            android:text="Amount"
+                            android:textSize="@dimen/t_xxh_14"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/txt_status_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_toLeftOf="@+id/date_linear"
+                            android:layout_below="@id/txt_amount_history"
+                            android:text="Payment Completed"
+                            android:textColor="@color/green"
+                            android:textSize="@dimen/t_xxh_14" />
+
+                        <LinearLayout
+                            android:id="@+id/date_linear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/txt_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:maxLines="1"
+                                android:text="21 july 2019"
+                                android:textSize="@dimen/t_xxh_12"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/txt_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:gravity="right"
+                                android:maxLines="1"
+                                android:text="3.53 pm"
+                                android:textSize="@dimen/t_xxh_12"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txt_rrn_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        
+                        android:text="RRN"
+                        android:textSize="@dimen/t_xxh_14" />
+
+                    <TextView
+                        android:id="@+id/txt_stan_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        
+                        android:text="STAN"
+                        android:textSize="@dimen/t_xxh_14" />
+
+                    <TextView
+                        android:id="@+id/txt_authcode_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        
+                        android:text="Authcode"
+                        android:textSize="@dimen/t_xxh_14" />
+
+                    <TextView
+                        android:id="@+id/txt_invoice_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:text="Authcode"
+                        android:textSize="@dimen/t_xxh_14" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linear_send_receipt"
+            android:layout_below="@id/history_detail_linear"
+            android:layout_margin="@dimen/xxhdpi_10"
+            android:padding="@dimen/xxhdpi_10"
+            app:cardCornerRadius="@dimen/xxhdpi_10"
+            app:cardElevation="2dp">
+
+            <fragment
+                android:id="@+id/history_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/linear_send_receipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:padding="@dimen/xxhdpi_10">
+
+
+            <Button
+                android:id="@+id/btn_history_detail_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/xxhdpi_5"
+                android:background="@color/green"
+                android:textStyle="bold"
+                android:text="Receipt"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t_xxh_16" />
+
+
+            <Button
+                android:id="@+id/btn_history_detail_void"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/xxhdpi_5"
+                android:background="@color/void_red"
+                android:textStyle="bold"
+                android:text="Void"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t_xxh_16" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/xxhdpi_20"
+    android:gravity="center">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:textColor="@color/colorPrimaryDark"
+       android:textSize="@dimen/t_xxh_18"
+       android:gravity="center"
+       android:textStyle="bold"
+       android:text="Please Choose\n the Product"/>
+
+    <ImageView
+        android:id="@+id/ezywire_img"
+        android:layout_width="@dimen/xxhdpi_100"
+        android:layout_height="@dimen/xxhdpi_100"
+        android:layout_marginTop="@dimen/xxhdpi_5"
+        android:src="@drawable/ezyauth"
+        android:contentDescription="@string/todo" />
+
+    <ImageView
+        android:id="@+id/ezydigital_img"
+        android:layout_width="@dimen/xxhdpi_100"
+        android:layout_height="@dimen/xxhdpi_100"
+        android:layout_marginTop="@dimen/xxhdpi_5"
+        android:src="@drawable/auth_digital_enable"
+        android:contentDescription="@string/todo" />
+
+</LinearLayout>

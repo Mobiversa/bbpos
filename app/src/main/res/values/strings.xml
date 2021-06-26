@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">Mobi</string>
+    <string name="title_home">Home</string>
+    <string name="title_history">History</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_settings">Settings</string>
+    <string name="remember_me">Remember Me</string>
+
+    <!--Finger Print-->
+    <string name="title_fingerprint">Fingerprint Authentication</string>
+    <string name="text_fingerprint">Please use fingerprint to login</string>
+    <string name="message_success">Fingerprint matches the one registered in your phone\'s settings</string>
+    <string name="error_override_hw_unavailable">You don\'t have any suited hardware for using the fingerprint</string>
+    <string name="text_show_dialog">show fingerprint dialog</string>
+    <string name="invoice_reference">Invoice Id / Reference Id</string>
+    <string name="read_all_messages">Read All Messages</string>
+    <string name="unread_all_messages">Unread All Messages</string>
+    <string name="delete_all_messages">Delete All Messages</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="qr_code">QR Code</string>
+    <string name="reference_invoice_id">Reference / Invoice Id</string>
+    <string name="name">Name</string>
+    <string name="frequency">Frequency</string>
+    <string name="no_of_payments">No. of Payments</string>
+    <string name="pay">Pay</string>
+    <string name="iphone">iPhone</string>
+    <string name="submit">Submit</string>
+    <string name="logout">Logout</string>
+    <string name="application_settings">Application Settings</string>
+    <string name="profile_update">Profile Update</string>
+    <string name="application_update">Application\nUpdate</string>
+    <string name="product_details">Product Details</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="help_amp_support"><![CDATA[Help & Support]]></string>
+    <string name="tutorial">Tutorial</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="for_mobi_account">For Mobi Account</string>
+    <string name="next">Next</string>
+    <string name="device_id">Device ID : </string>
+    <string name="tid">TID :</string>
+    <string name="ezyauth_enabled">EzyAuth Enabled :</string>
+    <string name="expiry_date">Expiry Date :</string>
+    <string name="send">Send</string>
+    <string name="share">Share</string>
+    <string name="reference">Reference</string>
+    <string name="or">Or</string>
+    <string name="country">Country</string>
+    <string name="phone_no">Phone No.</string>
+
+    <string name="main_processor">Main Processor</string>
+    <string name="coprocessor">Coprocessor</string>
+    <string name="firmware_type">Firmware Type</string>
+    <string name="remote_firmware_update">Remote Firmware Update</string>
+    <string name="remote_key_injection_result">"Remote key injection result: "</string>
+    <string name="remote_firmware_update_result">"Remote firmware update result: "</string>
+    <string name="remote_config_update_result">"Remote config update result: "</string>
+    <string name="local_firmware_update_result">"Local firmware update result: "</string>
+    <string name="local_config_update_result">"Local config update result: "</string>
+    <string name="verify_cert_result">"Verify certificate result: "</string>
+    <string name="battery_low_error">Battery low error</string>
+    <string name="device_comm_error">Device communication error</string>
+    <string name="failed">Failed</string>
+    <string name="no_update_required">No update required</string>
+    <string name="server_comm_error">Server communication error</string>
+    <string name="setup_error">Setup error</string>
+    <string name="stopped">Stopped</string>
+    <string name="success">Success</string>
+    <string name="response_message">"Response message: "</string>
+    <string name="ota">OTA</string>
+    <string name="emv">EMV</string>
+
+    <!--Blue Tooth -->
+    <string name="bluetooth_devices">Bluetooth Devices</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="discovered_devices">Discovered Devices</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="proceed">Proceed</string>
+    <string name="please_select_app">Please Select Application</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="logout_desc">Are you sure want to Logout this session?</string>
+    <string name="VIDEO_ID">7o7KiOAO3zU</string>
+    <string name="chat">MobiChat</string>
+    <string name="company_name">* Company Name</string>
+    <string name="business_details">Business Details</string>
+    <string name="phone_number_prompt">Phone Number (eg: +601110024157)</string>
+    <string name="phone">Phone</string>
+    <string name="chat_text">Chat</string>
+    <string name="sent_verification">Verification code will be sent to your mobile number</string>
+    <string name="otp_enter_msg">SMS sent to your mobile number</string>
+    <string name="otp">OTP</string>
+    <string name="fullName">FullName</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="select_dob">Select DOB</string>
+    <string name="activation_code">Activation Code</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="office_state">Office State</string>
+    <string name="office_city">Office City</string>
+    <string name="office_address">Office Address</string>
+    <string name="office_postalcode">Postal code</string>
+    <string name="fabric">64615846bc1154be1c9e223d9a38f24896818907</string>
+
+    <string name="facebook_app_id">584673601919622</string>
+    <string name="fb_login_protocol_scheme">fb584673601919622</string>
+    <string name="edit">Edit</string>
+    <string name="category_name">Category Name</string>
+    <string name="reply">Reply</string>
+    <string name="later">Later</string>
+    <string name="slip_sent">Your slip has been sent.</string>
+    <string name="todo">TODO</string>
+    <string name="receipt">Reprint</string>
+    <string name="refer_a_business">Refer a Business</string>
+    <string name="login_title">You can use your <font color='#005BAA'>fingerprint</font> to access to the app.</string>
+    <string name="welcome_to_mobi">Welcome to <font color='#005baa'>mobi</font></string>
+    <string name="yo_forget">Forget your Password</string>
+    <string name="didn_receive_code">Didn’t receive code?</string>
+    <string name="foreign_card">*Foreign Card</string>
+    <string name="domestic_card">*Domestic Card</string>
+    <string name="owner_partner_name">* Owner / Partner Name</string>
+    <string name="owner_partnet_contact">* Owner / Partnet Contact</string>
+    <string name="nric_passport">* NRIC / Passport</string>
+    <string name="forget_dec">No worries, Just Enter your Username</string>
+    <string name="days_remaining">AUTO VOIDS IN: </string>
+
+</resources>

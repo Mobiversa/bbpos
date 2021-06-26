@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/xxhdpi_10"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Password to proceed Void"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="@dimen/t_xxh_16"
+            android:textColor="@color/txt_black"
+            android:padding="@dimen/xxhdpi_20"/>
+
+        <EditText
+            android:id="@+id/username_edt_void"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xxhdpi_10"
+            android:hint="Username"
+            android:maxLines="1"
+            
+            android:textSize="@dimen/t_xxh_14"
+            android:background="@drawable/rect_bor"/>
+
+        <EditText
+            android:id="@+id/password_edt_void"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/xxhdpi_10"
+            android:hint="Password"
+            
+            android:textSize="@dimen/t_xxh_14"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:inputType="textPassword"
+            android:background="@drawable/rect_bor"/>
+
+        <Button
+            android:id="@+id/btn_alert_void"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Void"
+            android:textStyle="bold"
+            android:textSize="@dimen/t_xxh_16"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/rect_bor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Or"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:textStyle="bold"
+            android:textColor="@color/txt_clr"
+            android:textSize="@dimen/t_xxh_18"/>
+
+
+        <Button
+            android:id="@+id/btn_alert_finger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify Finger Print"
+            android:textStyle="bold"
+            android:textSize="@dimen/t_xxh_16"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/rect_bor"/>
+
+        <Button
+            android:id="@+id/btn_alert_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textStyle="bold"
+            android:textSize="@dimen/t_xxh_16"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/xxhdpi_10"
+            android:backgroundTint="@color/grey"
+            android:background="@drawable/rect_bor"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
