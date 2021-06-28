@@ -44,8 +44,6 @@ import com.mobiversa.ezy2pay.utils.PreferenceHelper.set
 import org.jetbrains.anko.indeterminateProgressDialog
 import java.io.IOException
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 @SuppressLint("Registered")
@@ -57,15 +55,17 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         // setSupportActionBar(toolbar)
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-            WindowManager.LayoutParams.FLAG_SECURE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
 
         LocationService.init(this)
     }
 
-    fun showLog(title: String,content : String) {
-        if (BuildConfig.DEBUG){
-            Log.e(title,content)
+    fun showLog(title: String, content: String) {
+        if (BuildConfig.DEBUG) {
+            Log.e(title, content)
         }
     }
 
@@ -88,26 +88,12 @@ open class BaseActivity : AppCompatActivity() {
             packageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
             version = StringBuilder(packageInfo.versionName)
 
-//            while (version.indexOf(DOT) != -1) {
-//                version.deleteCharAt(version.indexOf(DOT))
-//            }
             return version.toString()
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
 
         return ""
-    }
-
-
-
-    open fun isValidPassword(password: String?): Boolean {
-        val pattern: Pattern
-        val matcher: Matcher
-        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
-        pattern = Pattern.compile(PASSWORD_PATTERN)
-        matcher = pattern.matcher(password)
-        return matcher.matches()
     }
 
     fun getAmount(amount: String): String {
@@ -142,7 +128,7 @@ open class BaseActivity : AppCompatActivity() {
         return result.fromJson(response, ResponseData::class.java)
     }
 
-    fun addFragment(fragment: Fragment, bundle: Bundle, frameId: Int){
+    fun addFragment(fragment: Fragment, bundle: Bundle, frameId: Int) {
         fragment.arguments = bundle
         supportFragmentManager.inTransaction { replace(frameId, fragment) }
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -150,7 +136,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun replaceFragment(fragment: Fragment, bundle: Bundle, frameId: Int) {
         fragment.arguments = bundle
-        supportFragmentManager.inTransaction{replace(frameId, fragment)}
+        supportFragmentManager.inTransaction { replace(frameId, fragment) }
     }
     private inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
         beginTransaction().func().commit()
@@ -172,7 +158,7 @@ open class BaseActivity : AppCompatActivity() {
             val n = cm.activeNetwork
             if (n != null) {
                 val nc = cm.getNetworkCapabilities(n)
-                //It will check for both wifi and cellular network
+                // It will check for both wifi and cellular network
                 return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
                     NetworkCapabilities.TRANSPORT_WIFI
                 )
@@ -183,7 +169,6 @@ open class BaseActivity : AppCompatActivity() {
             return netInfo != null && netInfo.isConnectedOrConnecting
         }
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -201,15 +186,18 @@ open class BaseActivity : AppCompatActivity() {
 
     fun getLocation() {
 
-        LocationService.getLocation(this, { location ->
-            Log.e("Location ", location.latitude.toString())
-            latitudeStr = location.latitude.toString()
-            longitudeStr = location.longitude.toString()
-            getCountryName(location.latitude, location.longitude)
-        }, {
-            Log.e("Location ", "Error")
-        })
-
+        LocationService.getLocation(
+            this,
+            { location ->
+                Log.e("Location ", location.latitude.toString())
+                latitudeStr = location.latitude.toString()
+                longitudeStr = location.longitude.toString()
+                getCountryName(location.latitude, location.longitude)
+            },
+            {
+                Log.e("Location ", "Error")
+            }
+        )
     }
 
     open fun getCountryName(latitude: Double, longitude: Double) {
@@ -221,7 +209,7 @@ open class BaseActivity : AppCompatActivity() {
             countryStr = if (addresses != null && addresses.isNotEmpty()) {
                 addresses[0].countryName
             } else ""
-        } catch (ignored: IOException) { //do something
+        } catch (ignored: IOException) { // do something
         }
     }
 
@@ -234,34 +222,11 @@ open class BaseActivity : AppCompatActivity() {
         val loginResponse = getLoginResponse(applicationContext)
 
         val productList: ArrayList<ProductList> = ArrayList()
-        if (loginResponse.auth3DS.equals("Yes",true)){
-            productList.add(
-                ProductList(
-                    Constants.EzyMoto,
-                    R.drawable.ezylink_blue_icon,R.drawable.link_disable_icon,
-                    loginResponse.motoTid,
-                    loginResponse.motoMid,
-                    loginResponse.enableMoto.equals("Yes", false),
-                    Constants.EzyMoto
-                )
-            )
-        }else{
-            productList.add(
-                ProductList(
-                    Constants.EzyMoto,
-                    R.drawable.ezymoto_blue_icon,R.drawable.moto_disabled_icon,
-                    loginResponse.motoTid,
-                    loginResponse.motoMid,
-                    loginResponse.enableMoto.equals("Yes", false),
-                    Constants.EzyMoto
-                )
-            )
-        }
 
         productList.add(
             ProductList(
                 Constants.Ezywire,
-                R.drawable.ezywire_blue_icon,R.drawable.ezywire_disabled_icon,
+                R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
                 loginResponse.tid,
                 loginResponse.mid,
                 loginResponse.enableEzywire.equals("Yes", false),
@@ -270,37 +235,8 @@ open class BaseActivity : AppCompatActivity() {
         )
         productList.add(
             ProductList(
-                Constants.EzyRec,
-                R.drawable.ezyrec_blue_icon,R.drawable.recurring_disabled,
-                loginResponse.ezyrecTid,
-                loginResponse.ezyrecMid,
-                loginResponse.enableEzyrec.equals("Yes", false),
-                Fields.EZYREC
-            )
-        )
-        productList.add(
-            ProductList(
-                Constants.EzySplit,
-                R.drawable.ezyrec_blue_icon,R.drawable.recurring_disabled,
-                loginResponse.ezysplitTid,
-                loginResponse.ezysplitMid,
-                loginResponse.enableEzyrec.equals("Yes", false),
-                Fields.EZYSPLIT
-            )
-        )
-        productList.add(
-            ProductList(
-                Constants.EzyAuth,
-                R.drawable.ezyauth_blue_icon,R.drawable.ezyauth_disabled_icon,
-                "",
-                "",
-                loginResponse.preAuth.equals("Yes", false),Fields.PREAUTH
-            )
-        )
-        productList.add(
-            ProductList(
                 Constants.Boost,
-                R.drawable.ic_boost,R.drawable.boost_disabled_icon,
+                R.drawable.ic_boost, R.drawable.boost_disabled_icon,
                 "",
                 "",
                 loginResponse.enableBoost.equals("Yes", false),
@@ -310,41 +246,20 @@ open class BaseActivity : AppCompatActivity() {
         productList.add(
             ProductList(
                 Constants.GrabPay,
-                R.drawable.ic_grabpay,R.drawable.grab_disabled_icon,
+                R.drawable.ic_grabpay, R.drawable.grab_disabled_icon,
                 loginResponse.gpayMid,
                 loginResponse.gpayTid,
                 loginResponse.enableGrabPay.equals("Yes", false),
                 Fields.GRABPAY
             )
         )
-        productList.add(
-            ProductList(
-                Constants.MobiPass,
-                R.drawable.mobipass_icon,R.drawable.mobipass_logo_disabled,
-                loginResponse.ezypassTid,
-                loginResponse.ezypassMid,
-                loginResponse.enableEzypass.equals("Yes", false),
-                Fields.EZYPASS
-            )
-        )
-        productList.add(
-            ProductList(
-                Constants.MobiCash,
-                R.drawable.cash_blue_icon,R.drawable.mobipass_logo_disabled,
-                "",
-                "",
-                true,
-                Fields.CASH
-            )
-        )
 
         return productList
-
     }
 
     fun showDialog(title: String, description: String) {
         // Initialize a new instance of
-        val builder = AlertDialog.Builder(this,R.style.AlertDialogTheme)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogTheme)
         // Set the alert dialog title
         builder.setTitle(title)
         // Display a message on alert dialog
@@ -354,7 +269,6 @@ open class BaseActivity : AppCompatActivity() {
             // Do something when user press the positive button
             dialog.dismiss()
             // Change the app background color
-//            root_layout.setBackgroundColor(Color.RED)
         }
 
         val dialog: AlertDialog = builder.create()
@@ -362,7 +276,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun showExitAlert(title: String, description: String) {
-        val builder = AlertDialog.Builder(this,R.style.AlertDialogTheme)
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogTheme)
         builder.setTitle(title)
         builder.setMessage(description)
         builder.setPositiveButton("Exit") { dialog, which ->
@@ -370,9 +284,6 @@ open class BaseActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_HOME)
             startActivity(intent)
-//            exitProcess(0)
-            // Change the app background color
-//            root_layout.setBackgroundColor(Color.RED)
         }
         builder.setNegativeButton("Cancel") { dialog, which ->
             dialog.dismiss()
@@ -383,13 +294,9 @@ open class BaseActivity : AppCompatActivity() {
 
     fun EditText.onTextChange(onAfterTextChanged: OnAfterTextChangedListener) {
         addTextChangedListener(object : TextWatcher {
-            private var text = ""
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
 
             override fun afterTextChanged(s: Editable?) {
-//                if (s?.length == 1) {
-//                }
                 onAfterTextChanged.complete()
             }
 
@@ -398,6 +305,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     interface OnAfterTextChangedListener {
-        fun complete ()
+        fun complete()
     }
 }

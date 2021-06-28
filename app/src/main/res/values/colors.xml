@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#005BAA</color>
-    <color name="colorPrimaryDark">#32327B</color>
-    <color name="colorAccent">#eaeaea</color>
+    <color name="colorPrimary">#005baa</color>
+    <color name="colorPrimaryDark">#005baa</color>
+    <color name="colorAccent">#E89B23</color>
     <color name="round_bg">#EBF1F7</color>
     <color name="select_customer">#c3c3c3</color>
     <color name="lite_text">#fdfdfd</color>
@@ -38,5 +38,7 @@
     <color name="light_blue">#def2ff</color>
     <color name="grey_lit">#e7e8e9</color>
 
-
+    <color name="light_grey">#e7e8e9</color>
+    <color name="txt_primary_grey">#363636</color>
+    <color name="background_grey">#f2f3f7</color>
 </resources>

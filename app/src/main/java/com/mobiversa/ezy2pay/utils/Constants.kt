@@ -11,7 +11,7 @@ class Constants {
         const val LOGGED_CHAT_URL : String = "https://gomobi.io/support/livechat?nm="
         const val tcHtmlString : String = "https://gomobi.io/terms-condition/"
         const val mobiApi : String = "b07ad9f31df158edb188a41f725899bc"
-
+        const val BB_POS: String = "BB_POS"
         const val Normal : String = "NORMAL"
         const val LITE : String = "LITE"
         const val Balance : String = "Balance"

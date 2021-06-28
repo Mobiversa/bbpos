@@ -7,5 +7,6 @@ data class ProductList(
     val tID: String?,
     val mID: String?,
     val isEnable: Boolean,
-    val historyName: String
+    val historyName: String,
+    val displayName: String
 )

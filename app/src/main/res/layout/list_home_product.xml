@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="ProductListDataItemBinding">
@@ -12,60 +13,54 @@
             type="com.mobiversa.ezy2pay.adapter.ProductListAdapter"/>
 
     </data>
-    <LinearLayout
-        android:id="@+id/product_linear"
-        android:layout_width="@dimen/xxhdpi_100"
-        android:layout_height="@dimen/xxhdpi_100"
-        android:padding="@dimen/xxhdpi_5"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="1dp"
-            app:cardUseCompatPadding="true"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="2dp">
+            android:layout_margin="15dp"
+            android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/list_prod_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@{context.getDrawable(productItem.productImage)}"
+                app:layout_constraintEnd_toStartOf="@+id/list_prod_name"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_boost_logo" />
 
-                <ImageView
-                    android:id="@+id/list_prod_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/list_prod_name"
-                    android:paddingLeft="@dimen/xxhdpi_10"
-                    android:paddingRight="@dimen/xxhdpi_10"
-                    android:paddingTop="@dimen/xxhdpi_5"
-                    android:paddingBottom="@dimen/xxhdpi_5"
-                    android:clickable="true"
-                    android:src="@{productItem.isEnable == true ? context.getDrawable(productItem.productImage) : context.getDrawable(productItem.disableProductImage)}"
-                    android:contentDescription="TODO"
-                    android:focusable="true" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/list_prod_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:clickable="true"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/xxhdpi_5"
+                android:text="@{productItem.displayName}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/t_xxh_12"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/list_prod_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/list_prod_img"
+                app:layout_constraintTop_toTopOf="@+id/list_prod_img"
+                tools:text="Card Payment" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/list_prod_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:padding="@dimen/xxhdpi_5"
-                    android:maxLines="1"
-                    android:fontFamily="@font/ubuntu_bold"
-                    android:clickable="true"
-                    android:text="@{productItem.productName}"
-                    android:textAllCaps="true"
-                    android:textColor="@{productItem.isEnable == false? @color/txt_grey : @color/colorPrimary}"
-                    android:textSize="@dimen/t_xxh_12" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

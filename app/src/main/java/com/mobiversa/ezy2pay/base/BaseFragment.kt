@@ -235,42 +235,7 @@ open class BaseFragment : Fragment() {
         val loginResponse = getLoginResponse()
 
         val productList: ArrayList<ProductList> = ArrayList()
-        if (loginResponse.type.equals("Lite", true)) {
-            productList.add(
-                ProductList(
-                    EzyMoto,
-                    R.drawable.ezylink_blue_icon, R.drawable.link_disable_icon,
-                    loginResponse.motoTid,
-                    loginResponse.motoMid,
-                    loginResponse.enableMoto.equals("Yes", false),
-                    EzyMoto
-                )
-            )
 
-        } else {
-            if (loginResponse.auth3DS.equals("Yes", true)) {
-                productList.add(
-                    ProductList(
-                        EzyMoto,
-                        R.drawable.ezylink_blue_icon, R.drawable.link_disable_icon,
-                        loginResponse.motoTid,
-                        loginResponse.motoMid,
-                        loginResponse.enableMoto.equals("Yes", false),
-                        EzyMoto
-                    )
-                )
-            } else {
-                productList.add(
-                    ProductList(
-                        EzyMoto,
-                        R.drawable.ezymoto_blue_icon, R.drawable.moto_disabled_icon,
-                        loginResponse.motoTid,
-                        loginResponse.motoMid,
-                        loginResponse.enableMoto.equals("Yes", false),
-                        EzyMoto
-                    )
-                )
-            }
             productList.add(
                 ProductList(
                     Ezywire,
@@ -320,7 +285,6 @@ open class BaseFragment : Fragment() {
                     Fields.EZYPASS
                 )
             )
-        }
 
 
         productList.add(
