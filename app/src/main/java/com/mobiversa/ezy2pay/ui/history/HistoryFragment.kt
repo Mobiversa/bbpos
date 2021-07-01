@@ -45,7 +45,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
     private var position: Int? = null
 
     private lateinit var historyViewModel: HistoryViewModel
-    var trxType = Fields.ALL
+    var trxType = Fields.CARD
     private lateinit var trxTypeSpinner: NDSpinner
     private lateinit var trxTypeAdapter: ArrayAdapter<String>
     private var historyList = ArrayList<ForSettlement>()
@@ -157,22 +157,11 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
                 (parentView?.getChildAt(0) as TextView?)?.setTextColor(0xFFFFFF)
 
                 trxType = when (getTrxList()[position]) {
-                    "All Transaction" -> {
-                        Fields.ALL
-                    }
-                    Constants.EzyMoto -> "MOTO"
                     Fields.EZYWIRE -> Fields.CARD
                     else -> getTrxList()[position]
                 }
 
-                if (getTrxList()[position].equals(PREAUTH)) {
-                    if (getProductList()[1].isEnable)
-                        preAuthTransHistory(Fields.CARD)
-                    else
-                        preAuthTransHistory(Fields.EZYMOTO)
-                } else {
-                    transactionHistory()
-                }
+                transactionHistory()
 
             }
 
@@ -396,13 +385,10 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
 
     private fun getTrxList(): ArrayList<String> {
         val histList = ArrayList<String>()
-        histList.add("All Transaction")
-
         for (data in getProductList()) {
             if (data.isEnable) {
                 if (data.historyName.equals(Constants.MobiCash)) {
-//                    if (getProductList()[0].isEnable && getLoginResponse().type.equals("Normal",true))
-                        histList.add(Fields.FPX)
+                    histList.add(Fields.FPX)
                 }
                 histList.add(data.historyName)
             }

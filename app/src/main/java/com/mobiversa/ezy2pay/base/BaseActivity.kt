@@ -226,6 +226,7 @@ open class BaseActivity : AppCompatActivity() {
         productList.add(
             ProductList(
                 Constants.Ezywire,
+                "Card Payment",
                 R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
                 loginResponse.tid,
                 loginResponse.mid,
@@ -236,7 +237,8 @@ open class BaseActivity : AppCompatActivity() {
         productList.add(
             ProductList(
                 Constants.Boost,
-                R.drawable.ic_boost, R.drawable.boost_disabled_icon,
+                "",
+                R.drawable.ic_boost_logo, R.drawable.boost_disabled_icon,
                 "",
                 "",
                 loginResponse.enableBoost.equals("Yes", false),
@@ -246,7 +248,8 @@ open class BaseActivity : AppCompatActivity() {
         productList.add(
             ProductList(
                 Constants.GrabPay,
-                R.drawable.ic_grabpay, R.drawable.grab_disabled_icon,
+                "",
+                R.drawable.ic_grab_pay, R.drawable.grab_disabled_icon,
                 loginResponse.gpayMid,
                 loginResponse.gpayTid,
                 loginResponse.enableGrabPay.equals("Yes", false),

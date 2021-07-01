@@ -236,61 +236,20 @@ open class BaseFragment : Fragment() {
 
         val productList: ArrayList<ProductList> = ArrayList()
 
-            productList.add(
-                ProductList(
-                    Ezywire,
-                    R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
-                    loginResponse.tid,
-                    loginResponse.mid,
-                    loginResponse.enableEzywire.equals("Yes", false),
-                    Fields.EZYWIRE
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzyRec,
-                    R.drawable.ezyrec_blue_icon, R.drawable.recurring_disabled,
-                    loginResponse.ezyrecTid,
-                    loginResponse.ezyrecMid,
-                    loginResponse.enableEzyrec.equals("Yes", false),
-                    Fields.EZYREC
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzySplit,
-                    R.drawable.ezyrec_blue_icon, R.drawable.recurring_disabled,
-                    loginResponse.ezysplitTid,
-                    loginResponse.ezysplitMid,
-                    loginResponse.enableSplit.equals("Yes", false),
-                    Fields.EZYSPLIT
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzyAuth,
-                    R.drawable.ezyauth_blue_icon, R.drawable.ezyauth_disabled_icon,
-                    "",
-                    "",
-                    loginResponse.preAuth.equals("Yes", false), Fields.PREAUTH
-                )
-            )
-            productList.add(
-                ProductList(
-                    MobiPass,
-                    R.drawable.mobipass_icon, R.drawable.mobipass_logo_disabled,
-                    loginResponse.ezypassTid,
-                    loginResponse.ezypassMid,
-                    loginResponse.enableEzypass.equals("Yes", false),
-                    Fields.EZYPASS
-                )
-            )
-
-
         productList.add(
             ProductList(
-                Boost,
-                R.drawable.ic_boost, R.drawable.boost_disabled_icon,
+                Ezywire,"Card Payment",
+                R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
+                loginResponse.tid,
+                loginResponse.mid,
+                loginResponse.enableEzywire.equals("Yes", false),
+                Fields.EZYWIRE
+            )
+        )
+        productList.add(
+            ProductList(
+                Boost,"",
+                R.drawable.ic_boost_logo, R.drawable.boost_disabled_icon,
                 "",
                 "",
                 loginResponse.enableBoost.equals("Yes", false),
@@ -300,22 +259,12 @@ open class BaseFragment : Fragment() {
         productList.add(
             ProductList(
                 GrabPay,
-                R.drawable.ic_grabpay, R.drawable.grab_disabled_icon,
+                "",
+                R.drawable.ic_grab_pay, R.drawable.grab_disabled_icon,
                 loginResponse.gpayMid,
                 loginResponse.gpayTid,
                 loginResponse.enableGrabPay.equals("Yes", false),
                 Fields.GRABPAY
-            )
-        )
-
-        productList.add(
-            ProductList(
-                MobiCash,
-                R.drawable.cash_blue_icon, R.drawable.mobipass_logo_disabled,
-                "",
-                "",
-                true,
-                Fields.CASH
             )
         )
 

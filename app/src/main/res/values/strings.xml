@@ -127,4 +127,10 @@
     <string name="forget_dec">No worries, Just Enter your Username</string>
     <string name="days_remaining">AUTO VOIDS IN: </string>
     <string name="choose_your_payment_method">Choose your payment menthod</string>
+    <string name="btn_done">Done</string>
+    <string name="customer_copy_txt">Customer Copy</string>
+    <string name="merchant_copy_txt">Merchant Copy</string>
+    <string name="approved_sale_txt">Approved Sale</string>
+    <string name="transaction_id_label">Transaction ID -</string>
+    <string name="print_button">Print</string>
 </resources>

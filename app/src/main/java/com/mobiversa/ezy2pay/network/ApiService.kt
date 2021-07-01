@@ -117,15 +117,17 @@ interface ApiService {
     companion object RetrofitClient {
         private const val BANK_URL = "https://fpx.mobiversa.com/"
         private const val CITY_URL = "https://ocsservices.mobiversa.com/"
-//        private const val BASE_URL = "https://paydee.gomobi.io/"
-//        private const val REGISTER_URL = "https://paydee.gomobi.io/"
-//        private const val NOTIFICATION_URL = "https://paydee.gomobi.io/notificationservices/"
+        // Demo Testing
+        private const val BASE_URL = "https://paydee.gomobi.io/"
+        private const val REGISTER_URL = "https://paydee.gomobi.io/"
+        private const val NOTIFICATION_URL = "https://paydee.gomobi.io/notificationservices/"
 //        private const val BASE_URL = "https://ecom.gomobi.io/"
 //        private const val REGISTER_URL = "https://ecom.gomobi.io/"
 //        private const val NOTIFICATION_URL = "https://ecom.gomobi.io/notificationservices/"
-        private const val BASE_URL = "https://pay.gomobi.io/"
-        private const val REGISTER_URL = "https://pay.gomobi.io/"
-        private const val NOTIFICATION_URL = "https://pay.gomobi.io/notificationservices/"
+        // PROD (LIVE)
+//        private const val BASE_URL = "https://pay.gomobi.io/"
+//        private const val REGISTER_URL = "https://pay.gomobi.io/"
+//        private const val NOTIFICATION_URL = "https://pay.gomobi.io/notificationservices/"
 
         private val client = OkHttpClient().newBuilder()
             .followRedirects(false)

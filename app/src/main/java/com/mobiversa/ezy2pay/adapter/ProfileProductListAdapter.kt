@@ -48,10 +48,13 @@ class ProfileProductListViewHolder(private val binding: ProfileProductListItemBi
         binding.productItem = productList
 
         binding.profProductLinear.setOnClickListener {
-            if (productList.isEnable)
+            if (productList.isEnable) {
                 profProdListFragment?.productDetails(productList.productName)
-            else
-                Toast.makeText(context, ProductDisable, Toast.LENGTH_SHORT).show()
+            } else {
+                context?.let {
+                    Toast.makeText(context, ProductDisable, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         listener?.let {
             binding.root.setOnClickListener {

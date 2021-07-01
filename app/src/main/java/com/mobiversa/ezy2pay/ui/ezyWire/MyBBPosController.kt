@@ -23,6 +23,7 @@ import java.util.*
  */
 class MyBBPosController : BBDeviceControllerListener {
     private var isDeviceConnected = false
+    var pinEnteredLength: Int = 0
     private val isAmountAccpted = false
     var appList: ArrayList<String>? = null
 
@@ -60,38 +61,18 @@ class MyBBPosController : BBDeviceControllerListener {
         }
     }
 
-    override fun onWaitingReprintOrPrintNext() {}
-    override fun onBTReturnScanResults(list: List<BluetoothDevice>) {
-        Constants.foundDevices = list
-        if (arrayAdapter != null) {
-            arrayAdapter!!.clear()
-            for (i in Constants.foundDevices!!.indices) {
-                arrayAdapter!!.add(Constants.foundDevices!![i].name)
-
-                Log.e("Found Device", Constants.foundDevices!![i].name)
-            }
-            arrayAdapter!!.notifyDataSetChanged()
-        }
+    override fun onWaitingReprintOrPrintNext() {
+        Log.e("Printer", "onWaitingReprintOrPrintNext'")
     }
+    override fun onBTReturnScanResults(list: List<BluetoothDevice>) {}
 
     override fun onBTScanTimeout() {}
     override fun onBTScanStopped() {}
-    override fun onBTConnected(bluetoothDevice: BluetoothDevice) {
-        try {
-            isDeviceConnected = true
-            Constants.isDeviceConnected = true
-            val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(activity!!.applicationContext)
-            prefs[Fields.DeviceId] = bluetoothDevice.name
-            SendNotification(Constants.DeviceConnected)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    override fun onBTConnected(bluetoothDevice: BluetoothDevice) {}
 
-    fun isDeviceConnected() : Boolean{
+    fun isDeviceConnected(): Boolean {
         return isDeviceConnected
     }
-
 
     override fun onBTDisconnected() {
         isDeviceConnected = false
@@ -101,12 +82,19 @@ class MyBBPosController : BBDeviceControllerListener {
         SendNotification("battery")
     }
 
+    override fun onBTRequestPairing() {
+        Log.e("CallBack", "")
+    }
+
     override fun onUsbConnected() {}
     override fun onUsbDisconnected() {}
-    override fun onSerialConnected() {}
+    override fun onSerialConnected() {
+        isDeviceConnected = true
+        SendNotification(Constants.DeviceConnected)
+    }
     override fun onSerialDisconnected() {}
-    override fun onReturnCheckCardResult(checkCardResult: CheckCardResult,decodeData: Hashtable<String, String>?) {
-        Toast.makeText(activity,checkCardResult.toString() + "",Toast.LENGTH_SHORT).show()
+    override fun onReturnCheckCardResult(checkCardResult: CheckCardResult, decodeData: Hashtable<String, String>?) {
+        Toast.makeText(activity, checkCardResult.toString() + "", Toast.LENGTH_SHORT).show()
 //                SendNotification("Card Swiped");
 // Log.v("swipe card tlv", decodeData.toString());
         Constants.isICC = "N"
@@ -129,11 +117,11 @@ class MyBBPosController : BBDeviceControllerListener {
             Constants.cardholderName = decodeData?.get("cardholderName").toString()
             val ksn = decodeData?.get("ksn")
             val serviceCode = decodeData?.get("serviceCode")
-            Log.v("--serviceCode--", ""+serviceCode)
+            Log.v("--serviceCode--", "" + serviceCode)
             val encTrack1 = decodeData?.get("encTrack1")
             val encTrack2 = decodeData?.get("encTrack2")
             Constants.TLV = "$encTrack1#$encTrack2"
-            Log.v("--serviceCode", ""+serviceCode)
+            Log.v("--serviceCode", "" + serviceCode)
             if (serviceCode != null) {
                 Constants.isSwipe = true
                 SendNotification(Constants.EnterPIN)
@@ -158,8 +146,8 @@ class MyBBPosController : BBDeviceControllerListener {
             val encTrack1 = decodeData?.get("encTrack1")
             val encTrack2 = decodeData?.get("encTrack2")
 
-            Log.e("Track1 ", ""+encTrack1)
-            Log.e("Track2 ", ""+encTrack2)
+            Log.e("Track1 ", "" + encTrack1)
+            Log.e("Track2 ", "" + encTrack2)
 
             Constants.TLV = "$encTrack1#$encTrack2"
             if (serviceCode!!.endsWith("0") || serviceCode.endsWith("6")) {
@@ -226,8 +214,11 @@ class MyBBPosController : BBDeviceControllerListener {
             editor.putString("deviceSettingVersion_BBP", deviceSettingVersion)
             editor.apply()
             BBDeviceVersion = firmwareVersion.toString()
+            val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(activity!!.applicationContext)
+            prefs[Fields.DeviceId] = serialNumber
+            Log.e("onReturnDeviceInfo ", "$firmwareVersion")
+            SendNotification(Constants.DEVICE_INFO)
         }
-        // device information
     }
 
     override fun onReturnTransactionResult(transactionResult: TransactionResult) {
@@ -246,7 +237,7 @@ class MyBBPosController : BBDeviceControllerListener {
         }*/
         SendNotification(transactionResult.toString())
         Log.v("result_traxn", transactionResult.toString())
-        //SendNotification(!isAmountAccpted ? "Amount Declined" : (approved ? Constants.CardCompleted : "Card Declined"));
+        // SendNotification(!isAmountAccpted ? "Amount Declined" : (approved ? Constants.CardCompleted : "Card Declined"));
     }
 
     override fun onReturnBatchData(s: String) {}
@@ -255,7 +246,7 @@ class MyBBPosController : BBDeviceControllerListener {
     }
 
     override fun onReturnAmountConfirmResult(b: Boolean) {}
-    override fun onReturnPinEntryResult(pinEntryResult: PinEntryResult,data: Hashtable<String, String>?) {
+    override fun onReturnPinEntryResult(pinEntryResult: PinEntryResult, data: Hashtable<String, String>?) {
         Log.v("pinenter", pinEntryResult.toString())
         Constants.isPinVerified = false
         //        Log.e("Constants.PIN_DATA", data.toString() + "");
@@ -284,11 +275,11 @@ class MyBBPosController : BBDeviceControllerListener {
     }
 
     override fun onReturnPrintResult(printResult: PrintResult) {
-        Log.v("--onReturnPrintResult--", "")
+        Log.v("--printer--", "printResult : $printResult")
     }
 
     @SuppressLint("LongLogTag")
-    override fun onReturnAccountSelectionResult(accountSelectionResult: AccountSelectionResult,i: Int) {
+    override fun onReturnAccountSelectionResult(accountSelectionResult: AccountSelectionResult, i: Int) {
         Log.v("--onReturnAccountSelectionResult--", "")
     }
 
@@ -301,22 +292,39 @@ class MyBBPosController : BBDeviceControllerListener {
         Log.v("--onReturnUpdateAIDResult--", "")
     }
 
-    override fun onReturnUpdateGprsSettingsResult(b: Boolean,hashtable: Hashtable<String, TerminalSettingStatus>) {
+    override fun onReturnUpdateGprsSettingsResult(b: Boolean, hashtable: Hashtable<String, TerminalSettingStatus>) {
     }
 
     override fun onReturnUpdateTerminalSettingResult(terminalSettingStatus: TerminalSettingStatus) {}
-    override fun onReturnUpdateWiFiSettingsResult(b: Boolean,hashtable: Hashtable<String, TerminalSettingStatus>) {
+    override fun onReturnUpdateTerminalSettingsResult(p0: Hashtable<String, TerminalSettingStatus>?) {
+        Log.e("CallBack", "")
+    }
+
+    override fun onReturnUpdateWiFiSettingsResult(b: Boolean, hashtable: Hashtable<String, TerminalSettingStatus>) {
+    }
+
+    override fun onReturnUpdateDisplayStringResult(p0: Boolean, p1: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReturnReadDisplayStringResult(p0: Boolean, p1: Hashtable<String, String>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReturnReadDisplaySettingsResult(p0: Boolean, p1: Hashtable<String, Any>?) {
+        TODO("Not yet implemented")
     }
 
     override fun onReturnReadAIDResult(hashtable: Hashtable<String, Any>) {}
-    override fun onReturnReadGprsSettingsResult(b: Boolean,hashtable: Hashtable<String, Any>) {
+    override fun onReturnReadGprsSettingsResult(b: Boolean, hashtable: Hashtable<String, Any>) {
     }
 
     override fun onReturnReadTerminalSettingResult(hashtable: Hashtable<String, Any>) {}
     /*  @Override
     public void onReturnReadTerminalSettingResult(BBDeviceController.TerminalSettingStatus terminalSettingStatus, String s) {
+
     }*/
-    override fun onReturnReadWiFiSettingsResult(b: Boolean,hashtable: Hashtable<String, Any>) {
+    override fun onReturnReadWiFiSettingsResult(b: Boolean, hashtable: Hashtable<String, Any>) {
     }
 
     override fun onReturnEnableAccountSelectionResult(b: Boolean) {}
@@ -333,10 +341,10 @@ class MyBBPosController : BBDeviceControllerListener {
 
     override fun onReturnDisableAccountSelectionResult(b: Boolean) {}
     override fun onReturnDisableInputAmountResult(b: Boolean) {}
-    override fun onReturnPhoneNumber(phoneEntryResult: PhoneEntryResult,s: String) {
+    override fun onReturnPhoneNumber(phoneEntryResult: PhoneEntryResult, s: String) {
     }
 
-    override fun onReturnEmvCardDataResult(b: Boolean,s: String) {
+    override fun onReturnEmvCardDataResult(b: Boolean, s: String) {
         Log.v("tlv", s)
     }
 
@@ -345,21 +353,21 @@ class MyBBPosController : BBDeviceControllerListener {
     }
 
     @SuppressLint("LongLogTag")
-    override fun onReturnEncryptPinResult(b: Boolean,hashtable: Hashtable<String, String>) {
+    override fun onReturnEncryptPinResult(b: Boolean, hashtable: Hashtable<String, String>) {
     }
 
-    override fun onReturnEncryptDataResult(b: Boolean,hashtable: Hashtable<String, String>) {
+    override fun onReturnEncryptDataResult(b: Boolean, hashtable: Hashtable<String, String>) {
     }
 
-    override fun onReturnInjectSessionKeyResult(isSuccess: Boolean,s: Hashtable<String, String>) {
+    override fun onReturnInjectSessionKeyResult(isSuccess: Boolean, s: Hashtable<String, String>) {
         SendNotification(if (isSuccess) "InjectSessionSuccess" else "InjectSessionFail")
     }
 
-    override fun onReturnPowerOnIccResult(b: Boolean,s: String, s1: String,i: Int) {
+    override fun onReturnPowerOnIccResult(b: Boolean, s: String, s1: String, i: Int) {
     }
 
     override fun onReturnPowerOffIccResult(b: Boolean) {}
-    override fun onReturnApduResult( b: Boolean, hashtable: Hashtable<String, Any>) {
+    override fun onReturnApduResult(b: Boolean, hashtable: Hashtable<String, Any>) {
     }
 
     override fun onRequestSelectApplication(appLists: ArrayList<String>) {
@@ -367,12 +375,41 @@ class MyBBPosController : BBDeviceControllerListener {
         SendNotification("select application")
     }
 
+    override fun onRequestSelectAccountType() {
+        TODO("Not yet implemented")
+    }
+
     override fun onRequestSetAmount() {
         SendNotification(Constants.SetAmount)
     }
 
+    override fun onRequestOtherAmount(p0: AmountInputType?) {
+        TODO("Not yet implemented")
+    }
+
     override fun onRequestPinEntry(pinEntrySource: PinEntrySource) {
         Log.v("wisepad Request", pinEntrySource.toString())
+        if (pinEntrySource.toString().equals("SMARTPOS", ignoreCase = true)) {
+            SendNotification(Constants.PinScreen)
+        } else {
+            SendNotification(Constants.EnterPIN)
+        }
+    }
+
+    override fun onReturnSetPinPadButtonsResult(isSuccess: Boolean) {
+        SendNotification(Constants.SHOW_PIN_PAD)
+    }
+
+    override fun onReturnSetPinPadOrientationResult(p0: Boolean) {
+        Log.e("CallBack", "")
+    }
+
+    override fun onReturnUpdateDisplaySettingsProgress(p0: Double) {
+        Log.e("CallBack", "")
+    }
+
+    override fun onReturnUpdateDisplaySettingsResult(p0: Boolean, p1: String?) {
+        Log.e("CallBack", "")
     }
 
     override fun onRequestOnlineProcess(tlv: String) {
@@ -381,15 +418,19 @@ class MyBBPosController : BBDeviceControllerListener {
     }
 
     override fun onRequestTerminalTime() {}
-    override fun onRequestDisplayText(displayText: DisplayText) {
+    override fun onRequestDisplayText(displayText: DisplayText?, p1: String?) {
         Log.v("pinverify", displayText.toString())
-
-        if (displayText.toString().equals(Constants.EnterPIN, false)){
-            SendNotification(Constants.PinScreen)
-        }
+//
+//        if (displayText.toString().equals(Constants.EnterPIN, false)) {
+//            SendNotification(Constants.PinScreen)
+//        }
     }
 
-    override fun onRequestDisplayAsterisk(i: Int) {}
+    override fun onRequestDisplayAsterisk(i: Int) {
+        Log.e("Asterisk", "$i")
+        pinEnteredLength = i
+        SendNotification(Constants.SHOW_ASTRIX)
+    }
     override fun onRequestDisplayLEDIndicator(contactlessStatus: ContactlessStatus) {}
     override fun onRequestProduceAudioTone(contactlessStatusTone: ContactlessStatusTone) {}
     override fun onRequestClearDisplay() {}
@@ -397,21 +438,31 @@ class MyBBPosController : BBDeviceControllerListener {
         SendNotification("Final Confirm")
     }
 
-    override fun onRequestPrintData(i: Int, b: Boolean) {}
+    override fun onRequestAmountConfirm(p0: Hashtable<String, String>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRequestPrintData(i: Int, b: Boolean) {
+        SendNotification(Constants.PRINT_RECEIPT)
+    }
     override fun onPrintDataCancelled() {}
     override fun onPrintDataEnd() {}
     override fun onBatteryLow(batteryStatus: BatteryStatus) {}
     override fun onAudioDevicePlugged() {}
     override fun onAudioDeviceUnplugged() {}
-    override fun onError(errorState: Error,errorMessage: String) {
-        Log.e("wisepad errorMessage",errorMessage + "::" + errorState + ":: " + errorState.name)
+    override fun onError(errorState: Error, errorMessage: String) {
+        Log.e("wisepad errorMessage", errorMessage + "::" + errorState + ":: " + errorState.name)
         SendNotification("Error::$errorMessage")
     }
 
     override fun onSessionInitialized() {}
     override fun onSessionError(sessionError: SessionError, s: String) {}
+    override fun onReturnDebugLog(p0: Hashtable<String, Any>?) {
+        Log.e("onReturnDebugLog", p0.toString())
+    }
+
     override fun onAudioAutoConfigProgressUpdate(v: Double) {}
-    override fun onAudioAutoConfigCompleted(b: Boolean,s: String) {
+    override fun onAudioAutoConfigCompleted(b: Boolean, s: String) {
     }
 
     override fun onAudioAutoConfigError(audioAutoConfigError: AudioAutoConfigError) {}
@@ -419,52 +470,41 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onDeviceHere(b: Boolean) {}
     override fun onPowerDown() {}
     override fun onPowerButtonPressed() {}
-    override fun onDeviceReset() {}
+    override fun onDeviceReset(p0: Boolean, p1: DeviceResetReason?) {
+        TODO("Not yet implemented")
+    }
     override fun onEnterStandbyMode() {}
-    override fun onReturnNfcDataExchangeResult(b: Boolean,hashtable: Hashtable<String, String>) {
+    override fun onReturnNfcDataExchangeResult(b: Boolean, hashtable: Hashtable<String, String>) {
     }
 
-    override fun onReturnNfcDetectCardResult(nfcDetectCardResult: NfcDetectCardResult,hashtable: Hashtable<String, Any>) {
+    override fun onReturnNfcDetectCardResult(nfcDetectCardResult: NfcDetectCardResult, hashtable: Hashtable<String, Any>) {
     }
 
-    override fun onReturnControlLEDResult(b: Boolean,s: String) {
+    override fun onReturnControlLEDResult(b: Boolean, s: String) {
     }
 
-    override fun onReturnVasResult(vasResult: VASResult,hashtable: Hashtable<String, Any>) {
+    override fun onReturnVasResult(vasResult: VASResult, hashtable: Hashtable<String, Any>) {
     }
 
     override fun onRequestStartEmv() {}
     override fun onDeviceDisplayingPrompt() {}
     override fun onRequestKeypadResponse() {}
     override fun onReturnDisplayPromptResult(displayPromptResult: DisplayPromptResult) {}
+    override fun onReturnFunctionKey(p0: FunctionKey?) {
+        Log.e("CallBack", "")
+    }
+
     override fun onBarcodeReaderConnected() {}
     override fun onBarcodeReaderDisconnected() {}
     override fun onReturnBarcode(s: String) {} //    @Override
 
-    //    public void onBTRequestPairing() {
-//        Log.e("BlueTooth","Request Pairing");
-//    }
-//
-//    @Override
-//    public void onReturnSetPinPadButtonsResult(boolean isSuccess) {
-////        dismissDialog();
-//    }
-//
-//    @Override
-//    public void onReturnFunctionKey(BBDeviceController.FunctionKey funcKey) {
-//        Log.e("BlueTooth","Function Key "+ funcKey);
-////        setStatus(getString(R.string.function_key) + " : " + funcKey);
-////        dismissDialog();
-//    }
     companion object {
         private var activity: Context? = null
-        private var arrayAdapter: ArrayAdapter<String>? = null
         private var myHandler: Handler? = null
         private var wisePadListener: MyBBPosController? = null
         var pref: SharedPreferences? = null
-        fun getInstance(baseActivity: Context, baseArrayAdapter: ArrayAdapter<String>?, myBaseHandler: Handler?): MyBBPosController? {
+        fun getInstance(baseActivity: Context, myBaseHandler: Handler?): MyBBPosController? {
             activity = baseActivity
-            arrayAdapter = baseArrayAdapter
             myHandler = myBaseHandler
             pref = baseActivity.getSharedPreferences("Version", Context.MODE_PRIVATE)
             if (wisePadListener == null) {

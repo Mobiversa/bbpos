@@ -34,8 +34,7 @@ class SplashActivity : BaseActivity() {
         val mHandler = Handler()
         val mRunnable = Runnable {
             // Check if the device is Rooted or not - if rooted exit the app (For PCI)
-//            if (RootUtil.isDeviceRooted) {
-            if (false) {
+            if (RootUtil.isDeviceRooted) {
                 showAlertDialogAndExitApp(Constants.ROOTED_DEVICE)
             } else {
                 val prefs = PreferenceHelper.defaultPrefs(this)
