@@ -31,6 +31,7 @@ import com.mobiversa.ezy2pay.base.BaseFragment
 import com.mobiversa.ezy2pay.network.response.ForSettlement
 import com.mobiversa.ezy2pay.ui.history.HistoryViewModel
 import com.mobiversa.ezy2pay.ui.receipt.PrintReceiptFragment
+import com.mobiversa.ezy2pay.ui.receipt.PrinterActivity
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Constants.Companion.MainAct
 import com.mobiversa.ezy2pay.utils.Fields
@@ -222,17 +223,21 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCa
         when (v?.id) {
             R.id.btn_history_detail_receipt -> {
                 if (btn_history_detail_receipt.text.toString().equals("Receipt", true)) {
-                    val bundle = Bundle()
-                    if (historyData?.txnType.equals(CASH))
+                    /*val bundle = Bundle()
+                    if (historyData?.txnType.equals(CASH)) {
                         bundle.putString(Fields.Service, Fields.CASH_RECEIPT)
-                    else
-                        bundle.putString(Fields.Service, Fields.TXN_REPRINT)
-
-                    bundle.putString(Fields.trxId, historyData!!.txnId)
-                    bundle.putString(Fields.Amount, amount)
-                    bundle.putString(Constants.ActivityName, MainAct)
-                    bundle.putString(Constants.Redirect, Constants.History)
-                    addFragment(printReceiptFragment, bundle, "HistoryDetail")
+                        bundle.putString(Fields.trxId, historyData!!.txnId)
+                        bundle.putString(Fields.Amount, amount)
+                        bundle.putString(Constants.ActivityName, MainAct)
+                        bundle.putString(Constants.Redirect, Constants.History)
+                        addFragment(printReceiptFragment, bundle, "HistoryDetail")
+                    } else {*/
+                        startActivity(Intent(context, PrinterActivity::class.java).apply {
+                            putExtra(Fields.Service, Fields.TXN_REPRINT)
+                            putExtra(Fields.trxId, historyData!!.txnId)
+                            putExtra(Fields.Amount, amount)
+                        })
+//                    }
                 } else {
                     showConvertSaleAlert()
                 }

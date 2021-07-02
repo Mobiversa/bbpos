@@ -46,14 +46,12 @@ class ProfileProductListViewHolder(private val binding: ProfileProductListItemBi
         listener: ProductListSelectionListener? = null
     ) {
         binding.productItem = productList
-
-        binding.profProductLinear.setOnClickListener {
-            if (productList.isEnable) {
-                profProdListFragment?.productDetails(productList.productName)
-            } else {
-                context?.let {
+        profProdListFragment?.let {
+            binding.profProductLinear.setOnClickListener {
+                if (productList.isEnable)
+                    profProdListFragment.productDetails(productList.productName)
+                else
                     Toast.makeText(context, ProductDisable, Toast.LENGTH_SHORT).show()
-                }
             }
         }
         listener?.let {
@@ -62,7 +60,6 @@ class ProfileProductListViewHolder(private val binding: ProfileProductListItemBi
             }
         }
     }
-
     interface ProductListSelectionListener {
         fun onProductSelected(productList: ProductList)
     }

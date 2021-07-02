@@ -69,7 +69,7 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        LocationService.init(this)
+//        LocationService.init(this)
 
         val current = Calendar.getInstance().time
 

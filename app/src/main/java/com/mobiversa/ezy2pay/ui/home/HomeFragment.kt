@@ -75,7 +75,8 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).supportActionBar?.show()
-        setTitle("Home", true)
+        amtEdt?.setText("0.00")
+        setTitle("Mobi", true)
     }
 
     fun productDetails() {

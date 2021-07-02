@@ -131,6 +131,10 @@
     <string name="customer_copy_txt">Customer Copy</string>
     <string name="merchant_copy_txt">Merchant Copy</string>
     <string name="approved_sale_txt">Approved Sale</string>
-    <string name="transaction_id_label">Transaction ID -</string>
+    <string name="transaction_id_label">Transaction ID :</string>
     <string name="print_button">Print</string>
+    <string name="to_complete_transaction">to complete transaction</string>
+    <string name="tap_or_insert_your_card">Tap or Insert your card</string>
+    <string name="enter_your_pin">Enter your PIN</string>
+    <string name="btn_continue">Continue</string>
 </resources>

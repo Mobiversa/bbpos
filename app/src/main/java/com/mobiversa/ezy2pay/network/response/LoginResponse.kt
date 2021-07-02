@@ -52,5 +52,6 @@ data class ResponseData(
     val type: String,
     val liteMid: String,
     var liteUpdate: String,
-    val tid: String
+    val tid: String,
+    val mobiId: String = ""
 )

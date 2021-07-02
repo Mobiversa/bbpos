@@ -3,12 +3,19 @@ package com.mobiversa.ezy2pay.ui.receipt;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 
+import com.bbpos.bbdevice.BBDeviceController;
 import com.mobiversa.ezy2pay.R;
+import com.mobiversa.ezy2pay.network.response.ReceiptModel;
 
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Hashtable;
 
 public class ReceiptUtility {
 
@@ -79,35 +86,6 @@ public class ReceiptUtility {
         return output;
     }
 
-    private static byte[] convertBarcode(Bitmap bitmap, int targetWidth, int threshold) {
-        int targetHeight = (int) Math.round((double) targetWidth / (double) bitmap.getWidth() * (double) bitmap.getHeight());
-
-        byte[] pixels = new byte[targetWidth];
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, false);
-        for (int i = 0; i < scaledBitmap.getWidth(); ++i) {
-            int pixel = scaledBitmap.getPixel(i, scaledBitmap.getHeight() / 2);
-            int alpha = (pixel >> 24) & 0xFF;
-            int r = (pixel >> 16) & 0xFF;
-            int g = (pixel >> 8) & 0xFF;
-            int b = pixel & 0xFF;
-            if (alpha < 50) {
-                pixels[i] = 0;
-            } else if ((r + g + b) / 3 >= threshold) {
-                pixels[i] = 0;
-            } else {
-                pixels[i] = 1;
-            }
-        }
-
-        byte[] output = new byte[(int) Math.ceil((double) scaledBitmap.getWidth() / 8.0)];
-
-        for (int i = 0; i < scaledBitmap.getWidth(); ++i) {
-            output[i / 8] |= pixels[i] << (7 - (i % 8));
-        }
-
-        return output;
-    }
-
     public static byte[] genReceipt(Context context, JSONObject receiptData, boolean isMerchantCopy) {
         try {
             JSONObject receipt = receiptData.has("responseData") ? receiptData.getJSONObject("responseData") : new JSONObject();
@@ -118,7 +96,7 @@ public class ReceiptUtility {
                 singleLine.append("-");
             }
 
-            Bitmap logoBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.print_logo);
+            Bitmap logoBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.backspace);
             int logoTargetWidth = 150;
             byte[] d1 = convertBitmap(logoBitmap, logoTargetWidth, 150);
 
@@ -295,5 +273,172 @@ public class ReceiptUtility {
             e.printStackTrace();
         }
         return null;//genDummyReceipt(context);
+    }
+    public static byte[] genReceipt4(Context context, ReceiptModel receiptData, Boolean isMerchantCopy) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            Bitmap bitmap = Bitmap.createBitmap(384, 920, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+
+            canvas.drawARGB(255, 255, 255, 255);
+
+
+            int x = 0;
+            int y = 0;
+            Paint paintText = new Paint();
+            paintText.setColor(Color.parseColor("#FF000000"));
+            paintText.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
+            paintText.setTextSize(80);
+            paintText.setAntiAlias(true);
+            x = 90;
+            y = 100;
+            canvas.drawText("mobi", x, y, paintText);
+
+
+            paintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+            paintText.setTextSize(16);
+            x = 20;
+            y += 60;
+            canvas.drawText("MOBI ASIA SDN. BHD.", x, y, paintText);
+            y += 20;
+            canvas.drawText("#07-01, Wiswa UOA Damansara II, No. 6,", x, y, paintText);
+            y += 20;
+            canvas.drawText("C Damansara Heights,", x, y, paintText);
+            y += 20;
+            canvas.drawText("58200", x, y, paintText);
+            y += 20;
+            canvas.drawText("KUALA LUMPUR", x, y, paintText);
+            y += 20;
+            canvas.drawText("0126885251", x, y, paintText);
+            x = 0;
+            y += 30;
+            paintText.setTextSize(16);
+            canvas.drawText("_____________________________________________", x, y, paintText);
+
+            x = 20;
+            y += 30;
+            canvas.drawText("MID", x, y, paintText);
+            x = 60;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getMid(), x, y, paintText);
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("TID", x, y, paintText);
+            x = 60;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getTid(), x, y, paintText);
+
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Transaction Type", x, y, paintText);
+            x = 190;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getTxnType(), x, y, paintText);
+
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Date", x, y, paintText);
+            x = 60;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getDate(), x, y, paintText);
+
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Time", x, y, paintText);
+            x = 60;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getTime(), x, y, paintText);
+
+            x = 20;
+            y += 50;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Trace No", x, y, paintText);
+            x = 100;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getTrace(), x, y, paintText);
+
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Amount", x, y, paintText);
+            x = 100;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getAmount(), x, y, paintText);
+
+
+            x = 0;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("_____________________________________________", x, y, paintText);
+
+            x = 80;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Total", x, y, paintText);
+            x = 140;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : RM " + receiptData.getResponseData().getAmount(), x, y, paintText);
+
+
+            x = 0;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("_____________________________________________", x, y, paintText);
+
+            if (!isMerchantCopy) {
+                x = 20;
+                y += 30;
+                paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+                canvas.drawText("SIGNATURE NOT REQUIRED", x, y, paintText);
+            }
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("NO REFUND", x, y, paintText);
+
+            x = 20;
+            y += 60;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("CARDHOLDER SIGNATURE : ", x, y, paintText);
+            x = 0;
+            y += 10;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("_____________________________________________", x, y, paintText);
+
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("I ACKNOWLEDGE SATISFACTORY RECEIPT ", x, y, paintText);
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("OF RELATIVE GOODS/SERVICE", x, y, paintText);
+            x = 20;
+            y += 40;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("*** "+ (isMerchantCopy ? "MERCHANT COPY" : "CUSTOMER COPY") +" ***", x, y, paintText);
+            x = 20;
+            y += 40;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("Powered By : MOBI ASIA Sdn. Bhd.", x, y, paintText);
+            x = 20;
+            y += 20;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText("(Formerly Known as Mobiversa Sdn. Bhd)", x, y, paintText);
+
+            byte[] imageCommand = BBDeviceController.getImageCommand(bitmap, 150);
+            baos.write(imageCommand, 0, imageCommand.length);
+
+            return baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

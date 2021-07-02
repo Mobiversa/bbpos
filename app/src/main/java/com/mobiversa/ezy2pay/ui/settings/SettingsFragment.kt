@@ -79,10 +79,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         rootView.prof_product_linear.setOnClickListener(this)
         rootView.prof_contact_us_linear.setOnClickListener(this)
         rootView.prof_tutorial_linear.setOnClickListener(this)
-        rootView.prof_app_update_linear.setOnClickListener(this)
         rootView.prof_update_linear.setOnClickListener(this)
         rootView.prof_refer_linear.setOnClickListener(this)
-        rootView.keyboard_linear.setOnClickListener(this)
         rootView.mobi_keyboard_linear.setOnClickListener(this)
         rootView.upgrade_btn.setOnClickListener(this)
 
@@ -93,12 +91,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         ) {
             rootView.prof_refer_linear.visibility = View.VISIBLE//Visible
             rootView.mobi_keyboard_linear.visibility = View.GONE//Gone
-            rootView.keyboard_linear.visibility = View.VISIBLE//Visible
         }
         else {
             rootView.prof_refer_linear.visibility = View.GONE
             rootView.mobi_keyboard_linear.visibility = View.VISIBLE//Gone
-            rootView.keyboard_linear.visibility = View.GONE//Visible
         }
 
         rootView.txt_logout.setOnClickListener(this)
@@ -266,12 +262,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 val gson = Gson()
                 val json = gson.toJson(it.responseData)
                 putSharedString(ProductResponse, json)
-            } else {
-                /*setTitle("Home", true)
-                (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                fragmentManager?.popBackStack()*/
             }
-
         })
     }
 
@@ -343,10 +334,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 val fragment = ProfileProductListFragment()
                 addFragment(fragment, bundle, Fields.Profile)
             }
-            R.id.prof_app_update_linear -> {
-                val fragment = ApplicationUpdateFragment()
-                addFragment(fragment, bundle, Fields.AppVersionNumber)
-            }
             R.id.prof_contact_us_linear -> {
                 startActivity(Intent(getActivity(), ContactActivity::class.java))
             }
@@ -355,10 +342,6 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             }
             R.id.prof_refer_linear -> {
                 showReferralPrompt()
-            }
-            R.id.keyboard_linear -> {
-                val fragment = KeyboardFragment()
-                addFragment(fragment, bundle, Fields.Keyboard)
             }
             R.id.mobi_keyboard_linear -> {
                 val fragment = KeyboardFragment()

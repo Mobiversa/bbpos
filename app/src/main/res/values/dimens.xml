@@ -24,6 +24,7 @@
     <dimen name="xxhdpi_175">175dp</dimen>
     <dimen name="xxhdpi_200">200dp</dimen>
     <dimen name="xxhdpi_300">300dp</dimen>
+    <dimen name="view_size_70">70dp</dimen>
 
     <!--Text size-->
     <dimen name="t_xxh_12">12sp</dimen>

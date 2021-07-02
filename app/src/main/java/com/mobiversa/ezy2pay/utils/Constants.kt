@@ -163,6 +163,7 @@ class Constants {
         const val SuccessTransaction : String = "SuccessTransaction"
         const val SignaturePage : String = "Signature"
 
+        const val CARD_PAYMENT = "CARD_PAYMENT"
         const val ActivityName = "Activity"
         const val Redirect = "Redirect"
         const val MainAct = "MainActivity"

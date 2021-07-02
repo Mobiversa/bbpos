@@ -49,7 +49,7 @@ import kotlin.collections.ArrayList
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
     private val DOT = "."
-    lateinit var mProgressDialog: ProgressDialog
+    var mProgressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
@@ -71,13 +71,13 @@ open class BaseActivity : AppCompatActivity() {
 
     fun showDialog(message: String) {
         mProgressDialog = indeterminateProgressDialog(message)
-        if (!mProgressDialog.isShowing)
-            mProgressDialog.show()
+        if (mProgressDialog?.isShowing == false)
+            mProgressDialog?.show()
     }
 
     fun cancelDialog() {
-        if (mProgressDialog.isShowing)
-            mProgressDialog.dismiss()
+        if (mProgressDialog?.isShowing == true)
+            mProgressDialog?.dismiss()
     }
 
     fun getInstalledVersion(): String {

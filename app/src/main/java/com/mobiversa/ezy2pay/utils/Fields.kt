@@ -79,6 +79,7 @@ class Fields {
         //Boost Params
         const val sessionId : String = "sessionId"
         const val tid : String = "tid"
+        const val mobiId: String = "mobiId"
         const val Type : String = "type"
         const val merchantId : String = "merchantId"
         const val liteMid : String = "liteMid"
@@ -108,7 +109,7 @@ class Fields {
         const val callback : String = "callback"
 
         //KeyInjection
-        const val KeyInjection : String = "DEVICE_CONNECT"
+        const val KeyInjection : String = "PLUS_DEVICE_CONNECT"
         const val DeviceId : String = "deviceId"
         const val HostType : String = "hostType"
         const val trxId : String = "trxId"
@@ -119,7 +120,7 @@ class Fields {
 
         //Ezywire
         const val PRE_AUTH : String = "PRE_AUTH"
-        const val START_PAY : String = "START_PAY"
+        const val START_PAY : String = "PLUS_START_PAY"
         const val MerchantId : String = "merchantId"
         const val PayId : String = "payId"
         const val AdditionAmount : String = "additionAmount"

@@ -8,12 +8,14 @@ import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.os.*
 import android.text.Selection
 import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
@@ -30,10 +32,12 @@ import com.bbpos.bbdevice.BBDeviceController.CurrencyCharacter
 import com.mobiversa.ezy2pay.MainActivity
 import com.mobiversa.ezy2pay.R
 import com.mobiversa.ezy2pay.base.BaseActivity
+import com.mobiversa.ezy2pay.databinding.ActivityEzyWireBinding
 import com.mobiversa.ezy2pay.network.ApiService
 import com.mobiversa.ezy2pay.network.response.KeyInjectModel
 import com.mobiversa.ezy2pay.network.response.PaymentInfoModel
 import com.mobiversa.ezy2pay.ui.receipt.PrintReceiptFragment
+import com.mobiversa.ezy2pay.ui.receipt.PrinterActivity
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.Fields.Companion.InvoiceId
@@ -44,6 +48,7 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.security.Key
 import java.security.KeyStore
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 import javax.crypto.Cipher
@@ -65,7 +70,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
     private var totalPrice: Double = 0.0
     lateinit var wisePadController: BBDeviceController
     lateinit var listener: MyBBPosController
-    lateinit var arrayAdapter: ArrayAdapter<String>
 
     private lateinit var ezyWireViewModel: EzyWireViewModel
     //Next KeyInjection
@@ -90,17 +94,42 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
     var sessionId = ""
     var tid = ""
     var hostType = ""
+    private lateinit var binding: ActivityEzyWireBinding
+    private var wisePOSPlusPinPadView: WisePOSPlusPinPadView? = null
+    lateinit var pinButtonLayout: Hashtable<String, Rect>
+    var pinButtonLandscapeLayout: Hashtable<String, Rect>? = null
 
+    private fun getBindingView(): View {
+        binding = ActivityEzyWireBinding.inflate(layoutInflater, null, false)
+        return binding.root
+    }
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ezy_wire)
+        try {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val decorView = window.decorView
+            // Hide the status bar.
+            // Hide the status bar.
+            val uiOptions = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE
+                    )
+            decorView.systemUiVisibility = uiOptions
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        setContentView(getBindingView())
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        if(resources.getBoolean(R.bool.portrait_only)){
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
         ezyWireViewModel = ViewModelProviders.of(this@EzyWireActivity)[EzyWireViewModel::class.java]
@@ -112,8 +141,13 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         }
 
         initialize()
-
-        LocationService.init(this)
+        pinButtonLayout = Hashtable<String, Rect>()
+        wisePOSPlusPinPadView = WisePOSPlusPinPadView(
+            this,
+            applicationContext, pinButtonLayout, pinButtonLandscapeLayout
+        )
+        binding.pinEnterRelative.addView(wisePOSPlusPinPadView)
+//        LocationService.init(this)
     }
 
     @SuppressLint("ObsoleteSdkInt", "SetTextI18n")
@@ -126,99 +160,19 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         tid = getLoginResponse(applicationContext).tid
         hostType = getLoginResponse(applicationContext).hostType
 
-        amount_txt_ezywire.text = "RM $amount"
-        insert_card_amount_txt.text = "RM $amount"
-        enter_pin_amount_txt.text = "RM $amount"
-        sign_amt_txt.text = "RM $amount"
-        connect_bluetooth_txt.setOnClickListener(this)
-        failure_try_again_btn.setOnClickListener(this)
-        btn_sign_clear.setOnClickListener(this)
-        btn_sign_payment.setOnClickListener(this)
-        success_print_btn.setOnClickListener(this)
+        binding.signAmtTxt.text = "RM $amount"
+        binding.failureTryAgainBtn.setOnClickListener(this)
+        binding.btnSignClear.setOnClickListener(this)
+        binding.btnSignPayment.setOnClickListener(this)
 
-        arrayAdapter =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1)
-        listener = MyBBPosController.getInstance(this, arrayAdapter, handler)!!
+        listener = MyBBPosController.getInstance(this, handler)!!
         wisePadController = BBDeviceController.getInstance(this, listener)
 
         if (Build.VERSION.SDK_INT > 9) {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
         }
-    }
-
-
-    private fun connectDevice() {
-        if (deviceStatus.equals("ACTIVE", ignoreCase = true)) {
-            if (service.equals(Fields.START_PAY, true)){
-                preAuth = false
-            }else if (service.equals(Fields.PRE_AUTH, true)){
-                preAuth = true
-            }
-
-            totalPrice = amount?.toDouble() ?: 0.00
-            if (!listener.isDeviceConnected()) {
-                promptForConnection()
-            } else {
-                device_name_txt.text = getSharedString(Fields.DeviceId, applicationContext)
-                enter_pin_device_name_txt.text = getSharedString(Fields.DeviceId, applicationContext)
-                swipeCard()
-            }
-        } else {
-            showDialog("EZYWIRE", "Your EZYWIRE subscription expired")
-        }
-    }
-
-    private fun promptForConnection() {
-        val pairedObjects: Array<Any> =
-            BluetoothAdapter.getDefaultAdapter().bondedDevices.toTypedArray()
-        val pairedDevices = arrayOfNulls<BluetoothDevice>(pairedObjects.size)
-        for (i in pairedObjects.indices) {
-            pairedDevices[i] = pairedObjects[i] as BluetoothDevice
-        }
-        val mArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
-        for (i in pairedDevices.indices) {
-            mArrayAdapter.add(pairedDevices[i]!!.name)
-        }
-        val dialog = Dialog(this)
-        dialog.setContentView(R.layout.bluetooth_2_device_list_dialog)
-        dialog.setTitle(R.string.bluetooth_devices)
-        val listView1 = dialog.findViewById<View>(R.id.pairedDeviceList) as ListView
-        listView1.adapter = mArrayAdapter
-        listView1.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                dialog.dismiss()
-                Constants.connectedDevice = pairedDevices[position]
-                wisePadController.connectBT(pairedDevices[position])
-                showDialog("Loading")
-            }
-        val listView2 =
-            dialog.findViewById<View>(R.id.discoveredDeviceList) as ListView
-        listView2.adapter = arrayAdapter
-        listView2.onItemClickListener =
-            OnItemClickListener { parent, view, position, id ->
-                if (Constants.foundDevices!!.size>position){
-                    wisePadController.connectBT(Constants.foundDevices?.get(position))
-                    dialog.dismiss()
-                    showDialog("Loading")
-                }
-
-            }
-        dialog.findViewById<View>(R.id.cancelButton)
-            .setOnClickListener {
-                wisePadController.disconnectBT()
-                if (isEzyrecSale) {
-                    startActivity(
-                        Intent(
-                            applicationContext, MainActivity::class.java)
-                    )
-                } else {
-                    dialog.dismiss()
-                }
-            }
-        dialog.setCancelable(false)
-        dialog.show()
-        wisePadController.startBTScan(Constants.DEVICE_NAMES, 120)
+        wisePadController.startSerial()
     }
 
     var handler: Handler = object : Handler() {
@@ -228,7 +182,24 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             checkStatus(status)
         }
     }
+    private fun startPay() {
+        val data = Hashtable<String, Any>()
+        data["emvOption"] = BBDeviceController.EmvOption.START
+        data["checkCardMode"] = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
+        data["transactionType"] = BBDeviceController.TransactionType.PAYMENT
+        val currencyCharacter = arrayOf(
+            CurrencyCharacter.R,
+            CurrencyCharacter.M
+        )
+        data["currencyCharacters"] = currencyCharacter
+        data["currencyCode"] = "458"
+        data["amount"] = amount
 
+        val terminalTime =
+            SimpleDateFormat("yyMMddHHmmss").format(Calendar.getInstance().time)
+        data["terminalTime"] = terminalTime
+        wisePadController.startEmv(data)
+    }
     fun checkStatus(status: String) {
 
         Log.v("Status ", status)
@@ -238,9 +209,9 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 cancelDialog()
                 Log.e("Device Connected", "Success")
                 wisePadController.getDeviceInfo()
-                device_name_txt.text = getSharedString(Fields.DeviceId, applicationContext)
-                enter_pin_device_name_txt.text = getSharedString(Fields.DeviceId, applicationContext)
-                jsonKeyInjection()//KeyInjection --> For Live
+            }
+            Constants.DEVICE_INFO -> {
+                jsonKeyInjection() // KeyInjection --> For Live
             }
             Constants.InjectSessionSuccess -> {
                 shortToast(status)
@@ -252,37 +223,64 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 cancelDialog()
                 /*For Live*/
                 if (!BuildConfig.DEBUG) {
-                    wisePadController.disconnectBT()
+                    wisePadController.stopSerial()
                 }
                 isKeyInjected = false
                 window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
                 /*For Demo*/
 //                nextKeyInjection()
-
+                showHideLayout(Constants.FailureTransaction, "Key Inject Session Failed")
                 shortToast(status)
             }
             Constants.CardSwiped -> {
                 Log.e("Test ","Card Swiped")
                 showHideLayout(Constants.EnterPin, status)
             }
-            Constants.PinScreen -> {
+            Constants.SHOW_PIN_PAD -> {
                 showHideLayout(Constants.EnterPin, status)
             }
+            Constants.SHOW_ASTRIX -> {
+                var pinLength = ""
+                for (index in 1..listener.pinEnteredLength) {
+                    pinLength = "$pinLength *"
+                }
+                wisePOSPlusPinPadView?.setStars(pinLength)
+                wisePOSPlusPinPadView?.invalidate()
+            }
+            Constants.PinScreen -> {
+                pinButtonLayout.clear()
+
+                pinButtonLayout["key1"] = Rect(50, 400, 255, 550)
+                pinButtonLayout["key2"] = Rect(265, 400, 470, 550)
+                pinButtonLayout["key3"] = Rect(480, 400, 685, 550)
+
+                pinButtonLayout["key4"] = Rect(50, 560, 255, 710)
+                pinButtonLayout["key5"] = Rect(265, 560, 470, 710)
+                pinButtonLayout["key6"] = Rect(480, 560, 685, 710)
+
+                pinButtonLayout["key7"] = Rect(50, 720, 255, 870)
+                pinButtonLayout["key8"] = Rect(265, 720, 470, 870)
+                pinButtonLayout["key9"] = Rect(480, 720, 685, 870)
+
+                pinButtonLayout["cancel"] = Rect(50, 880, 255, 1030)
+                pinButtonLayout["key0"] = Rect(265, 880, 470, 1030)
+                pinButtonLayout["clear"] = Rect(480, 880, 685, 1030)
+
+                pinButtonLayout["enter"] = Rect(50, 1040, 685, 1190)
+                wisePadController.setPinPadButtons(pinButtonLayout)
+            }
             Constants.StartEMV -> {
-                Log.e("Test ","Start EMV")
+                Log.e("Test ", "Start EMV")
                 showHideLayout(Constants.EnterPin, status)
                 startEMVProcess()
             }
-            Constants.SwipeProcess ->{
+            Constants.SwipeProcess -> {
                 showServiceCharge()
             }
             Constants.EnterPIN -> {
                 showHideLayout(Constants.EnterPin, status)
-                val data = Hashtable<String, Any>()
-                data["pinEntryTimeout"] = 120
-                data["randomNumber"] = "0123456789ABCDEF"
-                wisePadController.startPinEntry(data)
+//                wisePadController.sendPinEntryResult("001234")
             }
             Constants.SetAmount -> {
                 promptForAmount(totalPrice.toString())
@@ -303,7 +301,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             }
             Constants.CardCompleted -> {
                 Log.d("EZYWIRE", " CardCompleted")
-                Log.e("IsPin", ""+Constants.isPinVerified)
+                Log.e("IsPin", "" + Constants.isPinVerified)
                 if (Constants.isICC.isEmpty()) {
                     if (Constants.isPinVerified) {
                         Constants.Signature = ""
@@ -341,7 +339,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 }else{
                     transactionFailed("Transaction Terminated")
                 }
-//                transactionFailed("Transaction Terminated")
             }
             Constants.DECLINED -> {
                 transactionFailed("Transaction Declined")
@@ -373,7 +370,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 transactionFailed("Transaction amount declined")
             }
             Constants.IsPinCanceled -> {
-                //wisePadController.cancelPinEntry();
+                // wisePadController.cancelPinEntry();
                 transactionFailed("Transaction Declined")
             }
             Constants.IncorrectPin -> {
@@ -386,7 +383,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 }
             }
             Constants.DeviceDisconnected -> {
-//                cancelDialog()
                 if (isKeyInjected) {
                     transactionFailed("Device disconnected, please connect and try again for new transactions.")
                     if (Constants.TRANS_ID.isNotEmpty()) {
@@ -413,11 +409,15 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
 
         showDialog("KeyInjection")
 
-        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
 
         val keyParams: HashMap<String, String> = HashMap()
         keyParams[Fields.Service] = Fields.KeyInjection
         keyParams[Fields.sessionId] = getLoginResponse(applicationContext).sessionId
+        keyParams[Fields.mobiId] = getLoginResponse(applicationContext).mobiId
         keyParams[Fields.appVersionNum] = "5.4"
         keyParams[Fields.DeviceId] = getSharedString(Fields.DeviceId, applicationContext)
         keyParams[Fields.tid] = getLoginResponse(applicationContext).tid
@@ -426,9 +426,13 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         deliverApiService.run {
             getKeyInjection(keyParams).enqueue(object : retrofit2.Callback<KeyInjectModel> {
                 override fun onFailure(call: Call<KeyInjectModel>, t: Throwable) {
-                    Log.e("EzywireModel ", t.message!!)
+                    t.printStackTrace()
                 }
-                override fun onResponse(call: Call<KeyInjectModel>,response: Response<KeyInjectModel>) {
+
+                override fun onResponse(
+                    call: Call<KeyInjectModel>,
+                    response: Response<KeyInjectModel>
+                ) {
                     if (response.isSuccessful) {
                         val it = response.body()!!
                         if (it.responseCode.equals("0000", true)) {
@@ -443,8 +447,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                             macKcv = it.responseData.MEKKCV
 
                             nextKeyInjection()
-
-                        }else{
+                        } else {
                             cancelDialog()
                             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                             showDialog("EZYWIRE WARNING", it.responseDescription)
@@ -457,7 +460,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 }
             })
         }
-
     }
 
     private fun nextKeyInjection() {
@@ -501,30 +503,9 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             handler.postDelayed({
                 //Do something after 100ms
                 cancelDialog()
-                swipeCard()
+                startPay()
             }, 3000)
         }
-
-    }
-
-    private fun swipeCard() {
-        showHideLayout(Constants.InsertCard, "Swipe Card")
-
-        cancelTracking = 1
-
-        val device_id: String = getSharedString(Fields.DeviceId, applicationContext)
-        if (device_id.startsWith("WPC")) {
-            val data = Hashtable<String, Any>()
-            data["checkCardMode"] = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
-            Log.v("--wisepad2--", "--startEmv--")
-            wisePadController.startEmv(data)
-        } else {
-            val data = Hashtable<String, Any>()
-            data["checkCardMode"] = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT
-            Log.v("--wisepad1--", "--checkcard--")
-            wisePadController.checkCard(data)
-        }
-
     }
 
     private fun startEMVProcess() {
@@ -561,20 +542,13 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         mAlertDialog.show()
     }
 
-
     private fun promptForAmount(price: String) {
 
         cancelTracking = 2
 
         Log.e("wisepad", "promptForAmount success  $price")
         val currencyCharacters = arrayOf(CurrencyCharacter.R, CurrencyCharacter.M)
-        if (wisePadController.setAmount(
-                price, "0.00", "458",
-                BBDeviceController.TransactionType.GOODS, currencyCharacters
-            )
-        ) {
-            Log.e("wisepad", "promptForAmount success$price")
-        }
+
     }
 
     private fun chooseApplication() {
@@ -609,7 +583,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun getSignature(extra: String?) {
-        Log.e("Signature", ""+extra)
+        Log.e("Signature", "$extra")
         showHideLayout(Constants.Signature, "Signature")
     }
 
@@ -619,11 +593,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         showDialog("Loading...")
         val trustStore = KeyStore.getInstance(KeyStore.getDefaultType())
         trustStore.load(null, null)
-        if (preAuth) {
-            requestVal[Fields.Service] = Fields.PRE_AUTH
-        } else {
-            requestVal[Fields.Service] = Fields.START_PAY
-        }
+        requestVal[Fields.Service] = Fields.START_PAY
 
         val amtCrypto: String?
         var amtHex: String? = null
@@ -633,7 +603,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             println(" Encrypted Data : $amtCrypto")
             amtHex = hexaToAscii(amtCrypto!!, true)
             println(" Hex Data : $amtHex")
-        } catch (e: java.lang.Exception) { // TODO Auto-generated catch block
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
 
@@ -642,6 +612,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         requestVal[Fields.DeviceId] = getSharedString(Fields.DeviceId, applicationContext)
         requestVal[Fields.HostType] = getLoginResponse(applicationContext).hostType
         requestVal[Fields.PayId] = amtHex!! // 12 digit price (zero padded in front of original number)
+        requestVal[Fields.mobiId] = getLoginResponse(applicationContext).mobiId
 
         requestVal[Fields.AdditionAmount] = getAmount("00")
         requestVal[Fields.CardDetails] = Constants.TLV // card tlv data
@@ -672,6 +643,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                     cancelDialog()
                     Log.e("PaymentInfoModel ", "" + t.message)
                 }
+
                 override fun onResponse(
                     call: Call<PaymentInfoModel>,
                     response: Response<PaymentInfoModel>
@@ -684,7 +656,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                             if (Constants.isICC.isEmpty()) {
                                 if (it.responseData.pinEntry != null) {
                                     pinEntry = it.responseData.pinEntry
-                                    if (it.responseData.pinEntry.equals("NO",true))
+                                    if (it.responseData.pinEntry.equals("NO", true))
                                         Constants.isICC = "N"
                                 }
                             } else {
@@ -697,16 +669,15 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                                 callAcknowledgementAPI(it.responseData.trxId)
                             }
                             cancelTracking = 0
-
                         } else {
                             if (it.responseData.chipData != null) {
                                 wisePadController.sendOnlineProcessResult(it.responseData.chipData)
                             }
                             Constants.TRANS_ID = ""
 
-                            //Have to include Dialog Interface
+                            // Have to include Dialog Interface
                             cancelTrackingData()
-                            showHideLayout(Constants.FailureTransaction,it.responseDescription)
+                            showHideLayout(Constants.FailureTransaction, it.responseDescription)
                         }
                     } else {
                         Log.e("PaymentInfoModel ", "" + response.message())
@@ -714,41 +685,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 }
             })
         }
-
-//        ezyWireViewModel.requestPaymentInfo(requestVal)
-//        ezyWireViewModel.paymentInfoData.observe(this, androidx.lifecycle.Observer {
-//            if (it.responseCode.equals("0000", true)) {
-//                Constants.TRANS_ID = it.responseData.trxId
-//                if (Constants.isICC.isEmpty()) {
-//                    if (it.responseData.pinEntry != null) {
-//                        pinEntry = it.responseData.pinEntry
-//                        if (it.responseData.pinEntry.equals("NO",true))
-//                            Constants.isICC = "N"
-//                    }
-//                } else {
-//                    pinEntry = "SWIPE"
-//                }
-//
-//                if (it.responseData.chipData != null) {
-//                    wisePadController.sendOnlineProcessResult(it.responseData.chipData)
-//                } else {
-//                    callAcknowledgementAPI(it.responseData.trxId)
-//                }
-//                cancelTracking = 0
-//
-//            } else {
-//                if (it.responseData.chipData != null) {
-//                    wisePadController.sendOnlineProcessResult(it.responseData.chipData)
-//                }
-//                Constants.TRANS_ID = ""
-//
-//                //Have to include Dialog Interface
-//                cancelTrackingData()
-//                showHideLayout(Constants.FailureTransaction,it.responseDescription)
-//            }
-//
-//        })
-
     }
 
     private fun callAcknowledgementAPI(trxId: String) {
@@ -757,11 +693,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         val trustStore = KeyStore.getInstance(KeyStore.getDefaultType())
         trustStore.load(null, null)
         val requestVal: HashMap<String, String> = HashMap()
-        if (preAuth) {
-            requestVal[Fields.Service] = Fields.PREAUTH_ACK
-        } else {
-            requestVal[Fields.Service] = Fields.SALE_ACK
-        }
+        requestVal[Fields.Service] = Fields.SALE_ACK
         requestVal[Fields.sessionId] = getLoginResponse(applicationContext).sessionId
         requestVal[Fields.tid] = getLoginResponse(applicationContext).tid
         requestVal[Fields.HostType] = getLoginResponse(applicationContext).hostType
@@ -833,16 +765,14 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         cancelTracking = 0
     }
 
-    @SuppressLint("GetInstance")
     @Throws(Exception::class)
-    fun encrypt(Data: String): String? { //Log.v("dataa-->", Data);
+    fun encrypt(Data: String): String? { // Log.v("dataa-->", Data);
         val key = generateKey()
         val c =
             Cipher.getInstance(ALGO)
         c.init(Cipher.ENCRYPT_MODE, key)
         val encVal = c.doFinal(Data.toByteArray())
-        //String encryptedValue = Base64.getEncoder().encodeToString(encVal);// new
-// BASE64Encoder().encode(encVal);
+
         return Base64.encodeToString(encVal, Base64.DEFAULT)
     }
 
@@ -851,7 +781,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         val key_to_encrypt = getSharedString(Fields.DeviceId, applicationContext)
         val key: Key
         var final_key = key_to_encrypt.replace("-LE".toRegex(), "")
-        if (final_key.length < 16) { //Log.v("keyy1", final_key);
+        if (final_key.length < 16) { // Log.v("keyy1", final_key);
             final_key = final_key + "0"
             //            Log.v("keyy11", final_key);
             val keyValue = final_key.toByteArray()
@@ -897,23 +827,8 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.connect_bluetooth_txt -> {
-                connectDevice()
-            }
             R.id.failure_try_again_btn -> {
                 startActivity(Intent(this, MainActivity::class.java))
-            }
-            R.id.success_print_btn ->{
-                val bundle = Bundle()
-                if (preAuth)
-                    bundle.putString(Fields.Service, Fields.PRE_AUTH_RECEIPT)
-                else
-                    bundle.putString(Fields.Service, Fields.TXN_REPRINT)
-                bundle.putString(Fields.trxId, Constants.TRANS_ID)
-                bundle.putString(Fields.Amount, amount)
-                bundle.putString(Fields.Signature, "")
-                bundle.putString(Constants.ActivityName, Constants.EzywireAct)
-                addFragment(printReceiptFragment,bundle,R.id.coordinatorLayout)
             }
             R.id.btn_sign_clear -> {
                 signature_view.clearSignature()
@@ -925,7 +840,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 bitMap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                 val byteArray = byteArrayOutputStream.toByteArray()
 
-                if (signature_view.isSignatureDrawn){
+                if (signature_view.isSignatureDrawn) {
                     val bundle = Bundle()
                     bundle.putString(Fields.Service, Fields.TXN_REPRINT)
                     bundle.putString(Fields.trxId, Constants.TRANS_ID)
@@ -936,103 +851,47 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 }else{
                     shortToast("Signature is mandatory.")
                 }
-
-
             }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                when {
-                    insert_card_relative.isVisible -> {
-                        wisePadController.cancelPinEntry()
-                        wisePadController.cancelCheckCard()
-                        wisePadController.cancelSetAmount()
-                    }
-                    pin_enter_relative.isVisible -> {
-                        wisePadController.cancelPinEntry()
-                        wisePadController.cancelCheckCard()
-                        wisePadController.cancelSetAmount()
-                        wisePadController.cancelSelectApplication()
-                        wisePadController.cancelDisplayPrompt()
-                    }
-                    connect_bluetooth_relative.isVisible -> {
-                        finish()
-                    }
-                    transaction_failure_relative.isVisible -> {
-                        startActivity(Intent(this, MainActivity::class.java))
-                    }
-                    signature_relative.isVisible -> {
-                        shortToast("Signature is Mandatory to Complete Payment")
-                    }
-                }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun showHideLayout(layout: String, message: String) {
 
         when (layout) {
-            Constants.BTScreen -> {
-                connect_bluetooth_relative.visibility = View.VISIBLE
-                insert_card_relative.visibility = View.GONE
-                pin_enter_relative.visibility = View.GONE
-                transaction_failure_relative.visibility = View.GONE
-                transaction_success_relative.visibility = View.GONE
-                signature_relative.visibility = View.GONE
-            }
             Constants.InsertCard -> {
-                connect_bluetooth_relative.visibility = View.GONE
-                insert_card_relative.visibility = View.VISIBLE
-                pin_enter_relative.visibility = View.GONE
-                transaction_failure_relative.visibility = View.GONE
-                transaction_success_relative.visibility = View.GONE
-                signature_relative.visibility = View.GONE
+                binding.insertCardRelative.visibility = View.VISIBLE
+                binding.pinEnterRelative.visibility = View.GONE
+                binding.transactionFailureRelative.visibility = View.GONE
+                binding.signatureRelative.visibility = View.GONE
             }
             Constants.EnterPin -> {
-                connect_bluetooth_relative.visibility = View.GONE
-                insert_card_relative.visibility = View.GONE
-                pin_enter_relative.visibility = View.VISIBLE
-                transaction_failure_relative.visibility = View.GONE
-                transaction_success_relative.visibility = View.GONE
-                signature_relative.visibility = View.GONE
+                binding.insertCardRelative.visibility = View.GONE
+                binding.pinEnterRelative.visibility = View.VISIBLE
+                binding.transactionFailureRelative.visibility = View.GONE
+                binding.signatureRelative.visibility = View.GONE
             }
             Constants.FailureTransaction -> {
-                failure_txt.text = message
-                connect_bluetooth_relative.visibility = View.GONE
-                insert_card_relative.visibility = View.GONE
-                pin_enter_relative.visibility = View.GONE
-                transaction_failure_relative.visibility = View.VISIBLE
-                transaction_success_relative.visibility = View.GONE
-                signature_relative.visibility = View.GONE
+                binding.failureTxt.text = message
+                binding.insertCardRelative.visibility = View.GONE
+                binding.pinEnterRelative.visibility = View.GONE
+                binding.transactionFailureRelative.visibility = View.VISIBLE
+                binding.signatureRelative.visibility = View.GONE
             }
             Constants.SuccessTransaction -> {
-                connect_bluetooth_relative.visibility = View.GONE
-                insert_card_relative.visibility = View.GONE
-                pin_enter_relative.visibility = View.GONE
-                transaction_failure_relative.visibility = View.GONE
-                transaction_success_relative.visibility = View.VISIBLE
-                signature_relative.visibility = View.GONE
+                startActivity(Intent(this@EzyWireActivity, PrinterActivity::class.java).apply {
+                    putExtra(Fields.Service, Fields.TXN_REPRINT)
+                    putExtra(Fields.trxId, Constants.TRANS_ID)
+                    putExtra(Fields.Amount, amount)
+                    putExtra(Constants.CARD_PAYMENT, true)
+                })
             }
             Constants.Signature -> {
-                connect_bluetooth_relative.visibility = View.GONE
-                insert_card_relative.visibility = View.GONE
-                pin_enter_relative.visibility = View.GONE
-                transaction_failure_relative.visibility = View.GONE
-                transaction_success_relative.visibility = View.GONE
-                signature_relative.visibility = View.VISIBLE
+                binding.insertCardRelative.visibility = View.GONE
+                binding.pinEnterRelative.visibility = View.GONE
+                binding.transactionFailureRelative.visibility = View.GONE
+                binding.signatureRelative.visibility = View.VISIBLE
             }
         }
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-
     }
 
     override fun onResume() {
@@ -1045,5 +904,13 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
 //        super.onBackPressed()
     }
 
+    override fun onPause() {
+        super.onPause()
+        wisePadController.stopSerial()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        wisePadController.stopSerial()
+    }
 }

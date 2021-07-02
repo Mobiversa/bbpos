@@ -110,8 +110,6 @@ class PrintReceiptFragment : BaseFragment(), AdapterView.OnItemSelectedListener,
         PrintReceiptLayout.setOnClickListener(this)
 
         PrintReceiptLayout.setBackgroundResource(R.color.white)
-        printTVTxt.setTextColor(resources.getColor(R.color.grey))
-        printTVTxt.setCompoundDrawablesWithIntrinsicBounds(R.drawable.print_grey,0,0,0)
 
         setTitle("PrintReceipt", false)
         if (activityName.equals(Constants.MainAct, true)) {
@@ -311,6 +309,7 @@ class PrintReceiptFragment : BaseFragment(), AdapterView.OnItemSelectedListener,
                     printTVTxt.setTextColor(resources.getColor(R.color.colorPrimary))
                     printTVTxt.setCompoundDrawablesWithIntrinsicBounds(R.drawable.print_blue,0,0,0)
                 }
+                jsonSendReceipt()
             }
         }
     }
