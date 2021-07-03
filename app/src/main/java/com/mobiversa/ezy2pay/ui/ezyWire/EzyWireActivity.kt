@@ -147,6 +147,12 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             applicationContext, pinButtonLayout, pinButtonLandscapeLayout
         )
         binding.pinEnterRelative.addView(wisePOSPlusPinPadView)
+        binding.backIcon.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            })
+            finish()
+        }
 //        LocationService.init(this)
     }
 
@@ -427,6 +433,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             getKeyInjection(keyParams).enqueue(object : retrofit2.Callback<KeyInjectModel> {
                 override fun onFailure(call: Call<KeyInjectModel>, t: Throwable) {
                     t.printStackTrace()
+                    showHideLayout(Constants.FailureTransaction, "Key Inject Session Failed")
                 }
 
                 override fun onResponse(
@@ -452,7 +459,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                             showDialog("EZYWIRE WARNING", it.responseDescription)
                             isKeyInjected = false
-                            wisePadController.disconnectBT()
+                            showHideLayout(Constants.FailureTransaction, it.responseMessage)
                         }
                     } else {
                         Log.e("EzywireModel ", response.message())

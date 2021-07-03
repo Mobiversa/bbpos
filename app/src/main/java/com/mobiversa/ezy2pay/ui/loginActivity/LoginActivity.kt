@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -19,19 +18,12 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.*
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.gson.Gson
 import com.mobiversa.ezy2pay.MainActivity
@@ -53,29 +45,7 @@ import com.mobiversa.ezy2pay.utils.Constants.Companion.UserName
 import com.mobiversa.ezy2pay.utils.PreferenceHelper.get
 import com.mobiversa.ezy2pay.utils.PreferenceHelper.set
 import de.adorsys.android.finger.Finger
-import de.adorsys.android.finger.FingerListener
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login_21.*
-import kotlinx.android.synthetic.main.activity_login_21.btn_sign_in
-import kotlinx.android.synthetic.main.activity_login_21.btn_submit_forgot
-import kotlinx.android.synthetic.main.activity_login_21.chk_remember_me
-import kotlinx.android.synthetic.main.activity_login_21.edt_email_forgot
-import kotlinx.android.synthetic.main.activity_login_21.edt_pswd_login
-import kotlinx.android.synthetic.main.activity_login_21.edt_username_forgot
-import kotlinx.android.synthetic.main.activity_login_21.edt_username_login
-import kotlinx.android.synthetic.main.activity_login_21.facebook_img
-import kotlinx.android.synthetic.main.activity_login_21.fingerprint_img
-import kotlinx.android.synthetic.main.activity_login_21.forgot_linear
-import kotlinx.android.synthetic.main.activity_login_21.forgot_pswd_txt
-import kotlinx.android.synthetic.main.activity_login_21.google_img
-import kotlinx.android.synthetic.main.activity_login_21.login_button
-import kotlinx.android.synthetic.main.activity_login_21.login_contact_linear
-import kotlinx.android.synthetic.main.activity_login_21.login_linear
-import kotlinx.android.synthetic.main.activity_login_21.login_tutorial_linear
-import kotlinx.android.synthetic.main.activity_login_21.txt_login
-import kotlinx.android.synthetic.main.activity_login_21.txt_new_user
-import kotlinx.android.synthetic.main.activity_login_21.txt_signup
-import kotlinx.android.synthetic.main.fragment_bank_detail.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,17 +53,12 @@ import java.util.regex.Pattern
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener,
-    GoogleApiClient.OnConnectionFailedListener, FingerListener,
     ConnectivityReceiver.ConnectivityReceiverListener {
 
     lateinit var callbackManager: CallbackManager
     private var snackBar: Snackbar? = null
     private val TAG: String = "LoginActivity"
 
-    lateinit var auth: FirebaseAuth
-    private lateinit var mGoogleApiClient: GoogleApiClient
-    lateinit var googleSignInClient: GoogleSignInClient
-    private val RC_SIGN_IN = 9001
     private lateinit var loginViewModel: LoginViewModel
 
     private lateinit var finger: Finger
@@ -110,8 +75,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-//            WindowManager.LayoutParams.FLAG_SECURE)
         setContentView(R.layout.activity_login_21)
         FacebookSdk.sdkInitialize(applicationContext)
 
@@ -128,11 +91,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
     }
 
     private fun initializeComponents() {
-
-
         prefs = PreferenceHelper.defaultPrefs(this)
         customPrefs = PreferenceHelper.customPrefs(this, "REMEMBER")
-
 
         //FireBase Token
         FirebaseInstanceId.getInstance()
@@ -146,39 +106,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
         finger = Finger(applicationContext)
         loginViewModel = ViewModelProviders.of(this@LoginActivity)[LoginViewModel::class.java]
 
-        auth = FirebaseAuth.getInstance()
-
-        // Configure Google Sign In
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-            .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-            .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-            .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignInClient.signOut()
-
         callbackManager = CallbackManager.Factory.create()
-        login_button.setPermissions("email", "public_profile")
-        fbIntial()
 
         edt_username_login.hint = "Username / Email"
         edt_email_forgot.visibility = View.GONE
 
 
         btn_sign_in.setOnClickListener(this)
-        google_img.setOnClickListener(this)
-        facebook_img.setOnClickListener(this)
         forgot_pswd_txt.setOnClickListener(this)
         btn_submit_forgot.setOnClickListener(this)
         txt_login.setOnClickListener(this)
 //        btn_chat.setOnClickListener(this)
         txt_signup.setOnClickListener(this)
-        fingerprint_img.setOnClickListener(this)
         login_contact_linear.setOnClickListener(this)
         login_tutorial_linear.setOnClickListener(this)
 
@@ -187,7 +126,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
             .load(R.drawable.login_bg)
             .into(login_bg_img)*/
 
-        fingerprint_img.visibility = View.GONE
         prefs = PreferenceHelper.defaultPrefs(this)
 
         showLog("IsRemember", "" + getIsRemember())
@@ -200,7 +138,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
                 Toast.makeText(this, R.string.error_override_hw_unavailable, Toast.LENGTH_LONG)
                     .show()
             } else {
-                fingerprint_img.visibility = View.VISIBLE
                 showDialog()
             }
         }
@@ -215,7 +152,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        LocationService.init(this)
+//        LocationService.init(this)
 
 
 //        edt_username_login.setText("INFO@LEICA-STORE-MALAYSIA.COM")
@@ -229,29 +166,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
 //        edt_pswd_login.setText("san123")
 
     }
-
-    fun fbIntial() {
-        login_button.registerCallback(callbackManager, object :
-            FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
-            }
-        })
-    }
-
 
     private fun intialTextwatcher() {
         edit_password.onTextChange(object : OnAfterTextChangedListener {
@@ -330,43 +244,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
         })
     }
 
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:$token")
-        // [START_EXCLUDE silent]
-        showDialog("Loading")
-        // [END_EXCLUDE]
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-
-                    val loginMap = HashMap<String, String>()
-                    loginMap[Fields.Service] = Fields.ServiceLogin
-                    loginMap[Fields.authType] = Fields.authFacebook
-                    loginMap[Fields.username] = user?.email.toString()
-                    loginMap[Fields.appVersionNum] = getInstalledVersion()
-                    loginMap[Fields.deviceToken] = getToken()
-                    loginMap[Fields.deviceType] = Fields.Device
-                    loginMap[Fields.biomerticKey] = Fields.Success
-                    jsonLogin(loginMap)
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                cancelDialog()
-            }
-    }
-
     private fun showDialog() {
         finger.showDialog(
             this,
@@ -379,33 +256,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
                 getString(R.string.text_fingerprint)
             )
         )
-    }
-
-    override fun onFingerprintAuthenticationFailure(errorMessage: String, errorCode: Int) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-        finger.subscribe(this)
-    }
-
-    override fun onFingerprintAuthenticationSuccess() {
-//        Toast.makeText(this, R.string.message_success, Toast.LENGTH_SHORT).show()
-        finger.subscribe(this)
-
-        if (userNameStr.equals(edt_username_login.text.toString(), true)) {
-            if (isOnline(context = applicationContext)) {
-                val loginMap = HashMap<String, String>()
-                loginMap[Fields.Service] = Fields.ServiceLogin
-//                loginMap[Fields.username] = "san"
-//                loginMap[Fields.username] = "NORSILAWATI0729"
-                loginMap[Fields.username] = userNameStr
-                loginMap[Fields.appVersionNum] = getInstalledVersion()
-                loginMap[Fields.deviceToken] = getToken()
-                loginMap[Fields.deviceType] = Fields.Device
-                loginMap[Fields.biomerticKey] = Fields.Success
-                jsonLogin(loginMap)
-            }
-        } else {
-            shortToast("Invalid User Name")
-        }
     }
 
     private fun userLogin() {
@@ -462,60 +312,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
         }
     }
 
-    private fun googleSignIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                fireBaseAuthWithGoogle(account!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-                shortToast("Google sign in failed")
-            }
-        } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data)
-        }
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
-
-    private fun fireBaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.id!!)
-
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-
-                    if (user != null) {
-                        val loginMap = HashMap<String, String>()
-                        loginMap[Fields.Service] = Fields.ServiceLogin
-                        loginMap[Fields.authType] = Fields.authGoogle
-                        loginMap[Fields.username] = user.email!!
-                        loginMap[Fields.appVersionNum] = getInstalledVersion()
-                        loginMap[Fields.deviceToken] = getToken()
-                        loginMap[Fields.deviceType] = Fields.Device
-                        jsonLogin(loginMap)
-                    }
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                }
-
-            }
-    }
-
     //Login User
     private fun jsonLogin(loginMap: HashMap<String, String>) {
         showDialog("Logging in...")
@@ -660,21 +460,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        //If Google is already login make it logout
-        if (currentUser != null)
-            FirebaseAuth.getInstance().signOut()
     }
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.google_img -> {
-                googleSignIn()
-            }
-            R.id.facebook_img -> {
-                login_button.performClick()
-            }
             R.id.forgot_pswd_txt -> {
                 forgot_linear.visibility = View.VISIBLE
                 forget_user_linear.visibility = View.VISIBLE
@@ -692,9 +481,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
             }
             R.id.btn_chat -> {
                 showChatPrompt()
-            }
-            R.id.fingerprint_img -> {
-                showDialog()
             }
             R.id.txt_signup -> {
 
@@ -726,11 +512,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
             }
         }
     }
-
-    fun addFragment() {
-
-    }
-
     private fun showChatPrompt() {
         lateinit var mAlertDialog: AlertDialog
 
@@ -784,10 +565,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
         //startActivity(new Intent(GoogleMaps.this, VoidAuthActivity.class).putExtra("trensID", transId));
     }
 
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        Toast.makeText(applicationContext, connectionResult.toString(), Toast.LENGTH_LONG).show()
-    }
-
     fun getToken(): String {
         val fcmToken: String? = prefs[FIRE_BASE_TOKEN]
         return fcmToken.toString()
@@ -800,14 +577,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener,
     override fun onResume() {
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this
-        finger.subscribe(this)
 
     }
 
     override fun onPause() {
         super.onPause()
-        mGoogleApiClient.stopAutoManage(this)
-        mGoogleApiClient.disconnect()
     }
 
     override fun onBackPressed() {

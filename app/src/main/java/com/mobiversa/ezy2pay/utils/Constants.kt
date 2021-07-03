@@ -29,6 +29,7 @@ class Constants {
         const val UpgradeStatus : String = "UpgradeStatus"
         const val UPGRADE : String = "UPGRADE"
         const val otp : String = "otp"
+        const val PHONE : String = "PHONE"
 
         //Signup
         const val enteredMobilenumber: String = "entered_mobilenumber"

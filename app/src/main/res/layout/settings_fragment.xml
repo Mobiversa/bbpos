@@ -302,37 +302,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/xxhdpi_10"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:id="@+id/prof_tutorial_linear"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xxhdpi_5">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/xxhdpi_50"
-                            android:layout_height="@dimen/xxhdpi_50"
-                            android:layout_gravity="center"
-                            android:contentDescription="TODO"
-                            android:src="@drawable/ic_tutorial" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xxhdpi_5"
-                            android:fontFamily="@font/ubuntu_bold"
-                            android:gravity="center"
-                            android:padding="@dimen/xxhdpi_5"
-                            android:text="@string/tutorial"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/t_xxh_14" />
-
-
-                    </LinearLayout>
-
+                    android:weightSum="2">
                     <LinearLayout
                         android:id="@+id/prof_contact_us_linear"
                         android:layout_width="0dp"
@@ -389,36 +359,6 @@
                             android:gravity="center"
                             android:padding="@dimen/xxhdpi_5"
                             android:text="@string/refer_a_business"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/t_xxh_14" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/mobi_keyboard_linear"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        android:orientation="vertical"
-                        android:padding="@dimen/xxhdpi_5">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/xxhdpi_50"
-                            android:layout_height="@dimen/xxhdpi_50"
-                            android:layout_gravity="center"
-                            android:contentDescription="TODO"
-                            android:src="@drawable/ic_mobi_keyboard_icon" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/xxhdpi_5"
-                            android:fontFamily="@font/ubuntu_bold"
-                            android:gravity="center"
-                            android:padding="@dimen/xxhdpi_5"
-                            android:text="Mobi Keyboard"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/t_xxh_14" />
 

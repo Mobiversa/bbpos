@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mobiversa.ezy2pay">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="true" />
@@ -20,51 +23,54 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.BBPOS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-
     <application
+        android:name=".base.App"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".base.App"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:allowBackup="false"
-        android:hardwareAccelerated="true"
-        android:largeHeap="true"
-        tools:replace="android:allowBackup"
-        android:requestLegacyExternalStorage="true"
-        android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name="com.mobiversa.ezy2pay.ui.receipt.PrinterActivity"/>
+        tools:replace="android:allowBackup">
+        <activity android:name=".ui.history.CountryCodeActivity" android:theme="@style/DialogTheme"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.receipt.PrinterActivity" />
+        <activity android:name=".ui.chat.ChatNotifyActivity" />
+        <activity android:name=".ui.notifications.notificationFcm.ShowNotificationAcknowledgement" />
+        <activity android:name=".ui.notifications.notificationFcm.DialogActivityForChat" />
+        <activity android:name=".ui.notifications.notificationFcm.ChatFcmActivity" />
         <activity
-            android:name="com.mobiversa.ezy2pay.ui.chat.ChatNotifyActivity" />
-        <activity android:name="com.mobiversa.ezy2pay.ui.notifications.notificationFcm.ShowNotificationAcknowledgement" />
-        <activity android:name="com.mobiversa.ezy2pay.ui.notifications.notificationFcm.DialogActivityForChat" />
-        <activity android:name="com.mobiversa.ezy2pay.ui.notifications.notificationFcm.ChatFcmActivity" />
-        <activity
-            android:name="com.mobiversa.ezy2pay.ui.splash.SplashActivity"
+            android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mobiversa.ezy2pay.ui.chat.ChatLoginActivity"
-            android:screenOrientation="portrait"/>
         <activity
-            android:name="com.mobiversa.ezy2pay.ui.tutorial.TutorialActivity"
+            android:name=".ui.chat.ChatLoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.mobiversa.ezy2pay.ui.contact.ContactActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.tutorial.TutorialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.contact.ContactActivity"
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -81,24 +87,24 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="com.mobiversa.ezy2pay.ui.ezyWire.EzyWireActivity"
+            android:name=".ui.ezyWire.EzyWireActivity"
             android:configChanges="orientation|screenSize"
+            android:label="EZYWIRE"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize"
-            android:label="EZYWIRE" />
-        <activity android:name="com.mobiversa.ezy2pay.ui.ezyWire.BaseOTAActivity" />
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.ezyWire.BaseOTAActivity" />
         <activity
-            android:name="com.mobiversa.ezy2pay.ui.loginActivity.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".ui.loginActivity.LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.mobiversa.ezy2pay.MainActivity"
-            android:label="@string/app_name"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize" />
 
         <service
-            android:name="com.mobiversa.ezy2pay.utils.MyFirebaseMessagingService"
+            android:name=".utils.MyFirebaseMessagingService"
             android:stopWithTask="false"
             tools:ignore="ExportedService">
             <intent-filter>
@@ -106,10 +112,11 @@
             </intent-filter>
         </service> <!-- The below code is for android OS version below N -->
         <receiver
-            android:name="com.mobiversa.ezy2pay.utils.ConnectivityReceiver"
+            android:name=".utils.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
@@ -118,8 +125,9 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <service android:name="com.mobiversa.ezy2pay.ui.fcm.AlarmNotificationService" /> <!-- Declare  Alarm Sound Service here -->
-        <service android:name="com.mobiversa.ezy2pay.ui.fcm.AlarmSoundService" />
+        <service android:name=".ui.fcm.AlarmNotificationService" /> <!-- Declare  Alarm Sound Service here -->
+        <service android:name=".ui.fcm.AlarmSoundService" />
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
@@ -132,11 +140,12 @@
             android:label="Mobi Keyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
+
             <meta-data
                 android:name="android.view.im"
-                android:resource="@xml/method"/>
+                android:resource="@xml/method" />
         </service>
     </application>
 

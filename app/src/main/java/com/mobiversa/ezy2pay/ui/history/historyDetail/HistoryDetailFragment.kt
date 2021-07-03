@@ -47,7 +47,7 @@ import java.util.regex.Pattern
 
 
 @Suppress("DEPRECATION")
-class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCallback,
+class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
     FingerListener {
 
     private var historyData: ForSettlement? = null
@@ -69,7 +69,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCa
     val requestVal = HashMap<String, String>()
 
     companion object {
-        fun newInstance() = HistoryDetailFragment()
         private var mMap: GoogleMap? = null
         private var mapFragment: SupportMapFragment? = null
     }
@@ -117,8 +116,8 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCa
 
         btn_history_detail_receipt = rootView.btn_history_detail_receipt
         rootView.txt_amount_history.text = amount
-        rootView.txt_date.text = date
-        rootView.prod_name_txt.text = "${historyData?.txnType}"
+        rootView.txt_date_history.text = date
+        rootView.prod_name_txt.text = historyData?.txnType ?: ""
         rootView.txt_rrn_history.text = "${historyData?.rrn}"
         rootView.txt_status_history.text = "Completed"
         rootView.txt_stan_history.text = "${historyData?.stan}"
@@ -140,9 +139,9 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCa
             }
         }
 
-        val fm: FragmentManager = childFragmentManager
-        mapFragment = fm.findFragmentById(R.id.history_map) as SupportMapFragment
-        mapFragment?.getMapAsync(this)
+//        val fm: FragmentManager = childFragmentManager
+//        mapFragment = fm.findFragmentById(R.id.history_map) as SupportMapFragment
+//        mapFragment?.getMapAsync(this)
 
         if (historyData?.txnType.equals(CASH, true)) {
             rootView.txt_rrn_history.visibility = View.GONE
@@ -200,24 +199,24 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener, OnMapReadyCa
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HistoryViewModel::class.java)
     }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        // Updates the location and zoom of the MapView
-        val height = 200
-        val width = 200
-        val bitmapDraw = resources.getDrawable(R.drawable.location_map) as BitmapDrawable
-        val b = bitmapDraw.bitmap
-        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-        val location = LatLng(latVal, longVal)
-        showLog("wisepad", "$latVal::$longVal")
-        val marker = MarkerOptions().position(location)
-            .title(mapTitle)
-        marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-        mMap!!.addMarker(marker)
-        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10f)
-        mMap?.animateCamera(cameraUpdate)
-    }
+//
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        mMap = googleMap
+//        // Updates the location and zoom of the MapView
+//        val height = 200
+//        val width = 200
+//        val bitmapDraw = resources.getDrawable(R.drawable.location_map) as BitmapDrawable
+//        val b = bitmapDraw.bitmap
+//        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+//        val location = LatLng(latVal, longVal)
+//        showLog("wisepad", "$latVal::$longVal")
+//        val marker = MarkerOptions().position(location)
+//            .title(mapTitle)
+//        marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+//        mMap!!.addMarker(marker)
+//        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10f)
+//        mMap?.animateCamera(cameraUpdate)
+//    }
 
     override fun onClick(v: View?) {
         when (v?.id) {

@@ -118,13 +118,13 @@ interface ApiService {
         private const val BANK_URL = "https://fpx.mobiversa.com/"
         private const val CITY_URL = "https://ocsservices.mobiversa.com/"
         // Demo Testing
-        private const val BASE_URL = "https://paydee.gomobi.io/"
-        private const val REGISTER_URL = "https://paydee.gomobi.io/"
-        private const val NOTIFICATION_URL = "https://paydee.gomobi.io/notificationservices/"
+//        private const val BASE_URL = "https://paydee.gomobi.io/"
+//        private const val REGISTER_URL = "https://paydee.gomobi.io/"
+//        private const val NOTIFICATION_URL = "https://paydee.gomobi.io/notificationservices/"
 
-//        private const val BASE_URL = "https://um.gomobi.io/"
-//        private const val REGISTER_URL = "https://um.gomobi.io/"
-//        private const val NOTIFICATION_URL = "https://um.gomobi.io/notificationservices/"
+        private const val BASE_URL = "https://um.gomobi.io/"
+        private const val REGISTER_URL = "https://um.gomobi.io/"
+        private const val NOTIFICATION_URL = "https://um.gomobi.io/notificationservices/"
 
 
 //        private const val BASE_URL = "https://ecom.gomobi.io/"

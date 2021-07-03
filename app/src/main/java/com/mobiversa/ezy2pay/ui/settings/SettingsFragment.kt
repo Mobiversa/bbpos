@@ -78,10 +78,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
 
         rootView.prof_product_linear.setOnClickListener(this)
         rootView.prof_contact_us_linear.setOnClickListener(this)
-        rootView.prof_tutorial_linear.setOnClickListener(this)
         rootView.prof_update_linear.setOnClickListener(this)
         rootView.prof_refer_linear.setOnClickListener(this)
-        rootView.mobi_keyboard_linear.setOnClickListener(this)
         rootView.upgrade_btn.setOnClickListener(this)
 
         if (getLoginResponse().hostType.equals("U", true) && Constants.EzyMoto.equals(
@@ -89,12 +87,10 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
                 true
             ) && getProductList()[0].isEnable
         ) {
-            rootView.prof_refer_linear.visibility = View.VISIBLE//Visible
-            rootView.mobi_keyboard_linear.visibility = View.GONE//Gone
+            rootView.prof_refer_linear.visibility = View.VISIBLE
         }
         else {
             rootView.prof_refer_linear.visibility = View.GONE
-            rootView.mobi_keyboard_linear.visibility = View.VISIBLE//Gone
         }
 
         rootView.txt_logout.setOnClickListener(this)
@@ -337,15 +333,8 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
             R.id.prof_contact_us_linear -> {
                 startActivity(Intent(getActivity(), ContactActivity::class.java))
             }
-            R.id.prof_tutorial_linear -> {
-                startActivity(Intent(getActivity(), TutorialActivity::class.java))
-            }
             R.id.prof_refer_linear -> {
                 showReferralPrompt()
-            }
-            R.id.mobi_keyboard_linear -> {
-                val fragment = KeyboardFragment()
-                addFragment(fragment, bundle, Fields.Keyboard)
             }
             R.id.upgrade_btn -> {
                 showUpgradePrompt()

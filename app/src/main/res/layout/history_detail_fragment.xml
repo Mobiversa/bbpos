@@ -111,48 +111,15 @@
                     android:textSize="@dimen/t_xxh_18"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_date_history"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:id="@+id/date_linear"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:orientation="vertical">
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txt_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:textColor="@color/colorPrimary"
-                            android:fontFamily="@font/ubuntu_normal"
-                            android:maxLines="1"
-                            android:text="21 july 2019"
-                            android:textSize="@dimen/t_xxh_18"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txt_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_gravity="right"
-                            android:fontFamily="@font/ubuntu_normal"
-                            android:gravity="right"
-                            android:maxLines="1"
-                            android:text="3.53 pm"
-                            android:textSize="@dimen/t_xxh_18"
-                            android:visibility="gone" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:layout_weight="3"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/ubuntu_normal"
+                    android:text=""
+                    android:textSize="@dimen/t_xxh_18" />
 
             </LinearLayout>
 
@@ -306,6 +273,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_above="@+id/linear_send_receipt"
             android:layout_below="@id/history_detail_linear"
             android:layout_margin="@dimen/xxhdpi_10"

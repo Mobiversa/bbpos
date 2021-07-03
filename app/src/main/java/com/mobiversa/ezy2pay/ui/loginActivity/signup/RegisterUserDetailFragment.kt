@@ -44,7 +44,6 @@ import kotlinx.android.synthetic.main.fragment_register_user_detail.view.edit_fu
 import kotlinx.android.synthetic.main.fragment_register_user_detail.view.edit_password
 import kotlinx.android.synthetic.main.fragment_register_user_detail.view.edit_username
 import kotlinx.android.synthetic.main.fragment_register_user_detail.view.facebook_img
-import kotlinx.android.synthetic.main.fragment_register_user_detail.view.google_img
 import kotlinx.android.synthetic.main.fragment_register_user_detail.view.login_button
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -55,7 +54,6 @@ import kotlin.collections.HashMap
 
 
 class RegisterUserDetailFragment : BaseFragment(), View.OnClickListener,
-    GoogleApiClient.OnConnectionFailedListener,
     CompoundButton.OnCheckedChangeListener {
 
     private var date: String = ""
@@ -124,15 +122,11 @@ class RegisterUserDetailFragment : BaseFragment(), View.OnClickListener,
         rootView.activation_linear.visibility = View.GONE
         rootView.user_details_linear.visibility = View.VISIBLE
 
-        rootView.google_img.setOnClickListener(this)
         rootView.facebook_img.setOnClickListener(this)
         rootView.submit_btn_activation.setOnClickListener(this)
 
         buttonNext.setOnClickListener(this)
         rootView.back_sign_up.setOnClickListener(this)
-
-//        toggleButton.setOnCheckedChangeListener(this)
-        fbIntial()
 
     }
 
@@ -444,9 +438,6 @@ class RegisterUserDetailFragment : BaseFragment(), View.OnClickListener,
             R.id.button_dob -> {
                 datePicker()
             }
-            R.id.google_img -> {
-                googleSignIn()
-            }
             R.id.facebook_img -> {
                 login_button.performClick()
             }
@@ -463,26 +454,12 @@ class RegisterUserDetailFragment : BaseFragment(), View.OnClickListener,
         }
     }
 
-    private fun googleSignIn() {
-        val signInIntent = (activity as LoginActivity).googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                fireBaseAuthWithGoogle(account!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-                shortToast("Google sign in failed")
-            }
+
         } else {
             (activity as LoginActivity).callbackManager.onActivityResult(
                 requestCode,
@@ -490,66 +467,5 @@ class RegisterUserDetailFragment : BaseFragment(), View.OnClickListener,
                 data
             )
         }
-    }
-
-    private fun fireBaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.id!!)
-
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        (activity as LoginActivity).auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    googleMail = acct.email!!
-                    editUsername.setText(googleMail)
-                    editUsername.isFocusable = false
-                    putUserString("gmailData", googleMail)
-                }
-            }
-    }
-
-    private fun fbIntial() {
-        login_button.registerCallback((activity as LoginActivity).callbackManager, object :
-            FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
-            }
-        })
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:$token")
-        // [START_EXCLUDE silent]
-        showDialog("Loading")
-        // [END_EXCLUDE]
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        (activity as LoginActivity).auth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                val user = (activity as LoginActivity).auth.currentUser
-                facebookMail = user?.email.toString()
-                putUserString(Constants.fbname, facebookMail)
-            } else {
-                Log.w(TAG, "signInWithCredential:failure", it.exception)
-                shortToast("Authentication failed.")
-            }
-        }
-        cancelDialog()
-    }
-
-    override fun onConnectionFailed(p0: ConnectionResult) {
-
     }
 }

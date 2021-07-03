@@ -1,6 +1,7 @@
 package com.mobiversa.ezy2pay.ui.receipt
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
@@ -19,6 +20,7 @@ import com.mobiversa.ezy2pay.databinding.ActivityPrinterBinding
 import com.mobiversa.ezy2pay.network.response.ReceiptModel
 import com.mobiversa.ezy2pay.network.response.ResponseData
 import com.mobiversa.ezy2pay.ui.ezyWire.MyBBPosController
+import com.mobiversa.ezy2pay.ui.history.CountryCodeActivity
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.PreferenceHelper
@@ -125,33 +127,18 @@ class PrinterActivity : BaseActivity() {
             closePrintScreen()
         }
         binding.sendCustomerCopy.setOnClickListener {
-            it.visibility = View.GONE
+            startActivityForResult(Intent(this@PrinterActivity, CountryCodeActivity::class.java), 1)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            binding.sendCustomerCopy.visibility = View.GONE
             isSendReceipt = true
-            val li = LayoutInflater.from(this)
-            val promptsView: View = li.inflate(com.mobiversa.ezy2pay.R.layout.phone_number_dialog, null)
-            val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(
-                this
-            )
-            alertDialogBuilder.setView(promptsView)
-
-            val userInput = promptsView
-                .findViewById<View>(com.mobiversa.ezy2pay.R.id.editTextDialogUserInput) as EditText
-
-            alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK") { dialog, id -> // get user input and set it to result
-                    val phone = userInput.text.toString()
-                    if (phone.isNotEmpty() && phone.length > 9) {
-                        phoneNumber = "65" + userInput.text.toString()
-                        jsonSendReceipt()
-                        dialog.dismiss()
-                        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                    }
-                }
-                .setNegativeButton("Cancel") { dialog, id -> dialog.cancel() }
-
-            val alertDialog: AlertDialog = alertDialogBuilder.create()
-            alertDialog.show()
+            phoneNumber = data?.getStringExtra(Constants.PHONE).toString()
+            // this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            jsonSendReceipt()
         }
     }
 

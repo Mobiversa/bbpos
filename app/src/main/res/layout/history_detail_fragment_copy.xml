@@ -151,6 +151,7 @@
             android:layout_below="@id/history_detail_linear"
             android:layout_margin="@dimen/xxhdpi_10"
             android:padding="@dimen/xxhdpi_10"
+            android:visibility="gone"
             app:cardCornerRadius="@dimen/xxhdpi_10"
             app:cardElevation="2dp">
 

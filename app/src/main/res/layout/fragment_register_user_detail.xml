@@ -241,7 +241,8 @@
                             android:orientation="horizontal">
 
                             <RelativeLayout
-                                android:layout_width="@dimen/xxhdpi_60"
+                                android:layout_width=
+                                    "@dimen/xxhdpi_60"
                                 android:layout_height="@dimen/xxhdpi_60">
 
                                 <androidx.appcompat.widget.AppCompatImageView
@@ -261,15 +262,6 @@
                                     android:visibility="invisible" />
 
                             </RelativeLayout>
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/google_img"
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_marginLeft="@dimen/xxhdpi_40"
-                                android:background="@drawable/circle_shadow"
-                                android:padding="15dp"
-                                android:src="@drawable/ic_google" />
 
                         </LinearLayout>
 

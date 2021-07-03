@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/xxhdpi_20"
             android:fontFamily="@font/ubuntu_normal"
-            android:text="@string/customer_copy_txt"
+            android:text="@string/send_customer"
             android:textColor="@color/txt_secondary_grey"
             android:textSize="@dimen/t_xxh_18"
             app:layout_constraintBottom_toTopOf="@+id/divider3"

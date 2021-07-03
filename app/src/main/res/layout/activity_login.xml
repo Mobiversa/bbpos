@@ -168,18 +168,6 @@
                 android:layout_marginLeft="@dimen/xxhdpi_10"
                 android:layout_marginRight="@dimen/gap_15"
                 android:layout_weight="1">
-
-
-                <ImageView
-                    android:id="@+id/google_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/xxhdpi_40"
-                    android:paddingTop="@dimen/xxhdpi_5"
-                    android:paddingBottom="@dimen/xxhdpi_5"
-                    android:background="@drawable/round_rect"
-                    android:src="@drawable/ic_google_plus"
-                    android:contentDescription="@string/todo" />
-
             </RelativeLayout>
 
         </LinearLayout>

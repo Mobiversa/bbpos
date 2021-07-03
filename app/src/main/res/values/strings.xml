@@ -137,4 +137,5 @@
     <string name="tap_or_insert_your_card">Tap or Insert your card</string>
     <string name="enter_your_pin">Enter your PIN</string>
     <string name="btn_continue">Continue</string>
+    <string name="send_customer">Send Customer</string>
 </resources>

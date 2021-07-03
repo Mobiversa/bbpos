@@ -78,7 +78,6 @@ class PaymentOptionsFragment : BaseFragment() {
     }
     fun productDetails(productName: String) {
         bundle.clear()
-        bundle.putString(Fields.Service, Fields.BoostQR)
         bundle.putString(Fields.Amount, amountToBePaid)
         bundle.putString(Fields.InvoiceId, invoiceId)
         when (productName) {
@@ -93,10 +92,12 @@ class PaymentOptionsFragment : BaseFragment() {
             }
             Constants.Boost -> {
                 val fragment = QRFragment()
+                bundle.putString(Fields.Service, Fields.BoostQR)
                 addFragment(fragment, bundle, Constants.Boost)
             }
             Constants.GrabPay -> {
                 val fragment = QRFragment()
+                bundle.putString(Fields.Service, Fields.GPayQR)
                 addFragment(fragment, bundle, Constants.GrabPay)
             }
         }

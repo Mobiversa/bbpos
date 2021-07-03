@@ -83,19 +83,19 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         val amount = amtEdt.text.toString()
         val totalPrice = amount.toDouble()
 
-        if (totalPrice < 0.10) {
-            shortToast("Enter Amount more than 10 cents")
+        if (totalPrice < 5) {
+            shortToast("Enter Amount more than 5 RM")
             return
         }
 
         if (!checkAndRequestPermissions()) {
             shortToast("Enable Location Permission From Settings")
             return
-        } else if (!isLocationEnabled(this.context!!)) {
+        }/* else if (!isLocationEnabled(this.context!!)) {
             isGPSEnabled()
             shortToast("Enable GPS to Start")
             return
-        }
+        }*/
 
         ((getActivity() as MainActivity).getLocation())
 
