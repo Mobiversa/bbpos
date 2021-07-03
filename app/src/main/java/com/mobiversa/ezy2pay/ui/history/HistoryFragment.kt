@@ -1,5 +1,6 @@
 package com.mobiversa.ezy2pay.ui.history
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Build
@@ -91,10 +92,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
         val rootView = inflater.inflate(R.layout.fragment_history, container, false)
 
         initialize(rootView)
-//        val textView: TextView = root.findViewById(R.id.text_dashboard)
-//        historyViewModel.text.observe(this, Observer {
-//            textView.text = it
-//        })
 
         showLog("TId ", getLoginResponse().tid)
         return rootView
@@ -845,12 +842,36 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
         }
     }
 
+    private fun showServiceCharge() {
+        lateinit var mAlertDialog: AlertDialog
+
+        val inflater = layoutInflater
+        val alertLayout: View = inflater.inflate(R.layout.settlement_dialog, null)
+        val btnConfirm = alertLayout.findViewById<View>(R.id.button_confirm) as Button
+        val btnCancel = alertLayout.findViewById<View>(R.id.button_cancel) as Button
+        val alert: AlertDialog.Builder = AlertDialog.Builder(this.context)
+        alert.setView(alertLayout)
+        alert.setCancelable(false)
+        Constants.isSwipe = false
+
+        btnConfirm.setOnClickListener {
+            jsonSettlement()
+            mAlertDialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+
+        mAlertDialog = alert.create()
+        mAlertDialog.show()
+    }
+
     override fun onClick(v: View) {
 
         when (v.id) {
             R.id.btn_settlement_history -> {
-                jsonSettlement()
-//                shortToast("Clicked")
+                showServiceCharge()
             }
         }
 

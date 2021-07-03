@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProviders
 import com.bbpos.bbdevice.BBDeviceController
@@ -134,11 +135,11 @@ class PrinterActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            binding.sendCustomerCopy.visibility = View.GONE
             isSendReceipt = true
             phoneNumber = data?.getStringExtra(Constants.PHONE).toString()
             // this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             jsonSendReceipt()
+            shortToast("Customer copy sent successfully.")
         }
     }
 
