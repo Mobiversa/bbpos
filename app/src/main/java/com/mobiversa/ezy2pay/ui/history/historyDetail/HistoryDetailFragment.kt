@@ -39,6 +39,7 @@ import com.mobiversa.ezy2pay.utils.Fields.Companion.BOOST_VOID
 import com.mobiversa.ezy2pay.utils.Fields.Companion.CASH
 import com.mobiversa.ezy2pay.utils.Fields.Companion.CASH_CANCEL
 import com.mobiversa.ezy2pay.utils.Fields.Companion.GPAY_REFUND
+import com.mobiversa.ezy2pay.utils.Fields.Companion.VALIDATE_VOID
 import com.mobiversa.ezy2pay.utils.Fields.Companion.VOID
 import de.adorsys.android.finger.Finger
 import de.adorsys.android.finger.FingerListener
@@ -47,8 +48,7 @@ import java.util.regex.Pattern
 
 
 @Suppress("DEPRECATION")
-class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
-    FingerListener {
+class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
 
     private var historyData: ForSettlement? = null
 
@@ -60,8 +60,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
     private var currentAmount = 0.00
 
     private var percentAmount = 0.0
-
-    private lateinit var finger: Finger
 
     lateinit var mAlertDialog: AlertDialog
     private var printReceiptFragment = PrintReceiptFragment()
@@ -112,8 +110,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
         rootView.btn_history_detail_receipt.setOnClickListener(this)
         rootView.btn_history_detail_void.setOnClickListener(this)
 
-        finger = Finger(this.context!!)
-
         btn_history_detail_receipt = rootView.btn_history_detail_receipt
         rootView.txt_amount_history.text = amount
         rootView.txt_date_history.text = date
@@ -138,10 +134,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
                 longVal = historyData?.longitude?.toDouble() ?: 101.68653
             }
         }
-
-//        val fm: FragmentManager = childFragmentManager
-//        mapFragment = fm.findFragmentById(R.id.history_map) as SupportMapFragment
-//        mapFragment?.getMapAsync(this)
 
         if (historyData?.txnType.equals(CASH, true)) {
             rootView.txt_rrn_history.visibility = View.GONE
@@ -199,85 +191,24 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HistoryViewModel::class.java)
     }
-//
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        mMap = googleMap
-//        // Updates the location and zoom of the MapView
-//        val height = 200
-//        val width = 200
-//        val bitmapDraw = resources.getDrawable(R.drawable.location_map) as BitmapDrawable
-//        val b = bitmapDraw.bitmap
-//        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-//        val location = LatLng(latVal, longVal)
-//        showLog("wisepad", "$latVal::$longVal")
-//        val marker = MarkerOptions().position(location)
-//            .title(mapTitle)
-//        marker.icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-//        mMap!!.addMarker(marker)
-//        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(location, 10f)
-//        mMap?.animateCamera(cameraUpdate)
-//    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_history_detail_receipt -> {
                 if (btn_history_detail_receipt.text.toString().equals("Receipt", true)) {
-                    /*val bundle = Bundle()
-                    if (historyData?.txnType.equals(CASH)) {
-                        bundle.putString(Fields.Service, Fields.CASH_RECEIPT)
-                        bundle.putString(Fields.trxId, historyData!!.txnId)
-                        bundle.putString(Fields.Amount, amount)
-                        bundle.putString(Constants.ActivityName, MainAct)
-                        bundle.putString(Constants.Redirect, Constants.History)
-                        addFragment(printReceiptFragment, bundle, "HistoryDetail")
-                    } else {*/
-                        startActivity(Intent(context, PrinterActivity::class.java).apply {
-                            putExtra(Fields.Service, Fields.TXN_REPRINT)
-                            putExtra(Fields.trxId, historyData!!.txnId)
-                            putExtra(Fields.Amount, amount)
-                        })
-//                    }
+                    startActivity(Intent(context, PrinterActivity::class.java).apply {
+                        putExtra(Fields.Service, Fields.TXN_REPRINT)
+                        putExtra(Fields.trxId, historyData!!.txnId)
+                        putExtra(Fields.Amount, amount)
+                    })
                 } else {
                     showConvertSaleAlert()
                 }
             }
             R.id.btn_history_detail_void -> {
-                if (historyData?.txnType.equals(CASH)) {
-                    requestVal.clear()
-                    jsonVoidTransaction(requestVal)
-                }
-                else
-                    showPasswordPrompt()
+                showPasswordPrompt()
             }
         }
-    }
-
-    private fun showDialog() {
-        finger.showDialog(
-            this.getActivity()!!,
-            Triple(
-                // title
-                getString(R.string.text_fingerprint),
-                // subtitle
-                null,
-                // description
-                null
-            )
-        )
-    }
-
-    override fun onFingerprintAuthenticationFailure(errorMessage: String, errorCode: Int) {
-        showLog("Finger", " Failure")
-        shortToast(errorMessage)
-        finger.subscribe(this)
-    }
-
-    override fun onFingerprintAuthenticationSuccess() {
-        finger.subscribe(this)
-        mAlertDialog.dismiss()
-        requestVal[Fields.biomerticKey] = Fields.Success
-        requestVal[Fields.username] = getSharedString(Constants.UserName)
-        jsonVoidTransaction(requestVal)
     }
 
     @SuppressLint("InflateParams")
@@ -289,7 +220,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
         val etPassword = alertLayout.findViewById<View>(R.id.password_edt_void) as EditText
         val btnVoid = alertLayout.findViewById<View>(R.id.btn_alert_void) as Button
         val btnCancel = alertLayout.findViewById<View>(R.id.btn_alert_cancel) as Button
-        val btnFinger = alertLayout.findViewById<View>(R.id.btn_alert_finger) as Button
         val savedName = getSharedString(Constants.UserName)
         etUsername.setText(savedName)
         etUsername.isEnabled = false
@@ -300,31 +230,19 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
         alert.setView(alertLayout)
         alert.setCancelable(false)
 
-        val fingerprintsEnabled = finger.hasFingerprintEnrolled()
-        if (!fingerprintsEnabled) {
-            shortToast(context!!.resources.getString(R.string.error_override_hw_unavailable))
-        } else {
-            btnFinger.visibility = View.VISIBLE
-        }
-
         btnVoid.setOnClickListener {
             val textPassword = etPassword.text.toString()
             if (!textPassword.equals("", ignoreCase = true)) {
                 val requestVal = HashMap<String, String>()
-//                requestVal[Fields.Service] = VALIDATE_VOID
+                requestVal[Fields.Service] = VALIDATE_VOID
                 requestVal[Fields.username] = getSharedString(Constants.UserName)
                 requestVal[Fields.password] = textPassword
 
                 jsonVoidTransaction(requestVal)
-//                jsonTransactionHistory(requestVal)
                 mAlertDialog.dismiss()
             } else { //                    Toast.makeText(getActivity(), Constants.ENTER_PASSWORD, Toast.LENGTH_SHORT).show();
                 shortToast(Constants.ENTER_PASSWORD)
             }
-        }
-
-        btnFinger.setOnClickListener {
-            showDialog()
         }
 
         btnCancel.setOnClickListener {
@@ -491,14 +409,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
     private fun jsonVoidTransaction(requestVal: HashMap<String, String>) {
 
         var pathStr = "mobiapr19"
-
         when {
-            historyData?.txnType.equals(CASH) -> {
-                requestVal[Fields.Service] = CASH_CANCEL
-                requestVal[Fields.sessionId] = getLoginResponse().sessionId
-                requestVal[Fields.tid] = getLoginResponse().tid
-                requestVal[Fields.trxId] = historyData?.txnId!!
-            }
             historyData?.txnType.equals(Fields.BOOST) -> {
                 requestVal[Fields.Service] = BOOST_VOID
                 requestVal[Fields.sessionId] = getLoginResponse().sessionId
@@ -519,14 +430,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
                 requestVal[Fields.AID] = historyData!!.aidResponse
                 requestVal[Fields.txnId] = historyData?.txnId!!
                 requestVal[Fields.InvoiceId] = historyData?.invoiceId ?: ""
-            }
-            histTrxType.equals(Fields.PREAUTH, false) -> {
-                requestVal[Fields.Service] = Fields.PRE_AUTH_VOID
-                requestVal[Fields.sessionId] = getLoginResponse().sessionId
-                requestVal[Fields.trxId] = historyData?.txnId ?: ""
-                requestVal[Fields.HostType] = getLoginResponse().hostType
-                requestVal[Fields.MerchantId] = getLoginResponse().merchantId
-                requestVal[Fields.tid] = getLoginResponse().tid
             }
             else -> {
                 requestVal[Fields.Service] = VOID
@@ -612,14 +515,8 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener,
 
     override fun onResume() {
         super.onResume()
-        finger.subscribe(this)
         (activity as MainActivity).supportActionBar?.title = "Transactions"
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        finger.unSubscribe()
     }
 }

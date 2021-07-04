@@ -41,7 +41,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
+class HistoryFragment : BaseFragment(), View.OnClickListener {
 
     private var position: Int? = null
 
@@ -446,7 +446,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
         val etPassword = alertLayout.findViewById<View>(R.id.password_edt_void) as EditText
         val btnVoid = alertLayout.findViewById<View>(R.id.btn_alert_void) as Button
         val btnCancel = alertLayout.findViewById<View>(R.id.btn_alert_cancel) as Button
-        val btnFinger = alertLayout.findViewById<View>(R.id.btn_alert_finger) as Button
         val savedName = getSharedString(UserName)
         etUsername.setText(savedName)
         etUsername.isEnabled = false
@@ -472,12 +471,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
             }
         }
 
-        btnFinger.setOnClickListener {
-            historyData = item
-            showFingerAuthenticationDialog()
-            mAlertDialog.dismiss()
-        }
-
         btnCancel.setOnClickListener {
             mAlertDialog.dismiss()
         }
@@ -499,20 +492,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, FingerListener {
                 null
             )
         )
-    }
-
-    override fun onFingerprintAuthenticationFailure(errorMessage: String, errorCode: Int) {
-        showLog("Finger", " Failure")
-        shortToast(errorMessage)
-        finger.subscribe(this)
-    }
-
-    override fun onFingerprintAuthenticationSuccess() {
-        finger.subscribe(this)
-        requestData.clear()
-        requestData[Fields.biomerticKey] = Fields.Success
-        requestData[Fields.username] = getSharedString(UserName)
-        jsonVoidTransaction("Void", historyData, requestData)
     }
 
     private fun jsonUserValidation(
