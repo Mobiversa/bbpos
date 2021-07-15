@@ -50,7 +50,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
     private lateinit var trxTypeSpinner: NDSpinner
     private lateinit var trxTypeAdapter: ArrayAdapter<String>
     private var historyList = ArrayList<ForSettlement>()
-
+    private var rereshOnResume: Boolean = false
     private lateinit var historyAdapter: TransactionHistoryAdapter
     private lateinit var historyRecyclerView: RecyclerView
     private lateinit var historySearch: SearchView
@@ -74,6 +74,15 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
         super.onResume()
         (activity as MainActivity).supportActionBar?.show()
         setTitle("Transactions", true)
+        if (rereshOnResume) {
+            transactionHistory()
+        }
+        rereshOnResume = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rereshOnResume = true
     }
 
     //Fragment Navigation
@@ -180,27 +189,11 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
         historyParam[Fields.MerchantId] = getLoginResponse().merchantId
         historyParam[Fields.HostType] = getLoginResponse().hostType
         historyParam[Fields.TRX_TYPE] = trxType
-
+        historyParam[Fields.Service] = Fields.TRX_HISTORY
         if (trxType.equals(Fields.GRABPAY, ignoreCase = true)) {
             historyParam[Fields.tid] = getLoginResponse().gpayTid
-            historyParam[Fields.Service] = Fields.TRX_HISTORY
-        }else {
-            historyParam[Fields.Service] = Fields.TRX_HISTORY
+        } else {
             historyParam[Fields.tid] = getTidValue()
-            /*when {
-                getLoginResponse().tid.isNotEmpty() -> {
-                    historyParam[Fields.tid] = getLoginResponse().tid
-                }
-                getLoginResponse().motoTid.isNotEmpty() -> {
-                    historyParam[Fields.tid] = getLoginResponse().motoTid
-                }
-                getLoginResponse().ezypassTid.isNotEmpty() -> {
-                    historyParam[Fields.tid] = getLoginResponse().ezypassTid
-                }
-                getLoginResponse().ezyrecTid.isNotEmpty() -> {
-                    historyParam[Fields.tid] = getLoginResponse().ezyrecTid
-                }
-            }*/
         }
 
         if (!getLoginResponse().type.equals(Constants.Normal, true)) {
@@ -253,19 +246,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
                     historyObserveData(response.body()!!)
                 }
             }
-        })
-    }
-
-    //Have to study about Observer and work
-    private fun jsonTransactionHistory(historyParam: HashMap<String, String>) {
-        showDialog("Loading History...")
-
-        transactionType = historyParam[Fields.Service]!!
-        historyViewModel.getTransactionHistory(historyParam)
-        historyViewModel.transactionHistoryList.observe(viewLifecycleOwner, Observer {
-            cancelDialog()
-            historyObserveData(it)
-
         })
     }
 
@@ -630,18 +610,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
             })
-
-
-//        historyViewModel.setVoidHistory(pathStr, requestVal)
-//        historyViewModel.setVoidHistory.observe(this, Observer {
-//            cancelDialog()
-//            if (it.responseCode.equals("0000", true)) {
-//                shortToast(it.responseDescription)
-//                transactionHistory()
-//            } else
-//                shortToast(it.responseDescription)
-//
-//        })
     }
 
     private fun jsonSettlement() {

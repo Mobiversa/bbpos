@@ -176,7 +176,7 @@ open class BaseActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        LocationService.onRequestPermissionsResult(this, requestCode, grantResults)
+//        LocationService.onRequestPermissionsResult(this, requestCode, grantResults)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

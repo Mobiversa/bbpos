@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         val amount = amtEdt.text.toString()
         val totalPrice = amount.toDouble()
 
-        if (totalPrice < 5) {
+        if (totalPrice < 0.10) {
             shortToast("Enter Amount more than 5 RM")
             return
         }

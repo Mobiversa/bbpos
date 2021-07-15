@@ -138,6 +138,7 @@ class Constants {
         const val TERMINATED = "TERMINATED"
         const val DECLINED = "DECLINED"
         const val CANCEL_OR_TIMEOUT = "CANCEL_OR_TIMEOUT"
+        const val TIMEOUT = "TIMEOUT"
         const val NOT_ICC = "NOT_ICC"
         const val CARD_BLOCKED = "CARD_BLOCKED"
         const val DEVICE_ERROR = "DEVICE_ERROR"

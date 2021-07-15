@@ -6,12 +6,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.bbpos.bbdevice.BBDeviceController.*
 import com.bbpos.bbdevice.CAPK
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Constants.Companion.BBDeviceVersion
+import com.mobiversa.ezy2pay.utils.Constants.Companion.StartEMV
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.PreferenceHelper
 import com.mobiversa.ezy2pay.utils.PreferenceHelper.set
@@ -92,7 +92,10 @@ class MyBBPosController : BBDeviceControllerListener {
         isDeviceConnected = true
         SendNotification(Constants.DeviceConnected)
     }
-    override fun onSerialDisconnected() {}
+    override fun onSerialDisconnected() {
+        isDeviceConnected = false
+        SendNotification(Constants.DeviceDisconnected)
+    }
     override fun onReturnCheckCardResult(checkCardResult: CheckCardResult, decodeData: Hashtable<String, String>?) {
         Toast.makeText(activity, checkCardResult.toString() + "", Toast.LENGTH_SHORT).show()
 //                SendNotification("Card Swiped");
@@ -223,21 +226,7 @@ class MyBBPosController : BBDeviceControllerListener {
 
     override fun onReturnTransactionResult(transactionResult: TransactionResult) {
         Log.v("transactionResult", transactionResult.toString())
-        val approved = false
-        /*if (transactionResult == BBDeviceController.TransactionResult.APPROVED) {
-            //Log.v("result!!", transactionResult.toString());
-            approved = true;
-            SendNotification(transactionResult.toString());
-        } else if (transactionResult == BBDeviceController.TransactionResult.TERMINATED) {
-            //Log.v("result!!", transactionResult.toString());
-            SendNotification(transactionResult.toString());
-        } else if (transactionResult == BBDeviceController.TransactionResult.DECLINED) {
-            //Log.v("result!!", transactionResult.toString());
-            SendNotification(transactionResult.toString());
-        }*/
         SendNotification(transactionResult.toString())
-        Log.v("result_traxn", transactionResult.toString())
-        // SendNotification(!isAmountAccpted ? "Amount Declined" : (approved ? Constants.CardCompleted : "Card Declined"));
     }
 
     override fun onReturnBatchData(s: String) {}
@@ -375,17 +364,11 @@ class MyBBPosController : BBDeviceControllerListener {
         SendNotification("select application")
     }
 
-    override fun onRequestSelectAccountType() {
-        TODO("Not yet implemented")
-    }
+    override fun onRequestSelectAccountType() {}
 
-    override fun onRequestSetAmount() {
-        SendNotification(Constants.SetAmount)
-    }
+    override fun onRequestSetAmount() {}
 
-    override fun onRequestOtherAmount(p0: AmountInputType?) {
-        TODO("Not yet implemented")
-    }
+    override fun onRequestOtherAmount(p0: AmountInputType?) {}
 
     override fun onRequestPinEntry(pinEntrySource: PinEntrySource) {
         Log.v("wisepad Request", pinEntrySource.toString())
@@ -486,7 +469,9 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onReturnVasResult(vasResult: VASResult, hashtable: Hashtable<String, Any>) {
     }
 
-    override fun onRequestStartEmv() {}
+    override fun onRequestStartEmv() {
+        SendNotification(StartEMV)
+    }
     override fun onDeviceDisplayingPrompt() {}
     override fun onRequestKeypadResponse() {}
     override fun onReturnDisplayPromptResult(displayPromptResult: DisplayPromptResult) {}

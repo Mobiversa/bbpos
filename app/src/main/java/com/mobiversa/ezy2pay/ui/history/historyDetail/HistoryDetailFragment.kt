@@ -3,8 +3,6 @@ package com.mobiversa.ezy2pay.ui.history.historyDetail
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -14,35 +12,25 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiversa.ezy2pay.MainActivity
 import com.mobiversa.ezy2pay.R
 import com.mobiversa.ezy2pay.base.BaseFragment
 import com.mobiversa.ezy2pay.network.response.ForSettlement
 import com.mobiversa.ezy2pay.ui.history.HistoryViewModel
-import com.mobiversa.ezy2pay.ui.receipt.PrintReceiptFragment
 import com.mobiversa.ezy2pay.ui.receipt.PrinterActivity
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Constants.Companion.MainAct
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.Fields.Companion.BOOST_VOID
 import com.mobiversa.ezy2pay.utils.Fields.Companion.CASH
-import com.mobiversa.ezy2pay.utils.Fields.Companion.CASH_CANCEL
 import com.mobiversa.ezy2pay.utils.Fields.Companion.GPAY_REFUND
 import com.mobiversa.ezy2pay.utils.Fields.Companion.VALIDATE_VOID
 import com.mobiversa.ezy2pay.utils.Fields.Companion.VOID
-import de.adorsys.android.finger.Finger
-import de.adorsys.android.finger.FingerListener
 import kotlinx.android.synthetic.main.history_detail_fragment.view.*
 import java.util.regex.Pattern
 
@@ -62,7 +50,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
     private var percentAmount = 0.0
 
     lateinit var mAlertDialog: AlertDialog
-    private var printReceiptFragment = PrintReceiptFragment()
     private lateinit var btn_history_detail_receipt: Button
     val requestVal = HashMap<String, String>()
 
@@ -173,7 +160,11 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
-        rootView.btn_history_detail_receipt.visibility = View.VISIBLE
+        if (historyData!!.txnType.equals(Fields.GRABPAY, true)  ||
+            historyData!!.txnType.equals(Fields.BOOST, true)) {
+            rootView.btn_history_detail_receipt.visibility = View.INVISIBLE
+        }
+
         if (histTrxType.equals(Fields.PREAUTH, true)) {
             rootView.btn_history_detail_receipt.text = "Convert to Sale"
         }else if (historyData?.txnType.equals("FPX", true)) {
@@ -375,22 +366,6 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
         mAlertDialog.show()
     }
 
-
-    private fun jsonTransactionHistory(userValidateParam: HashMap<String, String>) {
-        showDialog("Validating...")
-        viewModel.getUserVerification(userValidateParam)
-        viewModel.userVerification.observe(this, Observer {
-            cancelDialog()
-            if (it.responseCode.equals("0000", true)) {
-                showLog("Void Test", it.responseDescription)
-                jsonVoidTransaction(requestVal)
-            }else{
-                shortToast(it.responseDescription)
-            }
-
-        })
-    }
-
     private fun jsonSetSale(saleParam: HashMap<String, String>) {
         showDialog("Validating...")
         viewModel.getUserVerification(saleParam)
@@ -447,25 +422,17 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
             if (it.responseCode.equals("0000", true)) {
                 shortToast(it.responseDescription)
                 val bundle = Bundle()
-                if (histTrxType.equals(Fields.PREAUTH, false)){
-                    bundle.putString(Fields.Service, Fields.PRE_AUTH_RECEIPT)
-                    bundle.putString(Fields.trxId, it.responseData.trxId)
-                    bundle.putString(Fields.Amount, amount)
-                    bundle.putString(Constants.ActivityName, MainAct)
-                    addFragment(printReceiptFragment, bundle, "HistoryDetail")
-                }
-                else if( historyData?.txnType.equals(Fields.GRABPAY)){
-                    startActivity(Intent(context,MainActivity::class.java))
-                }
-                else if( historyData?.txnType.equals(Fields.BOOST)){
-                    startActivity(Intent(context,MainActivity::class.java))
+                if( historyData?.txnType.equals(Fields.GRABPAY) ||
+                    historyData?.txnType.equals(Fields.BOOST)){
+                    fragmentManager?.popBackStack()
                 }
                 else{
-                    bundle.putString(Fields.Service, Fields.RECEIPT)
-                    bundle.putString(Fields.trxId, it.responseData.trxId)
-                    bundle.putString(Fields.Amount, amount)
-                    bundle.putString(Constants.ActivityName, MainAct)
-                    addFragment(printReceiptFragment, bundle, "HistoryDetail")
+                    startActivity(Intent(context, PrinterActivity::class.java).apply {
+                        putExtra(Fields.Service, Fields.RECEIPT)
+                        putExtra(Fields.trxId, it.responseData.trxId)
+                        putExtra(Fields.Amount, amount)
+                        putExtra(Constants.ActivityName, MainAct)
+                    })
                 }
 
             } else
@@ -500,13 +467,12 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
                 true
             }
             R.id.action_receipt -> {
-
-                val bundle = Bundle()
-                bundle.putString(Fields.Service, Fields.PRE_AUTH_RECEIPT)
-                bundle.putString(Fields.trxId, historyData!!.txnId)
-                bundle.putString(Fields.Amount, amount)
-                bundle.putString(Constants.ActivityName, MainAct)
-                addFragment(printReceiptFragment, bundle, "HistoryDetail")
+                startActivity(Intent(context, PrinterActivity::class.java).apply {
+                    putExtra(Fields.Service, Fields.PRE_AUTH_RECEIPT)
+                    putExtra(Fields.trxId, historyData!!.txnId)
+                    putExtra(Fields.Amount, amount)
+                    putExtra(Constants.ActivityName, MainAct)
+                })
                 return true
             }
             else -> super.onOptionsItemSelected(item)

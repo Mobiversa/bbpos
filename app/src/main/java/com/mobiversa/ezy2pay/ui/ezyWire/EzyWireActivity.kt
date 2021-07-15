@@ -3,17 +3,13 @@ package com.mobiversa.ezy2pay.ui.ezyWire
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.*
-import android.text.Selection
 import android.util.Base64
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -21,14 +17,11 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.core.view.isVisible
 import androidx.databinding.library.BuildConfig
 import androidx.lifecycle.ViewModelProviders
 import com.bbpos.bbdevice.BBDeviceController
 import com.bbpos.bbdevice.BBDeviceController.CurrencyCharacter
+import com.bbpos.bbdevice.ota.BBDeviceOTAController
 import com.mobiversa.ezy2pay.MainActivity
 import com.mobiversa.ezy2pay.R
 import com.mobiversa.ezy2pay.base.BaseActivity
@@ -36,12 +29,10 @@ import com.mobiversa.ezy2pay.databinding.ActivityEzyWireBinding
 import com.mobiversa.ezy2pay.network.ApiService
 import com.mobiversa.ezy2pay.network.response.KeyInjectModel
 import com.mobiversa.ezy2pay.network.response.PaymentInfoModel
-import com.mobiversa.ezy2pay.ui.receipt.PrintReceiptFragment
 import com.mobiversa.ezy2pay.ui.receipt.PrinterActivity
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.Fields.Companion.InvoiceId
-import com.mobiversa.ezy2pay.utils.LocationService
 import kotlinx.android.synthetic.main.activity_ezy_wire.*
 import retrofit2.Call
 import retrofit2.Response
@@ -82,7 +73,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
     private var encryptedMacSessionKey = ""
     private var macKcv: String? = ""
 
-    private val printReceiptFragment = PrintReceiptFragment()
     private val deliverApiService = ApiService.serviceRequest()
 
     var service : String? = ""
@@ -173,7 +163,8 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
 
         listener = MyBBPosController.getInstance(this, handler)!!
         wisePadController = BBDeviceController.getInstance(this, listener)
-
+        BBDeviceController.setDebugLogEnabled(true)
+        BBDeviceOTAController.setDebugLogEnabled(true)
         if (Build.VERSION.SDK_INT > 9) {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
@@ -218,6 +209,9 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             }
             Constants.DEVICE_INFO -> {
                 jsonKeyInjection() // KeyInjection --> For Live
+            }
+            Constants.StartEMV -> {
+                startPay()
             }
             Constants.InjectSessionSuccess -> {
                 shortToast(status)
@@ -276,20 +270,11 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 pinButtonLayout["enter"] = Rect(50, 1040, 685, 1190)
                 wisePadController.setPinPadButtons(pinButtonLayout)
             }
-            Constants.StartEMV -> {
-                Log.e("Test ", "Start EMV")
-                showHideLayout(Constants.EnterPin, status)
-                startEMVProcess()
-            }
             Constants.SwipeProcess -> {
                 showServiceCharge()
             }
             Constants.EnterPIN -> {
                 showHideLayout(Constants.EnterPin, status)
-//                wisePadController.sendPinEntryResult("001234")
-            }
-            Constants.SetAmount -> {
-                promptForAmount(totalPrice.toString())
             }
             Constants.SelectApplication -> {
                 chooseApplication()
@@ -353,7 +338,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                     sendDeclinedNotification()
                 }
             }
-            Constants.CANCEL_OR_TIMEOUT -> {
+            Constants.CANCEL_OR_TIMEOUT, Constants.TIMEOUT-> {
                 transactionFailed("Device Timeout")
             }
             Constants.NOT_ICC -> {
@@ -515,13 +500,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun startEMVProcess() {
-        val data = Hashtable<String, Any>()
-        data["emvOption"] = BBDeviceController.EmvOption.START
-        data["checkCardMode"] = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT
-        wisePadController.startEmv(data)
-    }
-
     @SuppressLint("InflateParams", "SetTextI18n")
     private fun showServiceCharge() {
         lateinit var mAlertDialog: AlertDialog
@@ -547,15 +525,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
 
         mAlertDialog = alert.create()
         mAlertDialog.show()
-    }
-
-    private fun promptForAmount(price: String) {
-
-        cancelTracking = 2
-
-        Log.e("wisepad", "promptForAmount success  $price")
-        val currencyCharacters = arrayOf(CurrencyCharacter.R, CurrencyCharacter.M)
-
     }
 
     private fun chooseApplication() {
@@ -709,8 +678,6 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         ezyWireViewModel.requestCallAck(requestVal)
         ezyWireViewModel.callAckData.observe(this, androidx.lifecycle.Observer {
             if (it.responseCode.equals("0000", true)) {
-                cancelDialog()
-
                 cancelTracking = 0
                 Constants.TRANS_ID = it.responseData.trxId
 
@@ -729,6 +696,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             }else{
                 transactionFailed("Transaction Terminated")
             }
+            cancelDialog()
         })
 
     }
@@ -848,13 +816,14 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                 val byteArray = byteArrayOutputStream.toByteArray()
 
                 if (signature_view.isSignatureDrawn) {
-                    val bundle = Bundle()
-                    bundle.putString(Fields.Service, Fields.TXN_REPRINT)
-                    bundle.putString(Fields.trxId, Constants.TRANS_ID)
-                    bundle.putString(Constants.Redirect, Constants.Home)
-                    bundle.putString(Constants.ActivityName, Constants.EzywireAct)
-                    bundle.putString(Fields.Signature, Base64.encodeToString(byteArray,Base64.DEFAULT))
-                    addFragment(printReceiptFragment,bundle,R.id.coordinatorLayout)
+                    startActivity(Intent(this@EzyWireActivity, PrinterActivity::class.java).apply {
+                        putExtra(Fields.Service, Fields.TXN_REPRINT)
+                        putExtra(Fields.trxId, Constants.TRANS_ID)
+                        putExtra(Fields.Amount, amount)
+                        putExtra(Constants.Redirect, Constants.Home)
+                        putExtra(Fields.Signature, Base64.encodeToString(byteArray,Base64.DEFAULT))
+                        putExtra(Constants.ActivityName, Constants.EzywireAct)
+                    })
                 }else{
                     shortToast("Signature is mandatory.")
                 }

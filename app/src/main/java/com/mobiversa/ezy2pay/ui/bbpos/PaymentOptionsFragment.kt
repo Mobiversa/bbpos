@@ -47,7 +47,7 @@ class PaymentOptionsFragment : BaseFragment() {
         // Set the adapter
         with(paymentMethodList) {
             adapter = PaymentOptionsListAdapter(
-                getProductList(),
+                getProductList().filter { it.isEnable },
                 object :
                     ProfileProductListViewHolder.ProductListSelectionListener {
                     override fun onProductSelected(productList: ProductList) {
@@ -82,13 +82,18 @@ class PaymentOptionsFragment : BaseFragment() {
         bundle.putString(Fields.InvoiceId, invoiceId)
         when (productName) {
             Constants.Ezywire -> {
-                startActivity(
-                    Intent(context, EzyWireActivity::class.java).apply {
-                        putExtra(Fields.Service, Fields.START_PAY)
-                        putExtra(Fields.Amount, amountToBePaid)
-                        putExtra(Fields.InvoiceId, invoiceId)
-                    }
-                )
+                if (amountToBePaid.toDouble() < 5) {
+                    shortToast("Enter Amount more than 5 RM")
+                    return
+                } else {
+                    startActivity(
+                        Intent(context, EzyWireActivity::class.java).apply {
+                            putExtra(Fields.Service, Fields.START_PAY)
+                            putExtra(Fields.Amount, amountToBePaid)
+                            putExtra(Fields.InvoiceId, invoiceId)
+                        }
+                    )
+                }
             }
             Constants.Boost -> {
                 val fragment = QRFragment()
