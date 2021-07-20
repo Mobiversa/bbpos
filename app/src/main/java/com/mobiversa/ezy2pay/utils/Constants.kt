@@ -155,6 +155,7 @@ class Constants {
         const val ReversalData = "ReversalData"
 
         const val PinScreen = "PinScreen"
+        const val PIN_VERIFIED = "PIN_VERIFIED"
         const val APDU = "APDU"
 
         //Ezywire

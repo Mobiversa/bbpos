@@ -523,6 +523,8 @@ open class BaseFragment : Fragment() {
 
         return "02:00:00:00:00:00"
     }
-
+    companion object {
+        var HISTORY_REFRESH = false
+    }
 }
 

@@ -74,13 +74,7 @@ class MyBBPosController : BBDeviceControllerListener {
         return isDeviceConnected
     }
 
-    override fun onBTDisconnected() {
-        isDeviceConnected = false
-        Constants.isDeviceConnected = false
-        Constants.batteryLevel = "Device Disconnected"
-        SendNotification(Constants.DeviceDisconnected)
-        SendNotification("battery")
-    }
+    override fun onBTDisconnected() {}
 
     override fun onBTRequestPairing() {
         Log.e("CallBack", "")
@@ -94,7 +88,6 @@ class MyBBPosController : BBDeviceControllerListener {
     }
     override fun onSerialDisconnected() {
         isDeviceConnected = false
-        SendNotification(Constants.DeviceDisconnected)
     }
     override fun onReturnCheckCardResult(checkCardResult: CheckCardResult, decodeData: Hashtable<String, String>?) {
         Toast.makeText(activity, checkCardResult.toString() + "", Toast.LENGTH_SHORT).show()
@@ -324,6 +317,10 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onReturnUpdateCAPKResult(b: Boolean) {}
     override fun onReturnRemoveCAPKResult(b: Boolean) {}
     override fun onReturnEmvReportList(hashtable: Hashtable<String, String>) {}
+    override fun onDeviceResetAlert(p0: Int) {
+        TODO("Not yet implemented")
+    }
+
     override fun onReturnEmvReport(s: String) {
         Log.v("--onReturnEmvReport--", s)
     }
@@ -404,9 +401,9 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onRequestDisplayText(displayText: DisplayText?, p1: String?) {
         Log.v("pinverify", displayText.toString())
 //
-//        if (displayText.toString().equals(Constants.EnterPIN, false)) {
-//            SendNotification(Constants.PinScreen)
-//        }
+        if (displayText.toString().equals(Constants.EnterPIN, false)) {
+            SendNotification(Constants.PIN_VERIFIED)
+        }
     }
 
     override fun onRequestDisplayAsterisk(i: Int) {
@@ -416,6 +413,10 @@ class MyBBPosController : BBDeviceControllerListener {
     }
     override fun onRequestDisplayLEDIndicator(contactlessStatus: ContactlessStatus) {}
     override fun onRequestProduceAudioTone(contactlessStatusTone: ContactlessStatusTone) {}
+    override fun onPowerConnected(p0: PowerSource?, p1: BatteryStatus?) {
+        TODO("Not yet implemented")
+    }
+
     override fun onRequestClearDisplay() {}
     override fun onRequestFinalConfirm() {
         SendNotification("Final Confirm")
@@ -442,6 +443,10 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onSessionError(sessionError: SessionError, s: String) {}
     override fun onReturnDebugLog(p0: Hashtable<String, Any>?) {
         Log.e("onReturnDebugLog", p0.toString())
+    }
+
+    override fun onPowerDisconnected(p0: PowerSource?) {
+        TODO("Not yet implemented")
     }
 
     override fun onAudioAutoConfigProgressUpdate(v: Double) {}

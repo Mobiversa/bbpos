@@ -9,6 +9,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -50,15 +51,12 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
     private lateinit var trxTypeSpinner: NDSpinner
     private lateinit var trxTypeAdapter: ArrayAdapter<String>
     private var historyList = ArrayList<ForSettlement>()
-    private var rereshOnResume: Boolean = false
     private lateinit var historyAdapter: TransactionHistoryAdapter
     private lateinit var historyRecyclerView: RecyclerView
     private lateinit var historySearch: SearchView
     private lateinit var btnSettlementHistory: RelativeLayout
 
-    private lateinit var historyData: ForSettlement
     private var historyType: String = ""
-    var firstTimeJson = true
 
     var transactionType: String = ""
     val requestData = HashMap<String, String>()
@@ -74,15 +72,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
         super.onResume()
         (activity as MainActivity).supportActionBar?.show()
         setTitle("Transactions", true)
-        if (rereshOnResume) {
-            transactionHistory()
-        }
-        rereshOnResume = false
-    }
-
-    override fun onPause() {
-        super.onPause()
-        rereshOnResume = true
     }
 
     //Fragment Navigation
@@ -177,7 +166,12 @@ class HistoryFragment : BaseFragment(), View.OnClickListener {
 
         }
 
-
+        fragmentManager?.addOnBackStackChangedListener {
+            if (HISTORY_REFRESH) {
+                transactionHistory()
+            }
+            HISTORY_REFRESH = false
+        }
     }
 
     fun transactionHistory() {

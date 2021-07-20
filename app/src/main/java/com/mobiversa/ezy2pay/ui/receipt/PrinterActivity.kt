@@ -2,16 +2,10 @@ package com.mobiversa.ezy2pay.ui.receipt
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.*
-import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
-import android.widget.EditText
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProviders
 import com.bbpos.bbdevice.BBDeviceController
 import com.google.gson.Gson
@@ -38,6 +32,7 @@ class PrinterActivity : BaseActivity() {
     private var amount: String = ""
     private var phoneNumber: String = ""
     private var isFromCardPayment: Boolean = false
+    private var isSignatureRequired: Boolean = false
     private var isSendReceipt: Boolean = false
     lateinit var wisePadController: BBDeviceController
     lateinit var listener: MyBBPosController
@@ -55,6 +50,7 @@ class PrinterActivity : BaseActivity() {
         service = intent.getStringExtra(Fields.Service) ?: ""
         trxId = intent.getStringExtra(Fields.trxId) ?: ""
         amount = intent.getStringExtra(Fields.Amount) ?: ""
+        isSignatureRequired = intent.getBooleanExtra(Fields.isSignatureRequired, true)
         isFromCardPayment = intent.getBooleanExtra(Constants.CARD_PAYMENT, false)
         binding.transactionTd.text = trxId
         binding.paymentComplete.setOnClickListener {
@@ -62,7 +58,9 @@ class PrinterActivity : BaseActivity() {
         }
         listener = MyBBPosController.getInstance(this, printerHandler)!!
         wisePadController = BBDeviceController.getInstance(this, listener)
-
+        if (!isFromCardPayment) {
+            binding.approvedSaleTxt.text = "Void Done"
+        }
         if (Build.VERSION.SDK_INT > 9) {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
@@ -170,7 +168,7 @@ class PrinterActivity : BaseActivity() {
     private fun printReceiptData(isMerchantCopy: Boolean) {
         try {
             printerReceipts = java.util.ArrayList()
-            printerReceipts.add(ReceiptUtility.genReceipt4(this, receiptData, isMerchantCopy))
+            printerReceipts.add(ReceiptUtility.genReceipt4(receiptData, isMerchantCopy, isSignatureRequired))
             wisePadController.startPrint(1, 120)
         } catch (e: Exception) {
             e.printStackTrace()

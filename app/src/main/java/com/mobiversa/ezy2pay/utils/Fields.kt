@@ -127,6 +127,7 @@ class Fields {
         const val CardDetails : String = "carddetails"
         const val PanSequenceNum : String = "panSequenceNum"
         const val PinData : String = "pinData"
+        const val isSignatureRequired : String = "isSignatureNotRequired"
         const val Signature : String = "signature"
         //Acknowledgement
         const val PREAUTH_ACK : String = "PREAUTH_ACK"

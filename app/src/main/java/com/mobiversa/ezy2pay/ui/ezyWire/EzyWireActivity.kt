@@ -56,7 +56,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
     private var SWIPE_PINDATA: String = ""
     private val ALGO = "AES"
     private var preAuth: Boolean = false
-    private var isEzyrecSale: Boolean = false
+    private var isSignatureRequired: Boolean = false
     private lateinit var deviceStatus: String
     private var totalPrice: Double = 0.0
     lateinit var wisePadController: BBDeviceController
@@ -183,7 +183,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
         val data = Hashtable<String, Any>()
         data["emvOption"] = BBDeviceController.EmvOption.START
         data["checkCardMode"] = BBDeviceController.CheckCardMode.SWIPE_OR_INSERT_OR_TAP
-        data["transactionType"] = BBDeviceController.TransactionType.PAYMENT
+        data["transactionType"] = BBDeviceController.TransactionType.SERVICES
         val currencyCharacter = arrayOf(
             CurrencyCharacter.R,
             CurrencyCharacter.M
@@ -315,6 +315,9 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
             }
             Constants.APPROVED -> {
                 callAcknowledgementAPI(Constants.TRANS_ID)
+            }
+            Constants.PIN_VERIFIED -> {
+                isSignatureRequired = true
             }
             Constants.PIN_CANCELLED -> {
                 transactionFailed("Transaction cancelled")
@@ -820,6 +823,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                         putExtra(Fields.Service, Fields.TXN_REPRINT)
                         putExtra(Fields.trxId, Constants.TRANS_ID)
                         putExtra(Fields.Amount, amount)
+                        putExtra(Fields.isSignatureRequired, isSignatureRequired)
                         putExtra(Constants.Redirect, Constants.Home)
                         putExtra(Fields.Signature, Base64.encodeToString(byteArray,Base64.DEFAULT))
                         putExtra(Constants.ActivityName, Constants.EzywireAct)
@@ -858,6 +862,7 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                     putExtra(Fields.Service, Fields.TXN_REPRINT)
                     putExtra(Fields.trxId, Constants.TRANS_ID)
                     putExtra(Fields.Amount, amount)
+                    putExtra(Fields.isSignatureRequired, isSignatureRequired)
                     putExtra(Constants.CARD_PAYMENT, true)
                 })
             }

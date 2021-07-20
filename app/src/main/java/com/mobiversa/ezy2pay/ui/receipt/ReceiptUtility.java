@@ -274,7 +274,7 @@ public class ReceiptUtility {
         }
         return null;//genDummyReceipt(context);
     }
-    public static byte[] genReceipt4(Context context, ReceiptModel receiptData, Boolean isMerchantCopy) {
+    public static byte[] genReceipt4(ReceiptModel receiptData, Boolean isMerchantCopy, Boolean isSignatureRequired) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -361,14 +361,14 @@ public class ReceiptUtility {
             x = 100;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             canvas.drawText(" : " + receiptData.getResponseData().getTrace(), x, y, paintText);
-
+            Float amount = Float.parseFloat(receiptData.getResponseData().getAmount());
             x = 20;
             y += 20;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
             canvas.drawText("Amount", x, y, paintText);
             x = 100;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + receiptData.getResponseData().getAmount(), x, y, paintText);
+            canvas.drawText(" : " + String.format(java.util.Locale.US,"%.2f", amount), x, y, paintText);
 
 
             x = 0;
@@ -382,7 +382,7 @@ public class ReceiptUtility {
             canvas.drawText("Total", x, y, paintText);
             x = 140;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : RM " + receiptData.getResponseData().getAmount(), x, y, paintText);
+            canvas.drawText(" : RM " + String.format(java.util.Locale.US,"%.2f", amount), x, y, paintText);
 
 
             x = 0;
@@ -401,23 +401,25 @@ public class ReceiptUtility {
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
             canvas.drawText("NO REFUND", x, y, paintText);
 
-            x = 20;
-            y += 60;
-            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("CARDHOLDER SIGNATURE : ", x, y, paintText);
-            x = 0;
-            y += 10;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("_____________________________________________", x, y, paintText);
+            if (!isMerchantCopy || (isMerchantCopy && (isSignatureRequired || amount >= 250))) {
+                x = 20;
+                y += 60;
+                paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+                canvas.drawText("CARDHOLDER SIGNATURE : ", x, y, paintText);
+                x = 0;
+                y += 10;
+                paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+                canvas.drawText("_____________________________________________", x, y, paintText);
 
-            x = 20;
-            y += 30;
-            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("I ACKNOWLEDGE SATISFACTORY RECEIPT ", x, y, paintText);
-            x = 20;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("OF RELATIVE GOODS/SERVICE", x, y, paintText);
+                x = 20;
+                y += 30;
+                paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+                canvas.drawText("I ACKNOWLEDGE SATISFACTORY RECEIPT ", x, y, paintText);
+                x = 20;
+                y += 20;
+                paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+                canvas.drawText("OF RELATIVE GOODS/SERVICE", x, y, paintText);
+            }
             x = 20;
             y += 40;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));

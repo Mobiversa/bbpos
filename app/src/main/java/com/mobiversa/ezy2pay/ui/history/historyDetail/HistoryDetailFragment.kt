@@ -12,6 +12,7 @@ import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -31,6 +32,7 @@ import com.mobiversa.ezy2pay.utils.Fields.Companion.CASH
 import com.mobiversa.ezy2pay.utils.Fields.Companion.GPAY_REFUND
 import com.mobiversa.ezy2pay.utils.Fields.Companion.VALIDATE_VOID
 import com.mobiversa.ezy2pay.utils.Fields.Companion.VOID
+import kotlinx.android.synthetic.main.history_detail_fragment.*
 import kotlinx.android.synthetic.main.history_detail_fragment.view.*
 import java.util.regex.Pattern
 
@@ -52,7 +54,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
     lateinit var mAlertDialog: AlertDialog
     private lateinit var btn_history_detail_receipt: Button
     val requestVal = HashMap<String, String>()
-
+    private var voidView: AppCompatButton? = null
     companion object {
         private var mMap: GoogleMap? = null
         private var mapFragment: SupportMapFragment? = null
@@ -106,7 +108,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
         rootView.txt_stan_history.text = "${historyData?.stan}"
         rootView.txt_authcode_history.text = "${historyData?.aidResponse}"
         rootView.txt_invoice_history.text = " ${historyData?.invoiceId}"
-
+        voidView = rootView.btn_history_detail_void
         mapTitle = " $amount, $date"
 
         if (historyData?.txnType.equals("FPX")){
@@ -424,6 +426,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
                 val bundle = Bundle()
                 if( historyData?.txnType.equals(Fields.GRABPAY) ||
                     historyData?.txnType.equals(Fields.BOOST)){
+//                    HISTORY_REFRESH = true
                     fragmentManager?.popBackStack()
                 }
                 else{
@@ -433,6 +436,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
                         putExtra(Fields.Amount, amount)
                         putExtra(Constants.ActivityName, MainAct)
                     })
+                    voidView?.visibility = View.GONE
                 }
 
             } else
@@ -463,6 +467,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
             android.R.id.home -> {
                 (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 setTitle("Transactions", true)
+                HISTORY_REFRESH = true
                 fragmentManager?.popBackStack()
                 true
             }
