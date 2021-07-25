@@ -89,7 +89,7 @@ open class BaseFragment : Fragment() {
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(activity)
         val response: String? = prefs[Constants.LoginResponse]
         val result = Gson()
-        return result.fromJson(response, ResponseData::class.java)
+        return result.fromJson(response ?: "{}", ResponseData::class.java)
     }
 
     fun getTidValue() : String{

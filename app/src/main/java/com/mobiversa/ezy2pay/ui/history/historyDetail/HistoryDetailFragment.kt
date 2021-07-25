@@ -391,7 +391,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
                 requestVal[Fields.Service] = BOOST_VOID
                 requestVal[Fields.sessionId] = getLoginResponse().sessionId
                 requestVal[Fields.tid] = getLoginResponse().tid
-                requestVal[Fields.mid] = getLoginResponse().mid!!
+                requestVal[Fields.mid] = getLoginResponse().mid
                 requestVal[Fields.AID] = historyData!!.aidResponse
                 requestVal[Fields.trxId] = historyData?.txnId!!
                 requestVal[Fields.InvoiceId] = historyData?.invoiceId ?: ""
@@ -423,10 +423,9 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
         viewModel.setVoidHistory.observe(this, Observer {
             if (it.responseCode.equals("0000", true)) {
                 shortToast(it.responseDescription)
-                val bundle = Bundle()
+                HISTORY_REFRESH = true
                 if( historyData?.txnType.equals(Fields.GRABPAY) ||
                     historyData?.txnType.equals(Fields.BOOST)){
-//                    HISTORY_REFRESH = true
                     fragmentManager?.popBackStack()
                 }
                 else{
@@ -467,7 +466,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
             android.R.id.home -> {
                 (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 setTitle("Transactions", true)
-                HISTORY_REFRESH = true
+//                HISTORY_REFRESH = true
                 fragmentManager?.popBackStack()
                 true
             }

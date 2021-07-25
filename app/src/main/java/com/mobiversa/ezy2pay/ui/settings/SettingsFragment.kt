@@ -296,6 +296,7 @@ class SettingsFragment : BaseFragment(), View.OnClickListener {
         alert.setCancelable(false)
 
         positiveBtn.setOnClickListener {
+            mAlertDialog.dismiss()
             val reqParam = HashMap<String, String>()
             reqParam[Fields.Service] = Fields.LOGOUT_MOB
             reqParam[Fields.sessionId] = getLoginResponse().sessionId

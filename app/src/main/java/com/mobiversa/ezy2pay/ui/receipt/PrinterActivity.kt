@@ -13,6 +13,7 @@ import com.mobiversa.ezy2pay.MainActivity
 import com.mobiversa.ezy2pay.base.BaseActivity
 import com.mobiversa.ezy2pay.databinding.ActivityPrinterBinding
 import com.mobiversa.ezy2pay.network.response.ReceiptModel
+import com.mobiversa.ezy2pay.network.response.ReceiptResponseData
 import com.mobiversa.ezy2pay.network.response.ResponseData
 import com.mobiversa.ezy2pay.ui.ezyWire.MyBBPosController
 import com.mobiversa.ezy2pay.ui.history.CountryCodeActivity
@@ -66,6 +67,10 @@ class PrinterActivity : BaseActivity() {
             StrictMode.setThreadPolicy(policy)
         }
         wisePadController.startSerial()
+//        receiptData = ReceiptModel(responseCode = "0000", responseDescription = "",
+//        responseData = ReceiptResponseData(amount = "5.00", aid = "", approveCode = "", batchNo = "", cardHolderName = "", cardNo = "", cardType = "", date = "10, 2021",
+//        invoiceId = "", latitude = "", longitude = "", merchantAddr = "", merchantCity = "", merchantName = "", merchantPhone = "", merchantPostCode = "",
+//        mid = "000000000015815", rrn = "", tc = "", tid = "30003642", time = "11:35 PM", tips = "", trace = "", txnType = ""), responseMessage = "")
         printerInit()
         jsonSendReceipt()
     }
@@ -115,11 +120,11 @@ class PrinterActivity : BaseActivity() {
     }
     private fun printerInit() {
         binding.printMerchantCopy.setOnClickListener {
-            it.visibility = View.GONE
+//            it.visibility = View.GONE
             printReceiptData(true)
         }
         binding.printCustomerCopy.setOnClickListener {
-            it.visibility = View.GONE
+//            it.visibility = View.GONE
             printReceiptData(false)
         }
         binding.paymentComplete.setOnClickListener {

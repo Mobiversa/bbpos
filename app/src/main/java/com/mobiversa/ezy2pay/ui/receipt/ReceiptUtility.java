@@ -278,7 +278,7 @@ public class ReceiptUtility {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-            Bitmap bitmap = Bitmap.createBitmap(384, 920, Bitmap.Config.ARGB_8888);
+            Bitmap bitmap = Bitmap.createBitmap(384, 935, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
 
             canvas.drawARGB(255, 255, 255, 255);
@@ -300,138 +300,140 @@ public class ReceiptUtility {
             paintText.setTextSize(16);
             x = 20;
             y += 60;
-            canvas.drawText("MOBI ASIA SDN. BHD.", x, y, paintText);
-            y += 20;
-            canvas.drawText("#07-01, Wiswa UOA Damansara II, No. 6,", x, y, paintText);
-            y += 20;
-            canvas.drawText("C Damansara Heights,", x, y, paintText);
-            y += 20;
-            canvas.drawText("58200", x, y, paintText);
-            y += 20;
-            canvas.drawText("KUALA LUMPUR", x, y, paintText);
-            y += 20;
-            canvas.drawText("0126885251", x, y, paintText);
-            x = 0;
+            canvas.drawText(receiptData.getResponseData().getMerchantName(), x, y, paintText);
+            x = 20;
             y += 30;
-            paintText.setTextSize(16);
-            canvas.drawText("_____________________________________________", x, y, paintText);
+            canvas.drawText(receiptData.getResponseData().getMerchantAddr(), x, y, paintText);
+            x = 20;
+            y += 30;
+            canvas.drawText(receiptData.getResponseData().getMerchantCity() + ", " + receiptData.getResponseData().getMerchantPostCode(), x, y, paintText);
+            x = 20;
+            y += 30;
+            canvas.drawText("PHONE # " + receiptData.getResponseData().getMerchantPhone(), x, y, paintText);
 
+            paintText.setTextSize(16);
+
+            x = 20;
+            y += 40;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("TID", x, y, paintText);
+            x = 90;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getTid(), x, y, paintText);
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
             x = 20;
             y += 30;
             canvas.drawText("MID", x, y, paintText);
-            x = 60;
+            x = 90;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             canvas.drawText(" : " + receiptData.getResponseData().getMid(), x, y, paintText);
             x = 20;
-            y += 20;
+            y += 30;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("TID", x, y, paintText);
-            x = 60;
+            canvas.drawText("Card No", x, y, paintText);
+            x = 90;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + receiptData.getResponseData().getTid(), x, y, paintText);
+            canvas.drawText(" : " + receiptData.getResponseData().getCardNo(), x, y, paintText);
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Card Holder", x, y, paintText);
+            x = 130;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getCardHolderName(), x, y, paintText);
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Card Type", x, y, paintText);
+            x = 130;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getCardType(), x, y, paintText);
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("RR No", x, y, paintText);
+            x = 130;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getRrn(), x, y, paintText);
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Batch No", x, y, paintText);
+            x = 130;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getBatchNo(), x, y, paintText);
+            x = 20;
+            y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Appr Code", x, y, paintText);
+            x = 130;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
+            canvas.drawText(" : " + receiptData.getResponseData().getApproveCode(), x, y, paintText);
 
             x = 20;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("Transaction Type", x, y, paintText);
-            x = 190;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + receiptData.getResponseData().getTxnType(), x, y, paintText);
-
-            x = 20;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("Date", x, y, paintText);
-            x = 60;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + receiptData.getResponseData().getDate(), x, y, paintText);
-
-            x = 20;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("Time", x, y, paintText);
-            x = 60;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + receiptData.getResponseData().getTime(), x, y, paintText);
-
-            x = 20;
-            y += 50;
+            y += 30;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
             canvas.drawText("Trace No", x, y, paintText);
-            x = 100;
+            x = 130;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             canvas.drawText(" : " + receiptData.getResponseData().getTrace(), x, y, paintText);
-            Float amount = Float.parseFloat(receiptData.getResponseData().getAmount());
+            
             x = 20;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("Amount", x, y, paintText);
-            x = 100;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
-            canvas.drawText(" : " + String.format(java.util.Locale.US,"%.2f", amount), x, y, paintText);
-
-
-            x = 0;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("_____________________________________________", x, y, paintText);
-
-            x = 80;
             y += 30;
+            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+            canvas.drawText("Date-Time", x, y, paintText);
+            x = 130;
+            canvas.drawText(receiptData.getResponseData().getDate() + " : "
+                    + receiptData.getResponseData().getTime(), x, y, paintText);
+            
+            Float amount = Float.parseFloat(receiptData.getResponseData().getAmount());
+            x = 100;
+            y += 40;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
             canvas.drawText("Total", x, y, paintText);
-            x = 140;
+            x = 210;
             paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.BOLD));
             canvas.drawText(" : RM " + String.format(java.util.Locale.US,"%.2f", amount), x, y, paintText);
+            
+
+//            if (!isMerchantCopy) {
+//                x = 20;
+//                y += 30;
+//                paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
+//                canvas.drawText("SIGNATURE NOT REQUIRED", x, y, paintText);
+//            }
 
 
-            x = 0;
-            y += 20;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("_____________________________________________", x, y, paintText);
-
-            if (!isMerchantCopy) {
+            if (isMerchantCopy && (isSignatureRequired || amount >= 250)) {
                 x = 20;
-                y += 30;
+                y += 50;
                 paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-                canvas.drawText("SIGNATURE NOT REQUIRED", x, y, paintText);
-            }
-            x = 20;
-            y += 30;
-            paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-            canvas.drawText("NO REFUND", x, y, paintText);
+                canvas.drawText("X_____________________________________________", x, y, paintText);
 
-            if (!isMerchantCopy || (isMerchantCopy && (isSignatureRequired || amount >= 250))) {
-                x = 20;
-                y += 60;
-                paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-                canvas.drawText("CARDHOLDER SIGNATURE : ", x, y, paintText);
-                x = 0;
-                y += 10;
-                paintText.setTypeface(Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL));
-                canvas.drawText("_____________________________________________", x, y, paintText);
-
-                x = 20;
+                x = 100;
                 y += 30;
                 paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-                canvas.drawText("I ACKNOWLEDGE SATISFACTORY RECEIPT ", x, y, paintText);
-                x = 20;
-                y += 20;
-                paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-                canvas.drawText("OF RELATIVE GOODS/SERVICE", x, y, paintText);
+                canvas.drawText("No Signature Required ", x, y, paintText);
+
             }
-            x = 20;
+            x = 80;
             y += 40;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
             canvas.drawText("*** "+ (isMerchantCopy ? "MERCHANT COPY" : "CUSTOMER COPY") +" ***", x, y, paintText);
-            x = 20;
+            x = 90;
             y += 40;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("Powered By : MOBI ASIA Sdn. Bhd.", x, y, paintText);
-            x = 20;
+            canvas.drawText("No refunds after 30 days.", x, y, paintText);
+            x = 140;
             y += 20;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("(Formerly Known as Mobiversa Sdn. Bhd)", x, y, paintText);
+            canvas.drawText("THANK YOU", x, y, paintText);
+
+            paintText.setTextSize(25);
+            x = 150;
+            y += 40;
+            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+            canvas.drawText(receiptData.getResponseData().getTxnType(), x, y, paintText);
 
             byte[] imageCommand = BBDeviceController.getImageCommand(bitmap, 150);
             baos.write(imageCommand, 0, imageCommand.length);
