@@ -127,6 +127,7 @@ class Constants {
         const val SHOW_ASTRIX = "SHOW_ASTRIX"
         const val PRINT_RECEIPT = "PRINT_RECEIPT"
         const val DEVICE_INFO = "DEVICE_INFO"
+        const val PRINT_END = "PRINT_END"
         const val SetAmount = "set amount"
         const val SelectApplication = "select application"
         const val FinalConfirm = "Final Confirm"

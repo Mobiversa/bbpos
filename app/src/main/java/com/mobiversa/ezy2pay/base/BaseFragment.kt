@@ -74,10 +74,11 @@ open class BaseFragment : Fragment() {
         activity = context as Activity
     }
 
-    fun showDialog(message: String) {
+    fun showDialog(message: String, isCancellable: Boolean = true) {
         mProgressDialog = activity.indeterminateProgressDialog(message)
         if (!mProgressDialog.isShowing)
             mProgressDialog.show()
+        mProgressDialog.setCanceledOnTouchOutside(isCancellable)
     }
 
     fun cancelDialog() {
@@ -209,7 +210,11 @@ open class BaseFragment : Fragment() {
     }
 
     fun shortToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun showLog(title: String, content: String) {

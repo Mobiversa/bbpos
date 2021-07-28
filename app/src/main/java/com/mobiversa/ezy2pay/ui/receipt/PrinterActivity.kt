@@ -59,9 +59,7 @@ class PrinterActivity : BaseActivity() {
         }
         listener = MyBBPosController.getInstance(this, printerHandler)!!
         wisePadController = BBDeviceController.getInstance(this, listener)
-        if (!isFromCardPayment) {
-            binding.approvedSaleTxt.text = "Void Done"
-        }
+
         if (Build.VERSION.SDK_INT > 9) {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
@@ -118,13 +116,17 @@ class PrinterActivity : BaseActivity() {
     private fun getIsWhatsapp(whatsApp: Boolean): String {
         return if (whatsApp) "Yes" else "No"
     }
+    private fun enablePrintAction() {
+        binding.printMerchantCopy.visibility = View.VISIBLE
+        binding.printCustomerCopy.visibility = View.VISIBLE
+    }
     private fun printerInit() {
         binding.printMerchantCopy.setOnClickListener {
-//            it.visibility = View.GONE
+            it.visibility = View.GONE
             printReceiptData(true)
         }
         binding.printCustomerCopy.setOnClickListener {
-//            it.visibility = View.GONE
+            it.visibility = View.GONE
             printReceiptData(false)
         }
         binding.paymentComplete.setOnClickListener {
@@ -155,6 +157,10 @@ class PrinterActivity : BaseActivity() {
                 Constants.PRINT_RECEIPT -> {
                     wisePadController.sendPrintData(printerReceipts[0])
                 }
+                Constants.PRINT_END -> {
+                    cancelDialog()
+                    enablePrintAction()
+                }
             }
         }
     }
@@ -172,6 +178,7 @@ class PrinterActivity : BaseActivity() {
 
     private fun printReceiptData(isMerchantCopy: Boolean) {
         try {
+            showDialog("Printing....", false)
             printerReceipts = java.util.ArrayList()
             printerReceipts.add(ReceiptUtility.genReceipt4(receiptData, isMerchantCopy, isSignatureRequired))
             wisePadController.startPrint(1, 120)

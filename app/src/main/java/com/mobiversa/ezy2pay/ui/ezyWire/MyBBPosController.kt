@@ -430,7 +430,9 @@ class MyBBPosController : BBDeviceControllerListener {
         SendNotification(Constants.PRINT_RECEIPT)
     }
     override fun onPrintDataCancelled() {}
-    override fun onPrintDataEnd() {}
+    override fun onPrintDataEnd() {
+        SendNotification(Constants.PRINT_END)
+    }
     override fun onBatteryLow(batteryStatus: BatteryStatus) {}
     override fun onAudioDevicePlugged() {}
     override fun onAudioDeviceUnplugged() {}

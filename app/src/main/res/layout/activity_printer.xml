@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/ubuntu_bold"
-            android:text="@string/approved_sale_txt"
+            android:text="@string/print_receipt"
             android:layout_marginTop="@dimen/xxhdpi_20"
             android:textColor="@color/txt_primary_grey"
             android:textSize="@dimen/t_xxh_20"

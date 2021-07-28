@@ -418,7 +418,7 @@ class HistoryDetailFragment : BaseFragment(), View.OnClickListener {
             }
         }
 
-        showDialog("Processing...")
+        showDialog("Processing...", false)
         viewModel.setVoidHistory(pathStr, requestVal)
         viewModel.setVoidHistory.observe(this, Observer {
             if (it.responseCode.equals("0000", true)) {

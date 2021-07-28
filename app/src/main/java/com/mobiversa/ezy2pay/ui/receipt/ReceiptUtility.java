@@ -420,10 +420,10 @@ public class ReceiptUtility {
             y += 40;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
             canvas.drawText("*** "+ (isMerchantCopy ? "MERCHANT COPY" : "CUSTOMER COPY") +" ***", x, y, paintText);
-            x = 90;
-            y += 40;
-            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
-            canvas.drawText("No refunds after 30 days.", x, y, paintText);
+//            x = 90;
+//            y += 40;
+//            paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));
+//            canvas.drawText("No refunds after 30 days.", x, y, paintText);
             x = 140;
             y += 20;
             paintText.setTypeface(Typeface.create(Typeface.SERIF, Typeface.NORMAL));

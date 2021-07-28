@@ -69,10 +69,11 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showDialog(message: String) {
+    fun showDialog(message: String, cancellable: Boolean = true) {
         mProgressDialog = indeterminateProgressDialog(message)
         if (mProgressDialog?.isShowing == false)
             mProgressDialog?.show()
+        mProgressDialog?.setCanceledOnTouchOutside(cancellable)
     }
 
     fun cancelDialog() {
