@@ -384,6 +384,9 @@ class EzyWireActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
             }
+            Constants.CMD_NOT_AVAILABLE -> {
+                transactionFailed("CMD_NOT_AVAILABLE, Payment function is disabled remotely")
+            }
             Constants.Error -> {
                 Log.e("EZYWIRE", Constants.Error)
             }

@@ -11,6 +11,7 @@ import com.bbpos.bbdevice.BBDeviceController.*
 import com.bbpos.bbdevice.CAPK
 import com.mobiversa.ezy2pay.utils.Constants
 import com.mobiversa.ezy2pay.utils.Constants.Companion.BBDeviceVersion
+import com.mobiversa.ezy2pay.utils.Constants.Companion.CMD_NOT_AVAILABLE
 import com.mobiversa.ezy2pay.utils.Constants.Companion.StartEMV
 import com.mobiversa.ezy2pay.utils.Fields
 import com.mobiversa.ezy2pay.utils.PreferenceHelper
@@ -438,7 +439,11 @@ class MyBBPosController : BBDeviceControllerListener {
     override fun onAudioDeviceUnplugged() {}
     override fun onError(errorState: Error, errorMessage: String) {
         Log.e("wisepad errorMessage", errorMessage + "::" + errorState + ":: " + errorState.name)
-        SendNotification("Error::$errorMessage")
+        if (errorState.name.equals(CMD_NOT_AVAILABLE, ignoreCase = true)) {
+            SendNotification(CMD_NOT_AVAILABLE)
+        } else {
+            SendNotification("Error::$errorMessage")
+        }
     }
 
     override fun onSessionInitialized() {}

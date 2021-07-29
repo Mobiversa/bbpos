@@ -125,7 +125,7 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
     }
 
     override fun onBackPressed() {
-        showExitAlert("Exit Alert","Are you sure you want to exit from Mobiversa?")
+        showExitAlert("Exit Alert","Are you sure you want to exit from Mobi?")
     }
 
     private fun showUpdatePrompt() {

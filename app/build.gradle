@@ -15,9 +15,9 @@ android {
         applicationId "com.mobiversa.ezy2pay"
         minSdkVersion 17
         targetSdkVersion 30
-        versionCode 188
+        versionCode 189
 
-        versionName "4.1.15"
+        versionName "4.1.16"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
