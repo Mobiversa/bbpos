@@ -11,7 +11,7 @@ class Constants {
         const val LOGGED_CHAT_URL : String = "https://gomobi.io/support/livechat?nm="
         const val tcHtmlString : String = "https://gomobi.io/terms-condition/"
         const val mobiApi : String = "b07ad9f31df158edb188a41f725899bc"
-
+        const val BB_POS: String = "BB_POS"
         const val Normal : String = "NORMAL"
         const val LITE : String = "LITE"
         const val Balance : String = "Balance"
@@ -29,6 +29,7 @@ class Constants {
         const val UpgradeStatus : String = "UpgradeStatus"
         const val UPGRADE : String = "UPGRADE"
         const val otp : String = "otp"
+        const val PHONE : String = "PHONE"
 
         //Signup
         const val enteredMobilenumber: String = "entered_mobilenumber"
@@ -122,6 +123,12 @@ class Constants {
         const val StartEMV = "Start EMV"
         const val EnterPIN = "Enter PIN"
         const val PRESENT_CARD = "PRESENT_CARD"
+        const val SHOW_PIN_PAD = "SHOW_PIN_PAD"
+        const val SHOW_ASTRIX = "SHOW_ASTRIX"
+        const val PRINT_RECEIPT = "PRINT_RECEIPT"
+        const val DEVICE_INFO = "DEVICE_INFO"
+        const val CMD_NOT_AVAILABLE = "CMD_NOT_AVAILABLE"
+        const val PRINT_END = "PRINT_END"
         const val SetAmount = "set amount"
         const val SelectApplication = "select application"
         const val FinalConfirm = "Final Confirm"
@@ -133,6 +140,7 @@ class Constants {
         const val TERMINATED = "TERMINATED"
         const val DECLINED = "DECLINED"
         const val CANCEL_OR_TIMEOUT = "CANCEL_OR_TIMEOUT"
+        const val TIMEOUT = "TIMEOUT"
         const val NOT_ICC = "NOT_ICC"
         const val CARD_BLOCKED = "CARD_BLOCKED"
         const val DEVICE_ERROR = "DEVICE_ERROR"
@@ -149,6 +157,7 @@ class Constants {
         const val ReversalData = "ReversalData"
 
         const val PinScreen = "PinScreen"
+        const val PIN_VERIFIED = "PIN_VERIFIED"
         const val APDU = "APDU"
 
         //Ezywire
@@ -159,6 +168,7 @@ class Constants {
         const val SuccessTransaction : String = "SuccessTransaction"
         const val SignaturePage : String = "Signature"
 
+        const val CARD_PAYMENT = "CARD_PAYMENT"
         const val ActivityName = "Activity"
         const val Redirect = "Redirect"
         const val MainAct = "MainActivity"

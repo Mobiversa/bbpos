@@ -2,6 +2,7 @@ package com.mobiversa.ezy2pay.network.response
 
 data class ProductList(
     val productName: String,
+    val displayName: String,
     val productImage: Int,
     val disableProductImage: Int,
     val tID: String?,

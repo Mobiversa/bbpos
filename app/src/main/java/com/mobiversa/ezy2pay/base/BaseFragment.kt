@@ -74,10 +74,11 @@ open class BaseFragment : Fragment() {
         activity = context as Activity
     }
 
-    fun showDialog(message: String) {
+    fun showDialog(message: String, isCancellable: Boolean = true) {
         mProgressDialog = activity.indeterminateProgressDialog(message)
         if (!mProgressDialog.isShowing)
             mProgressDialog.show()
+        mProgressDialog.setCanceledOnTouchOutside(isCancellable)
     }
 
     fun cancelDialog() {
@@ -89,7 +90,7 @@ open class BaseFragment : Fragment() {
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(activity)
         val response: String? = prefs[Constants.LoginResponse]
         val result = Gson()
-        return result.fromJson(response, ResponseData::class.java)
+        return result.fromJson(response ?: "{}", ResponseData::class.java)
     }
 
     fun getTidValue() : String{
@@ -209,7 +210,11 @@ open class BaseFragment : Fragment() {
     }
 
     fun shortToast(text: String) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun showLog(title: String, content: String) {
@@ -235,98 +240,21 @@ open class BaseFragment : Fragment() {
         val loginResponse = getLoginResponse()
 
         val productList: ArrayList<ProductList> = ArrayList()
-        if (loginResponse.type.equals("Lite", true)) {
-            productList.add(
-                ProductList(
-                    EzyMoto,
-                    R.drawable.ezylink_blue_icon, R.drawable.link_disable_icon,
-                    loginResponse.motoTid,
-                    loginResponse.motoMid,
-                    loginResponse.enableMoto.equals("Yes", false),
-                    EzyMoto
-                )
-            )
-
-        } else {
-            if (loginResponse.auth3DS.equals("Yes", true)) {
-                productList.add(
-                    ProductList(
-                        EzyMoto,
-                        R.drawable.ezylink_blue_icon, R.drawable.link_disable_icon,
-                        loginResponse.motoTid,
-                        loginResponse.motoMid,
-                        loginResponse.enableMoto.equals("Yes", false),
-                        EzyMoto
-                    )
-                )
-            } else {
-                productList.add(
-                    ProductList(
-                        EzyMoto,
-                        R.drawable.ezymoto_blue_icon, R.drawable.moto_disabled_icon,
-                        loginResponse.motoTid,
-                        loginResponse.motoMid,
-                        loginResponse.enableMoto.equals("Yes", false),
-                        EzyMoto
-                    )
-                )
-            }
-            productList.add(
-                ProductList(
-                    Ezywire,
-                    R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
-                    loginResponse.tid,
-                    loginResponse.mid,
-                    loginResponse.enableEzywire.equals("Yes", false),
-                    Fields.EZYWIRE
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzyRec,
-                    R.drawable.ezyrec_blue_icon, R.drawable.recurring_disabled,
-                    loginResponse.ezyrecTid,
-                    loginResponse.ezyrecMid,
-                    loginResponse.enableEzyrec.equals("Yes", false),
-                    Fields.EZYREC
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzySplit,
-                    R.drawable.ezyrec_blue_icon, R.drawable.recurring_disabled,
-                    loginResponse.ezysplitTid,
-                    loginResponse.ezysplitMid,
-                    loginResponse.enableSplit.equals("Yes", false),
-                    Fields.EZYSPLIT
-                )
-            )
-            productList.add(
-                ProductList(
-                    EzyAuth,
-                    R.drawable.ezyauth_blue_icon, R.drawable.ezyauth_disabled_icon,
-                    "",
-                    "",
-                    loginResponse.preAuth.equals("Yes", false), Fields.PREAUTH
-                )
-            )
-            productList.add(
-                ProductList(
-                    MobiPass,
-                    R.drawable.mobipass_icon, R.drawable.mobipass_logo_disabled,
-                    loginResponse.ezypassTid,
-                    loginResponse.ezypassMid,
-                    loginResponse.enableEzypass.equals("Yes", false),
-                    Fields.EZYPASS
-                )
-            )
-        }
-
 
         productList.add(
             ProductList(
-                Boost,
-                R.drawable.ic_boost, R.drawable.boost_disabled_icon,
+                Ezywire,"Card Payment",
+                R.drawable.ezywire_blue_icon, R.drawable.ezywire_disabled_icon,
+                loginResponse.tid,
+                loginResponse.mid,
+                loginResponse.enableEzywire.equals("Yes", false),
+                Fields.EZYWIRE
+            )
+        )
+        productList.add(
+            ProductList(
+                Boost,"",
+                R.drawable.ic_boost_logo, R.drawable.boost_disabled_icon,
                 "",
                 "",
                 loginResponse.enableBoost.equals("Yes", false),
@@ -336,22 +264,12 @@ open class BaseFragment : Fragment() {
         productList.add(
             ProductList(
                 GrabPay,
-                R.drawable.ic_grabpay, R.drawable.grab_disabled_icon,
+                "",
+                R.drawable.ic_grab_pay, R.drawable.grab_disabled_icon,
                 loginResponse.gpayMid,
                 loginResponse.gpayTid,
                 loginResponse.enableGrabPay.equals("Yes", false),
                 Fields.GRABPAY
-            )
-        )
-
-        productList.add(
-            ProductList(
-                MobiCash,
-                R.drawable.cash_blue_icon, R.drawable.mobipass_logo_disabled,
-                "",
-                "",
-                true,
-                Fields.CASH
             )
         )
 
@@ -610,6 +528,8 @@ open class BaseFragment : Fragment() {
 
         return "02:00:00:00:00:00"
     }
-
+    companion object {
+        var HISTORY_REFRESH = false
+    }
 }
 

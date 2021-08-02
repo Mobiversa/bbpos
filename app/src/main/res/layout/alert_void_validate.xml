@@ -57,29 +57,6 @@
             android:backgroundTint="@color/colorPrimary"
             android:background="@drawable/rect_bor"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Or"
-            android:layout_marginTop="@dimen/xxhdpi_10"
-            android:textStyle="bold"
-            android:textColor="@color/txt_clr"
-            android:textSize="@dimen/t_xxh_18"/>
-
-
-        <Button
-            android:id="@+id/btn_alert_finger"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Verify Finger Print"
-            android:textStyle="bold"
-            android:textSize="@dimen/t_xxh_16"
-            android:textColor="@color/white"
-            android:layout_marginTop="@dimen/xxhdpi_10"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/rect_bor"/>
-
         <Button
             android:id="@+id/btn_alert_cancel"
             android:layout_width="match_parent"

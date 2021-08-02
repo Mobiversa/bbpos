@@ -67,14 +67,11 @@ class ProfileProductListFragment : BaseFragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val activity = activity as? MainActivity
         return when (item.itemId) {
             android.R.id.home -> {
                 val fragment = SettingsFragment()
                 addFragment(fragment,bundle, Product)
                 setTitle("Profile", true)
-//                (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-//                fragmentManager?.popBackStack()
                 true
             }
             else -> super.onOptionsItemSelected(item)

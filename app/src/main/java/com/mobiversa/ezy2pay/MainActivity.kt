@@ -69,22 +69,12 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
             ConnectivityReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        LocationService.init(this)
-
-        val serverVersion = getLoginResponse(applicationContext).appVersion
-        val versionName = BuildConfig.VERSION_NAME
-
-//        if (compareVersions(versionName,serverVersion) >= 0) {
-//        } else {
-//            //Update Available
-//            showUpdatePrompt()
-//        }
+//        LocationService.init(this)
 
         val current = Calendar.getInstance().time
 
         val sdfComp = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val currentLogin = sdfComp.format(current)
-//        val currentLogin = "2020-06-17"
         val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(applicationContext)
 
         val lastLogin = prefs.getString(Constants.LastLogin,"")
@@ -96,22 +86,13 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
             val date = DateFormatter.DateComparison(currentLogin, lastLogin)
             when(date){
                 "before"->{
-                    if (getLoginResponse(applicationContext).hostType.equals("U",true) && Constants.EzyMoto.equals("EZYLINK",true) && getProductList()[0].isEnable)
+                    if (getLoginResponse(applicationContext).hostType.equals("U",true) && getProductList()[0].isEnable)
                         showReferralPrompt()
-                }
-                else -> {
-                    if (compareVersions(versionName,serverVersion) >= 0) {
-                    } else {
-                        //Update Available
-                        showUpdatePrompt()
-                    }
                 }
             }
 
         }
         prefs[Constants.LastLogin] = currentLogin
-
-        Log.e("ProductName", Constants.EzyMoto)
 
         navView.itemIconTintList = null
 
@@ -144,7 +125,7 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
     }
 
     override fun onBackPressed() {
-        showExitAlert("Exit Alert","Are you sure you want to exit from Mobiversa?")
+        showExitAlert("Exit Alert","Are you sure you want to exit from Mobi?")
     }
 
     private fun showUpdatePrompt() {
@@ -215,19 +196,6 @@ class MainActivity : BaseActivity(), ConnectivityReceiver.ConnectivityReceiverLi
         mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(this.resources.getColor(android.R.color.transparent)))
         val dialogWindow = mAlertDialog.window
         dialogWindow?.setGravity(Gravity.CENTER)
-    }
-
-    private fun compareVersions(v1: String, v2: String): Int {
-        val components1 = v1.split("\\.").toTypedArray()
-        val components2 = v2.split("\\.").toTypedArray()
-        val length = min(components1.size, components2.size)
-        for (i in 0 until length) {
-            val result = components1[i].compareTo(components2[i])
-            if (result != 0) {
-                return result
-            }
-        }
-        return components1.size.compareTo(components2.size)
     }
 }
 

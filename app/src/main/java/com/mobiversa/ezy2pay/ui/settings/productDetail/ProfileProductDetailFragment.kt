@@ -51,8 +51,8 @@ class ProfileProductDetailFragment : BaseFragment() {
 
         when(productName){
             Constants.Ezywire -> {
-                rootView.prof_product_img.setImageResource(getProductList()[1].productImage)
-                rootView.txt_prod_name.text = getProductList()[1].productName
+                rootView.prof_product_img.setImageResource(getProductList()[0].productImage)
+                rootView.txt_prod_name.text = getProductList()[0].productName
                 rootView.prod_desc.text = "EZYWIRE is a Mobile Point of Sale \n" +
                         "Terminal for merchants who \n" +
                         "want accept card payments."
@@ -61,48 +61,9 @@ class ProfileProductDetailFragment : BaseFragment() {
                 ezyAuthEnabled = getProductResponse().enableEzywire
                 expiryDateStr = getProductResponse().deviceExpiry
             }
-            Constants.EzyMoto -> {
-                rootView.txt_prod_name.text = Constants.EzyMoto
-                if (getLoginResponse().auth3DS.equals("Yes",true)){
-                    rootView.prof_product_img.setImageResource(R.drawable.ezylink_blue_icon)
-                }else
-                    rootView.prof_product_img.setImageResource(R.drawable.ezymoto_blue_icon)
-                deviceId = getProductResponse().motoMid
-                tidStr = getProductResponse().motoTid
-                ezyAuthEnabled = getProductResponse().enableMoto
-                expiryDateStr = getProductResponse().ezypassDeviceExpiry
-
-                rootView.prod_desc.text = EzyMoto + " enables merchants to \n" +
-                        "accept cashless and contactless \n" +
-                        "payments without the merchant \n" +
-                        "having a website."
-            }
-            Constants.EzyRec -> {
-                rootView.prof_product_img.setImageResource(getProductList()[2].productImage)
-                rootView.txt_prod_name.text = getProductList()[2].productName
-                rootView.prod_desc.text = "Automate periodic payments so you do not have to chasepayments. Save your time and effort and stay focused on what matters."
-                deviceId = getProductResponse().ezyrecMid
-                tidStr = getProductResponse().ezyrecTid
-                ezyAuthEnabled = getProductResponse().enableEzyrec
-                expiryDateStr = getProductResponse().deviceExpiry
-            }
-            Constants.EzyAuth -> {
-                rootView.prof_product_img.setImageResource(getProductList()[3].productImage)
-                rootView.txt_prod_name.text = getProductList()[3].productName
-                rootView.prod_desc.text = "Stay Safe and Secure by \n" +
-                        "accepting authorised Payments \n" +
-                        "from your customer and never \n" +
-                        "lose another dime from fraud. \n" +
-                        "Stay on top of your game with \n" +
-                        "EZYAUTH by minimizing risk."
-                deviceId = getProductResponse().motoMid
-                tidStr = getProductResponse().motoTid
-                ezyAuthEnabled = getProductResponse().enableMoto
-                expiryDateStr = getProductResponse().ezypassDeviceExpiry
-            }
             Constants.Boost -> {
                 rootView.prof_product_img.setImageResource(R.drawable.boost)
-                rootView.txt_prod_name.text = getProductList()[4].productName
+                rootView.txt_prod_name.text = getProductList()[1].productName
                 rootView.prod_desc.text = ""
                 deviceId = getProductResponse().mid
                 tidStr = getProductResponse().tid
@@ -110,31 +71,13 @@ class ProfileProductDetailFragment : BaseFragment() {
                 expiryDateStr = getProductResponse().deviceExpiry
             }
             Constants.GrabPay -> {
-                rootView.prof_product_img.setImageResource(getProductList()[5].productImage)
-                rootView.txt_prod_name.text = getProductList()[5].productName
+                rootView.prof_product_img.setImageResource(getProductList()[2].productImage)
+                rootView.txt_prod_name.text = getProductList()[2].productName
                 rootView.prod_desc.text = ""
                 deviceId = getProductResponse().mid
                 tidStr = getProductResponse().tid
                 ezyAuthEnabled = "YES"
                 expiryDateStr = getProductResponse().deviceExpiry
-            }
-            Constants.MobiPass -> {
-                rootView.prof_product_img.setImageResource(getProductList()[6].productImage)
-                rootView.txt_prod_name.text = getProductList()[6].productName
-                rootView.prod_desc.text = ""
-                deviceId = getProductResponse().ezypassMid
-                tidStr = getProductResponse().ezypassTid
-                ezyAuthEnabled = getProductResponse().enableEzypass
-                expiryDateStr = getProductResponse().ezypassDeviceExpiry
-            }
-            Constants.MobiCash -> {
-                rootView.prof_product_img.setImageResource(getProductList()[7].productImage)
-                rootView.txt_prod_name.text = getProductList()[7].productName
-                rootView.prod_desc.text = ""
-                deviceId = ""
-                tidStr = ""
-                ezyAuthEnabled = ""
-                expiryDateStr = ""
             }
         }
 

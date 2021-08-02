@@ -263,8 +263,8 @@ class TransactionHistoryBinding(private val binding: HistoryListItemBinding) :
         binding.root.list_history_relative.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(Constants.Amount, cost)
-            bundle.putString(Constants.Date, binding.txtDate.text.toString())
-            var status = binding.txtStatusHistory.text.toString()
+            bundle.putString(Constants.Date, binding.txtDate.text.toString() + " " + binding.txtTime.text.toString())
+            val status = binding.txtStatusHistory.text.toString()
             if (status.equals("Completed", true) || status.equals("Cash Sale", true)) {
                 fragment.addFragment(historyData, bundle = bundle)
             }

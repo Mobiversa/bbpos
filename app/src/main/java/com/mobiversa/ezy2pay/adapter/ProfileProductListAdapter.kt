@@ -34,7 +34,6 @@ class ProfileProductListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ProfileProductListViewHolder).bind(productList[position], context, homeFragment)
     }
-
 }
 
 class ProfileProductListViewHolder(private val binding: ProfileProductListItemBinding) :
@@ -42,17 +41,26 @@ class ProfileProductListViewHolder(private val binding: ProfileProductListItemBi
 
     fun bind(
         productList: ProductList,
-        context: Context,
-        profProdListFragment: ProfileProductListFragment
+        context: Context?,
+        profProdListFragment: ProfileProductListFragment?,
+        listener: ProductListSelectionListener? = null
     ) {
         binding.productItem = productList
-
-        binding.profProductLinear.setOnClickListener {
-            if (productList.isEnable)
-                profProdListFragment.productDetails(productList.productName)
-            else
-                Toast.makeText(context,ProductDisable,Toast.LENGTH_SHORT).show()
+        profProdListFragment?.let {
+            binding.profProductLinear.setOnClickListener {
+                if (productList.isEnable)
+                    profProdListFragment.productDetails(productList.productName)
+                else
+                    Toast.makeText(context, ProductDisable, Toast.LENGTH_SHORT).show()
+            }
+        }
+        listener?.let {
+            binding.root.setOnClickListener {
+                listener.onProductSelected(productList)
+            }
         }
     }
+    interface ProductListSelectionListener {
+        fun onProductSelected(productList: ProductList)
+    }
 }
-
